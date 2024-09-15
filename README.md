@@ -31,7 +31,7 @@ To build and run this project, follow these steps:
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/aircraft-simulation.git
+    git clone https://github.com/msk2000/UAV-Simulator.git
     cd aircraft-simulation
     ```
 
