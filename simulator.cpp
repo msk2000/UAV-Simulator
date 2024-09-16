@@ -16,14 +16,15 @@
 #define _USE_MATH_DEFINES
 
 namespace plt = matplotlibcpp;
-//Forward declaration
-class Aircraft;
 
 
-class Aircraft {
+
+class Aircraft 
+{
 public:
 
-struct State{
+struct State
+{
     // This will be used to track state variables
     double clock;
     double pn;
@@ -178,14 +179,12 @@ struct State{
     Aircraft(const std::string& fname, int& vehicle_count);
     
     // functin to get the state
-    State get_state(){
+    State get_state()
+    {
 
         return state;
     }
 
-    private:
-
-    State state;
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
     // functions to act on the state changes
@@ -195,18 +194,24 @@ struct State{
     // functions for 3D rendering based on state changes
     void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
     void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
+
+    private:
+
+    State state;
+    
     
     
 };
 
-int main() {
+int main() 
+{
 
     int steps = 10;  
     double dt = 0.0003;
     int vehicle_count = 1;
     std::string fname = "../data.txt";
     Aircraft obj(fname,vehicle_count);
-    State state = obj.get_state(); 
+    Aircraft::State state = obj.get_state(); 
     // For Plotting graphs
     std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
     //For "3D" visuals lol 
@@ -233,18 +238,18 @@ int main() {
     std::cout<<"SIZE = "<<vertices_size<<"\n";
     // For scaling the thing
     int aircraft_scale = 300;
-    for (int i = 0; i < vertices_x.size()-1; i++){
+    for (int i = 0; i < vertices_x.size()-1; i++)
+    {
         vertices_x[i] = aircraft_scale*vertices_x[i];
         vertices_y[i] = aircraft_scale*vertices_y[i];
         vertices_z[i] = aircraft_scale*vertices_z[i];
-
-
     }
 
 
 
     // Define the faces of the aircraft.
-    std::vector<std::vector<int>> faces = {
+    std::vector<std::vector<int>> faces = 
+    {
         {0, 1, 2},    // cockpit top
         {0, 2, 3},    // cockpit left
         {0, 3, 4},    // cockpit bottom
@@ -269,13 +274,15 @@ int main() {
     std::vector<unsigned int> indices;
 
     // Add the vertices to the 'vertices' vector.
-    for (size_t i = 0; i < vertices_x.size(); ++i) {
+    for (size_t i = 0; i < vertices_x.size(); ++i) 
+    {
         vertices_aircraft.push_back(easy3d::vec3(vertices_x[i], vertices_y[i], vertices_z[i]));
     }
 
     std::vector<easy3d::vec3> &points = vertices_aircraft;
     // Add the faces to the 'indices' vector.
-    for (const auto& face : faces) {
+    for (const auto& face : faces) 
+    {
         indices.push_back(face[0]);
         indices.push_back(face[1]);
         indices.push_back(face[2]);
@@ -311,7 +318,8 @@ int main() {
 
     // Create the grid lines.
     std::vector<easy3d::vec3> grid_vertices;
-    for (int i = 0; i < numLines; i++) {
+    for (int i = 0; i < numLines; i++) 
+    {
         float t = -0.5f * size + (size / (numLines - 1)) * i;
 // X-Y Plane
         // Create a vertical line along the x-axis.
@@ -379,18 +387,18 @@ int main() {
                 // float pe_float;
                 // float pd_float;
                 
-                state.forces_moments(state,obj);
+                obj.forces_moments(state,obj);
                 
                 std::cout<<"state.V: "<<state.V_m<< "\n";
                 std::cout<<"obj.V: "<<obj.v_0<<"\n";
-                state.dynamics(state,obj,dt);
+                obj.dynamics(state,obj,dt);
                 
                 //state.graphing(state, clock, pn, pe, pd, phi, theta, psi, p, q, r, V_m, alpha, beta);
 
                 // Rotating test
 
-                state.rotate(state,vertices,vertices_size, old_roll, old_pitch, old_yaw);
-                state.translate(state,vertices,vertices_size,old_pn, old_pe, old_pd);
+                obj.rotate(state,vertices,vertices_size, old_roll, old_pitch, old_yaw);
+                obj.translate(state,vertices,vertices_size,old_pn, old_pe, old_pd);
                 
                        
 
@@ -416,7 +424,8 @@ int main() {
 
 
 // Class functions
-void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) {
+void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) 
+{
             
             int id = vehicle_count;
              
@@ -538,7 +547,8 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) {
 
 
 
-Aircraft::Aircraft(const std::string& fname, int& vehicle_count){
+Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
+{
 
         load_a_plane(fname,vehicle_count);
         
@@ -568,7 +578,8 @@ Aircraft::Aircraft(const std::string& fname, int& vehicle_count){
     }
 
    // Struct functions
-void State::forces_moments(State& X, const Aircraft& Y){
+void Aircraft::forces_moments(State& X, const Aircraft& Y)
+{
 
     double u  = X.u;
     double v  = X.v;
@@ -594,7 +605,7 @@ void State::forces_moments(State& X, const Aircraft& Y){
     // Velocity magnitude (square root of the sum of the squares of u v w)
     V_m = sqrt((velocity_b[0]*velocity_b[0])+(velocity_b[1]*velocity_b[1])+( velocity_b[2]*velocity_b[2]));
     // Angle of attack (alpha)
-    alpha = std::atan2(velocity_b[2],velocity_b[0]);
+    double alpha = std::atan2(velocity_b[2],velocity_b[0]);
     // Side slip angle (beta)
     beta = std::asin(velocity_b[1]/V_m);
 
@@ -683,7 +694,8 @@ void State::forces_moments(State& X, const Aircraft& Y){
     
 }
 
-void State::dynamics(State& X, const Aircraft& Y, double& dt){
+void Aircraft::dynamics(State& X, const Aircraft& Y, double& dt)
+{
 
     double u = X.u;
     double v = X.v;
@@ -736,28 +748,8 @@ X.clock++;
 
 }
 
-void State::graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta) 
+void Aircraft::graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta) 
 {
-    // // Prepare data
-    // const double clock = X.clock;
-	// const double pn= X.pn;
-    // const double pe = X.pe;
-    // const double pd = X.pd;
-    // const double phi = X.phi;
-    // const double theta = X.theta;
-    // const double psi= X.psi;
-    // const double p = X.p;
-    // const double q = X.q;
-    // const double r = X.r;
-    // const double V_m = X.V_m;
-	// const double alpha = X.alpha;
-    // const double beta = X.beta;
-    //int n = 10;
-	//std::vector<double> clock(n), pn(n),pe(n),pd(n),phi(n),theta(n),psi(n), p(n),q(n),r(n),V_m(n),alpha(n),beta(n);
-    // Prepare data
-    
-    
-
     
     clock.push_back(X.clock);
 	pn.push_back(X.pn);
@@ -839,17 +831,13 @@ void State::graphing(const State& X, std::vector<double>& clock, std::vector<dou
     plt::tight_layout();
     plt::pause(0.0001);
     
-    
-    
-    
 
-
-    
 	// Show plots
 	
 }
 
-void State::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw ){
+void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw )
+{
 
         float roll = static_cast<float>(X.phi);
         float pitch = static_cast<float>(X.theta);
@@ -872,15 +860,14 @@ void State::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_s
 
 }
 
-void State::translate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_pn, float& old_pe, float& old_pd){
+void Aircraft::translate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_pn, float& old_pe, float& old_pd)
+{
 
 
 float pn_float = static_cast<float>(X.pn);
 float pe_float = static_cast<float>(X.pe);
 float pd_float = static_cast<float>(X.pd);
-// float delta_pn = pn_float - old_pn;
-// float delta_pe = pe_float - old_pe;
-// float delta_pd = pd_float - old_pd;
+
 
 
 // Position Update loop
@@ -891,10 +878,6 @@ float pd_float = static_cast<float>(X.pd);
                 vertices[j].z += pd_float;
                 
             }     
-
-// old_pn = pn_float;
-// old_pe = pe_float;
-// old_pd = pd_float;
 
 
 }
