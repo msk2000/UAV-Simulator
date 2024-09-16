@@ -201,7 +201,7 @@ int main() {
     int steps = 10;  
     double dt = 0.0003;
     int vehicle_count = 1;
-    std::string fname = "data.txt";
+    std::string fname = "../data.txt";
     Aircraft obj(fname,vehicle_count);
     State state = obj.get_state(); 
     // For Plotting graphs
