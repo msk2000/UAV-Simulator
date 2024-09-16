@@ -19,6 +19,10 @@ namespace plt = matplotlibcpp;
 //Forward declaration
 class Aircraft;
 
+
+class Aircraft {
+public:
+
 struct State{
     // This will be used to track state variables
     double clock;
@@ -64,20 +68,12 @@ struct State{
     double q_dot;
     double r_dot;
 
-    // functions to act on the state changes
-    void forces_moments(State& X, const Aircraft& Y);
-    void dynamics(State& X, const Aircraft& Y, double& dt);
-    void graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta);
-    // functions for 3D rendering based on state changes
-    void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
-    void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
+    
     
 };
 
-class Aircraft {
-public:
     
-    
+    int dt;
     int id;
     //Physical
     double mass;
@@ -192,6 +188,13 @@ public:
     State state;
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
+    // functions to act on the state changes
+    void forces_moments(State& X, const Aircraft& Y);
+    void dynamics(State& X, const Aircraft& Y, double& dt);
+    void graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta);
+    // functions for 3D rendering based on state changes
+    void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
+    void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
     
     
 };
