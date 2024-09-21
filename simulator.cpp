@@ -151,7 +151,7 @@ struct State
     double trans_rate    ;
     double epsilon       ;
     double alpha0        ;
-    double beta0;
+    double beta0         ;
 
     // Initial state
     double pn_0;
@@ -388,9 +388,10 @@ int main()
                 // float pd_float;
                 
                 obj.forces_moments(state,obj);
-                
-                std::cout<<"state.V: "<<state.V_m<< "\n";
-                std::cout<<"obj.V: "<<obj.v_0<<"\n";
+                std::cout<<"State.Vm  "<<state.V_m<<"\n";
+                std::cout<<"state.fx: "<<state.fx<< "\n";
+                std::cout<<"state.fy: "<<state.fy<<"\n";
+                std::cout <<"state.fz "<<state.fz<<"\n";
                 obj.dynamics(state,obj,dt);
                 
                 //state.graphing(state, clock, pn, pe, pd, phi, theta, psi, p, q, r, V_m, alpha, beta);
@@ -546,12 +547,12 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 
 
 
-
+// Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 {
-
+    //1. First it loads the aircraft parameters from the file using the following function
         load_a_plane(fname,vehicle_count);
-        
+    //2. Then it modifies the state values by setting them to the defaults imported from the aircraft parameter file.    
         state.clock = 0;
         state.pn = pn_0;
         state.pe = pe_0;
@@ -634,7 +635,7 @@ void Aircraft::forces_moments(State& X, const Aircraft& Y)
     double CzdeltaeAlpha = (-Y.C_D_delta_e*std::sin(alpha))-(Y.C_L_delta_e*std::cos(alpha));
 
     // Sources of Forces
-    Eigen::Vector3d force_g;
+    Eigen::Vector3d force_g; // Component: Gravity
     force_g << -Y.mass * Y.g*std::sin(theta),Y.mass * Y.g*std::cos(theta)*sin(phi),Y.mass * Y.g*std::cos(theta)*cos(phi);
     double force_aero1 = 0.5 * Y.rho * (V_m*V_m) * Y.wing_area;
 
@@ -842,7 +843,7 @@ void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertice
         float roll = static_cast<float>(X.phi);
         float pitch = static_cast<float>(X.theta);
         float yaw = static_cast <float>(X.psi);
-        std::cout<< "Roll: "<<(roll*180/3.14) << "Pitch: "<<(pitch*180/3.14)<<"Yaw: "<<(yaw*180/3.14)<<"\n";
+        std::cout<< "Roll: "<<(roll*180/3.14) << "Pitch: "<<(pitch*180/3.14)<<" Yaw: "<<(yaw*180/3.14)<<"\n";
             
         // Create the rotation matrix using Euler angles
         easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(old_roll-roll, old_pitch-pitch , old_yaw-yaw, 321);
