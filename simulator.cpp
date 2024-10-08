@@ -105,7 +105,7 @@ int main()
     std::cout << "INITIALISING 3D" <<"\n";
     // Create the default Easy3D viewer.
     // Note: a viewer must be created before creating any drawables.
-    easy3d::Viewer viewer("TEST");
+    easy3d::Viewer viewer("UAV Simulator");
     std::cout << "Viewer Object created" <<"\n";
     auto aircraft = new easy3d::TrianglesDrawable("faces");
     std::cout << "Triangles Drawable Created" <<"\n";
