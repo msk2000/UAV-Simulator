@@ -45,8 +45,8 @@ int main()
     // initialize Easy3D.
     easy3d::initialize(true);
     std::cout << "INITIALISING 3D" <<"\n";
-    // Create the default Easy3D viewer. Note: a viewer must be created before creating any drawables.
     
+    // Create the default Easy3D viewer. Note: a viewer must be created before creating any drawables.
     easy3d::Viewer viewer("UAV Simulator");
     std::cout << "Viewer Object created" <<"\n";
 
@@ -64,10 +64,6 @@ int main()
         return obj.animate(v, state, dt);
     };
 
-    
-    
-
-    
       
     return viewer.run();
     
