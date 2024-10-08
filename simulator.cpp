@@ -68,7 +68,9 @@ int main()
 }
 
 
-// Class functions
+// Aircraft Member Functions:
+
+
 void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) 
 {
             
@@ -193,7 +195,14 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
-:size(120000.0f),numLines(22),offset(120000.0f/2),points(dummy_points),aircraft(nullptr),gridDrawable(nullptr),steps(10)
+:
+size(120000.0f),
+numLines(22),
+offset(120000.0f/2),
+points(dummy_points),
+aircraft(nullptr),
+gridDrawable(nullptr),
+steps(10)
 {
     //1. First it loads the aircraft parameters from the file using the following function
         load_a_plane(fname,vehicle_count);
@@ -222,6 +231,7 @@ Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
         
 
 }
+// Class Destructor
 Aircraft::~Aircraft() 
 {
     if (aircraft) {
@@ -231,7 +241,7 @@ Aircraft::~Aircraft()
         delete gridDrawable; 
     }
 }
-// Struct functions
+// Function to calculate the forces and moments acting on the aircraft 
 void Aircraft::forces_moments(State& X, const Aircraft& Y)
 {
 
@@ -348,6 +358,7 @@ void Aircraft::forces_moments(State& X, const Aircraft& Y)
     
 }
 
+//Function to calculate the State changes (position, orientation,etc)
 void Aircraft::dynamics(State& X, const Aircraft& Y, double& dt)
 {
 
@@ -402,6 +413,7 @@ X.clock++;
 
 }
 
+// Function to generate 2D plots for the states
 void Aircraft::graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta) 
 {
     
@@ -489,7 +501,7 @@ void Aircraft::graphing(const State& X, std::vector<double>& clock, std::vector<
 	// Show plots
 	
 }
-
+// Function to perform rotation on the aircraft geometry
 void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw )
 {
 
@@ -514,6 +526,7 @@ void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertice
 
 }
 
+// Function to perform translation of the aircraft geometry
 void Aircraft::translate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_pn, float& old_pe, float& old_pd)
 {
 
@@ -536,6 +549,7 @@ float pd_float = static_cast<float>(X.pd);
 
 }
 
+// Function to make previous state values available
 void Aircraft::initializePreviousState() {
     old_roll = static_cast<float>(phi_0);
     old_pitch = static_cast<float>(theta_0);
@@ -546,6 +560,7 @@ void Aircraft::initializePreviousState() {
     old_pd = static_cast<float>(pd_0); 
 }
 
+// Function to initialize aircraft vertices
 void Aircraft::initializeVertices()
 {
     vertices_x = {-4, -2, -2, -2, -2, 12, 0, 3, 3, 0, 9.5, 12, 12, 9.5, 9.5, 12};
@@ -564,6 +579,7 @@ void Aircraft::initializeVertices()
     }
 }
 
+// Function to create the Easy3D drawable object
 void Aircraft::createAircraftDrawable(easy3d::Viewer& viewer)
 {
    std::cout<<"Reached createAircraftDrawable()"<<std::endl;
@@ -582,6 +598,7 @@ void Aircraft::createAircraftDrawable(easy3d::Viewer& viewer)
 
 }
 
+// Function to create the grid system
 void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 {
 
@@ -649,6 +666,7 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 
 }
 
+// Function to create the animation of the dynamic UAV
 bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt)
 {
     (void)viewer;  
@@ -685,6 +703,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt
 
 }
 
+// Function to initialise vertices and faces
 void Aircraft::initializeVerticesIndices()
 {
     std::cout<<"Reached initializeVerticesIndices()"<<std::endl;
