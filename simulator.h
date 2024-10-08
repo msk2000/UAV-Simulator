@@ -190,7 +190,7 @@ struct State
     std::vector<easy3d::vec3> grid_vertices;
 
     // For Plotting graphs [FUTURE]
-    std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
+    //std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
     
 
 

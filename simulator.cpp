@@ -204,7 +204,7 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
-:size(120000.0f),numLines(22),offset(120000.0f/2),points(dummy_points),aircraft(nullptr),gridDrawable(nullptr)
+:size(120000.0f),numLines(22),offset(120000.0f/2),points(dummy_points),aircraft(nullptr),gridDrawable(nullptr),steps(10)
 {
     //1. First it loads the aircraft parameters from the file using the following function
         load_a_plane(fname,vehicle_count);
