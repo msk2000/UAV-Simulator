@@ -14,6 +14,7 @@
 #include <easy3d/util/initializer.h>
 #include <easy3d/renderer/drawable_lines.h>
 #include <easy3d/renderer/vertex_array_object.h>
+#include <memory>
 #include "simulator.h"
 #define _USE_MATH_DEFINES
 
@@ -30,148 +31,31 @@ int main()
     std::string fname = "../data.txt";
     Aircraft obj(fname,vehicle_count);
     Aircraft::State state = obj.get_state(); 
-    // For Plotting graphs
-    std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
+    obj.steps = steps;
+    obj.dt = dt;
     
-    // Aircraft 3D
-    // Define the coordinates of the vertices of the aircraft.
-    std::vector<double> vertices_x = {-4, -2, -2, -2, -2, 12, 0, 3, 3, 0, 9.5, 12, 12, 9.5, 9.5, 12};
-    std::vector<double> vertices_y = {0, 1, -1, -1, 1, 0, 5, 5, -5, -5, 2.5, 2.5, -2.5, -2.6, 0, 0};
-    std::vector<double> vertices_z = {0, -1, -1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5};
-    int vertices_size = vertices_x.size();
-    float old_roll = static_cast<float>(obj.phi_0); // For fixing rotation issues. Just a test
-    float old_pitch = static_cast<float>(obj.theta_0); // For fixing rotation issues. Just a test
-    float old_yaw = static_cast<float>(obj.psi_0); // For fixing rotation issues. Just a test
     
-    float old_pn = static_cast<float>(obj.pn_0);
-    float old_pe = static_cast<float>(obj.pe_0);
-    float old_pd = static_cast<float>(obj.pd_0); 
-
-    std::cout<<"SIZE = "<<vertices_size<<"\n";
-    // For scaling the thing
-    int aircraft_scale = 500;
-    for (int i = 0; i < vertices_x.size()-1; i++)
-    {
-        vertices_x[i] = aircraft_scale*vertices_x[i];
-        vertices_y[i] = aircraft_scale*vertices_y[i];
-        vertices_z[i] = aircraft_scale*vertices_z[i];
-    }
+    obj.initializeVertices();
 
 
+    obj.initializePreviousState();
 
-    // Define the faces of the aircraft.
-    std::vector<std::vector<int>> faces = 
-    {
-        {0, 1, 2},    // cockpit top
-        {0, 2, 3},    // cockpit left
-        {0, 3, 4},    // cockpit bottom
-        {0, 4, 1},    // cockpit right
-        {1, 5, 2},    // fuselage top
-        {2, 5, 3},    // fuselage left
-        {3, 5, 4},    // fuselage bottom
-        {4, 5, 1},    // fuselage right
-        {6, 7, 8},    // wing triangle half
-        {6, 9, 8},    // wing triangle half
-        {10, 11, 12}, // horizontal stabilizer tri. half
-        {10, 13, 12}, // horizontal stabilizer tri. half
-        {14, 5, 15}   // vertical stabilizer
-    };
+    
 
-    //-------------------------------------------------------------
-
-   
-
-    // Populate the aircraftDrawable with the vertices and faces.
-    std::vector<easy3d::vec3> vertices_aircraft;
-    std::vector<unsigned int> indices;
-
-    // Add the vertices to the 'vertices' vector.
-    for (size_t i = 0; i < vertices_x.size(); ++i) 
-    {
-        vertices_aircraft.push_back(easy3d::vec3(vertices_x[i], vertices_y[i], vertices_z[i]));
-    }
-
-    std::vector<easy3d::vec3> &points = vertices_aircraft;
-    // Add the faces to the 'indices' vector.
-    for (const auto& face : faces) 
-    {
-        indices.push_back(face[0]);
-        indices.push_back(face[1]);
-        indices.push_back(face[2]);
-    }
+    obj.initializeVerticesIndices();
     
     // initialize Easy3D.
-    easy3d::initialize();
+    
+    easy3d::initialize(true);
     std::cout << "INITIALISING 3D" <<"\n";
     // Create the default Easy3D viewer.
     // Note: a viewer must be created before creating any drawables.
     easy3d::Viewer viewer("UAV Simulator");
     std::cout << "Viewer Object created" <<"\n";
-    auto aircraft = new easy3d::TrianglesDrawable("faces");
-    std::cout << "Triangles Drawable Created" <<"\n";
-    // Upload the vertex positions of the surface to the GPU.
-    aircraft->update_vertex_buffer(points);
-    // Upload the vertex indices of the surface to the GPU.
-    aircraft->update_element_buffer(indices);
-    //color test
-    aircraft->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    // Add the drawable to the viewer
-    viewer.add_drawable(aircraft);
-    std::cout << "Aircraft drawable added to viewer" <<"\n";
 
-    // Grid 3D
-    const float size = 120000.0f;
-    const int numLines = 22;
-    const float offset = size/2;
+    obj.createAircraftDrawable(viewer);
+    obj.createGridDrawable(viewer);
 
-    // Create a LinesDrawable to visualize the 3D grid.
-    auto gridDrawable = new easy3d::LinesDrawable("grid");
-    std::cout << "Grid lines drawing created" <<"\n";
-
-    // Create the grid lines.
-    std::vector<easy3d::vec3> grid_vertices;
-    for (int i = 0; i < numLines; i++) 
-    {
-        float t = -0.5f * size + (size / (numLines - 1)) * i;
-// X-Y Plane
-        // Create a vertical line along the x-axis.
-        grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(t, 0.5f * size, 0.0f-offset));
-
-        // Create a horizontal line along the y-axis.
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, t, 0.0f-offset));
-// Y-Z Plane
-        // Create y line along the z-axis.
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, -0.5f * size, t));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset,  0.5f * size, t));
-
-        // intersecting lines (z lines/verticals)
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t,  0.5f * size));
-// X-Z Plane 
-        // The horizontal lines
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f-offset,  t));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, 0.0f-offset,   t));
-        
-        // The vertical lines
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset,  0.5f * size));
-
-    }
-    
-    // Upload the grid vertices to the GPU.
-    gridDrawable->update_vertex_buffer(grid_vertices);
-
-    // Set the color of the grid lines (here we use gray).
-    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-
-    // Set the width of the grid lines (here we use 1 pixel).
-    gridDrawable->set_line_width(1.0f);
-
-    // Add the grid drawable to the viewer.
-    viewer.add_drawable(gridDrawable);
-    std::cout << "Grid drawable added to viewer" <<"\n";
     //===========================================================
 
      // Make sure everything is within the visible region of the viewer.
@@ -182,46 +66,7 @@ int main()
     
     viewer.animation_func_ = [&](easy3d::Viewer* v) -> bool 
     {
-        (void)v;
-      
-        // map the vertex buffer into the client's address space
-        void* pointer = easy3d::VertexArrayObject::map_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer(), GL_WRITE_ONLY);
-        
-        
-        easy3d::vec3* vertices = reinterpret_cast<easy3d::vec3*>(pointer);
-        if (!vertices)
-        {
-            return false;
-        }
-            
-            
-
-                
-                obj.forces_moments(state,obj);
-                std::cout<<"State.Vm  "<<state.V_m<<"\n";
-                std::cout<<"state.fx: "<<state.fx<< "\n";
-                std::cout<<"state.fy: "<<state.fy<<"\n";
-                std::cout <<"state.fz "<<state.fz<<"\n";
-                obj.dynamics(state,obj,dt);
-                
-                //state.graphing(state, clock, pn, pe, pd, phi, theta, psi, p, q, r, V_m, alpha, beta);
-
-                // Rotating test
-
-                obj.rotate(state,vertices,vertices_size, old_roll, old_pitch, old_yaw);
-                obj.translate(state,vertices,vertices_size,old_pn, old_pe, old_pd);
-                
-                       
-
-        // unmap the vertex buffer
-        easy3d::VertexArrayObject::unmap_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer());
-
-        viewer.update();
-        
-        return true;
-                 
-    //plt::show();
-       
+        return obj.animate(v, state, dt);
     };
 
     
@@ -359,6 +204,7 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
+:size(120000.0f),numLines(22),offset(120000.0f/2),points(dummy_points),aircraft(nullptr),gridDrawable(nullptr)
 {
     //1. First it loads the aircraft parameters from the file using the following function
         load_a_plane(fname,vehicle_count);
@@ -386,8 +232,16 @@ Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 
         
 
+}
+Aircraft::~Aircraft() 
+{
+    if (aircraft) {
+        delete aircraft; 
     }
-
+    if (gridDrawable) {
+        delete gridDrawable; 
+    }
+}
 // Struct functions
 void Aircraft::forces_moments(State& X, const Aircraft& Y)
 {
@@ -691,4 +545,207 @@ float pd_float = static_cast<float>(X.pd);
             }     
 
 
+}
+
+void Aircraft::initializePreviousState() {
+    old_roll = static_cast<float>(phi_0);
+    old_pitch = static_cast<float>(theta_0);
+    old_yaw = static_cast<float>(psi_0);
+    
+    old_pn = static_cast<float>(pn_0);
+    old_pe = static_cast<float>(pe_0);
+    old_pd = static_cast<float>(pd_0); 
+}
+
+void Aircraft::initializeVertices()
+{
+    vertices_x = {-4, -2, -2, -2, -2, 12, 0, 3, 3, 0, 9.5, 12, 12, 9.5, 9.5, 12};
+    vertices_y = {0, 1, -1, -1, 1, 0, 5, 5, -5, -5, 2.5, 2.5, -2.5, -2.6, 0, 0};
+    vertices_z = {0, -1, -1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5};
+    vertices_size = vertices_x.size();
+    std::cout<<"SIZE = "<<vertices_size<<"\n";
+
+    // For scaling the thing
+    aircraft_scale = 500;
+    for (int i = 0; i < vertices_x.size()-1; i++)
+    {
+        vertices_x[i] = aircraft_scale*vertices_x[i];
+        vertices_y[i] = aircraft_scale*vertices_y[i];
+        vertices_z[i] = aircraft_scale*vertices_z[i];
+    }
+}
+
+void Aircraft::createAircraftDrawable(easy3d::Viewer& viewer)
+{
+   std::cout<<"Reached createAircraftDrawable()"<<std::endl;
+    
+    aircraft = new easy3d::TrianglesDrawable("faces");
+    std::cout << "Triangles Drawable Created" <<"\n";
+    // Upload the vertex positions of the surface to the GPU.
+    aircraft->update_vertex_buffer(points);
+    // Upload the vertex indices of the surface to the GPU.
+    aircraft->update_element_buffer(indices);
+    //color test
+    aircraft->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    // Add the drawable to the viewer
+    viewer.add_drawable(aircraft);
+    std::cout << "Aircraft drawable added to viewer" <<"\n";
+
+}
+
+void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
+{
+
+    std::cout<<"Reached createGrid"<<std::endl;
+
+    // Create a LinesDrawable to visualize the 3D grid.
+    gridDrawable = new easy3d::LinesDrawable("grid");
+    std::cout << "Grid lines drawing created" <<"\n";
+
+    // Create the grid lines.
+    
+    for (int i = 0; i < numLines; i++) 
+    {
+        float t = -0.5f * size + (size / (numLines - 1)) * i;
+// X-Y Plane
+        // Create a vertical line along the x-axis.
+        grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0.0f-offset));
+        grid_vertices.push_back(easy3d::vec3(t, 0.5f * size, 0.0f-offset));
+
+        // Create a horizontal line along the y-axis.
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0.0f-offset));
+        grid_vertices.push_back(easy3d::vec3(0.5f * size, t, 0.0f-offset));
+// Y-Z Plane
+        // Create y line along the z-axis.
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, -0.5f * size, t));
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset,  0.5f * size, t));
+
+        // intersecting lines (z lines/verticals)
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t, -0.5f * size));
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t,  0.5f * size));
+// X-Z Plane 
+        // The horizontal lines
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f-offset,  t));
+        grid_vertices.push_back(easy3d::vec3(0.5f * size, 0.0f-offset,   t));
+        
+        // The vertical lines
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset, -0.5f * size));
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset,  0.5f * size));
+
+    }
+
+    //DEBUG
+    for (const auto& vertex : grid_vertices) 
+    {
+        std::cout << "Vertex: " << vertex.x << ", " << vertex.y << ", " << vertex.z << std::endl;
+    }
+
+    
+    // Upload the grid vertices to the GPU.
+    gridDrawable->update_vertex_buffer(grid_vertices);
+
+    // Set the color of the grid lines (here we use gray).
+    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+
+    // Set the width of the grid lines (here we use 1 pixel).
+    gridDrawable->set_line_width(1.0f);
+
+    // Add the grid drawable to the viewer.
+    viewer.add_drawable(gridDrawable);
+    std::cout << "Grid drawable added to viewer" <<"\n";
+
+    // Update the viewer
+    viewer.update();
+
+
+}
+
+bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt)
+{
+    (void)viewer;  
+
+    // Map the vertex buffer into the client's address space
+    void* pointer = easy3d::VertexArrayObject::map_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer(), GL_WRITE_ONLY);
+
+    easy3d::vec3* vertices = reinterpret_cast<easy3d::vec3*>(pointer);
+    if (!vertices) {
+        return false;
+    }
+
+    // Calculate forces and moments
+    forces_moments(state, *this);
+    std::cout << "State.Vm  " << state.V_m << "\n";
+    std::cout << "state.fx: " << state.fx << "\n";
+    std::cout << "state.fy: " << state.fy << "\n";
+    std::cout << "state.fz " << state.fz << "\n";
+
+    // Update dynamics
+    dynamics(state, *this, dt);
+
+    // Rotate and translate the aircraft
+    rotate(state, vertices, vertices_size, old_roll, old_pitch, old_yaw);
+    translate(state, vertices, vertices_size, old_pn, old_pe, old_pd);
+
+    // Unmap the vertex buffer
+    easy3d::VertexArrayObject::unmap_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer());
+
+    // Update the viewer
+    viewer->update();
+
+    return true;
+
+}
+
+void Aircraft::initializeVerticesIndices()
+{
+    std::cout<<"Reached initializeVerticesIndices()"<<std::endl;
+     // Define the faces of the aircraft.
+    faces = 
+    {
+        {0, 1, 2},    // cockpit top
+        {0, 2, 3},    // cockpit left
+        {0, 3, 4},    // cockpit bottom
+        {0, 4, 1},    // cockpit right
+        {1, 5, 2},    // fuselage top
+        {2, 5, 3},    // fuselage left
+        {3, 5, 4},    // fuselage bottom
+        {4, 5, 1},    // fuselage right
+        {6, 7, 8},    // wing triangle half
+        {6, 9, 8},    // wing triangle half
+        {10, 11, 12}, // horizontal stabilizer tri. half
+        {10, 13, 12}, // horizontal stabilizer tri. half
+        {14, 5, 15}   // vertical stabilizer
+    };
+
+    //-------------------------------------------------------------
+    std::cout << "vertices_x size: " << vertices_x.size() << std::endl;
+    std::cout << "vertices_y size: " << vertices_y.size() << std::endl;
+    std::cout << "vertices_z size: " << vertices_z.size() << std::endl;
+   
+
+    // Populate the aircraftDrawable with the vertices and faces.
+    
+
+    // Add the vertices to the 'vertices' vector.
+    for (size_t i = 0; i < vertices_x.size(); ++i) 
+    {
+        std::cout << "Vertex " << i << ": (" << vertices_x[i] << ", " << vertices_y[i] << ", " << vertices_z[i] << ")" << std::endl;
+
+        
+        vertices_aircraft.push_back(easy3d::vec3(vertices_x[i], vertices_y[i], vertices_z[i]));
+    }
+    std::cout<<"Reached BEFORE points line"<<std::endl;
+    points = vertices_aircraft;
+    std::cout<<"Reached AFTER points line"<<std::endl;
+    // Add the faces to the 'indices' vector.
+
+    std::cout << "Number of faces: " << faces.size() << std::endl;
+    for (const auto& face : faces) 
+    {
+        indices.push_back(face[0]);
+        indices.push_back(face[1]);
+        indices.push_back(face[2]);
+    }
+
+    std::cout<<"Finished initializeVerticesIndices()"<<std::endl;
 }

@@ -1,4 +1,5 @@
 //Header file for the simulator project
+#include <memory> // For std::unique_ptr
 
 class Aircraft 
 {
@@ -54,8 +55,8 @@ struct State
     
 };
 
-    
-    int dt;
+    int steps;
+    double dt;
     int id;
     //Physical
     double mass;
@@ -156,8 +157,47 @@ struct State
     double delta_e; //elevator
     double delta_r; //rudder
 
+    // Geometry and init
+    float old_roll;
+    float old_pitch;
+    float old_yaw;
+    
+    float old_pn;
+    float old_pe;
+    float old_pd; 
+
+    std::vector<double> vertices_x;
+    std::vector<double> vertices_y; 
+    std::vector<double> vertices_z;
+    int vertices_size; 
+    
+
+    // For scaling the thing
+    int aircraft_scale = 500;
+
+    std::vector<std::vector<int>> faces;
+    std::vector<easy3d::vec3> vertices_aircraft;
+    std::vector<unsigned int> indices;
+    
+    std::vector<easy3d::vec3> dummy_points;//DUMMY var for points
+    std::vector<easy3d::vec3> &points;
+
+    easy3d::TrianglesDrawable* aircraft;
+    const float size;
+    const int numLines;
+    const float offset;
+    easy3d::LinesDrawable* gridDrawable;
+    std::vector<easy3d::vec3> grid_vertices;
+
+    // For Plotting graphs [FUTURE]
+    std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
+    
+
+
     // Constructor
     Aircraft(const std::string& fname, int& vehicle_count);
+    //Destructor
+    ~Aircraft();
     
     // functin to get the state
     State get_state()
@@ -175,6 +215,15 @@ struct State
     // functions for 3D rendering based on state changes
     void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
     void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
+    void initializePreviousState();
+    void initializeVertices();
+    void createAircraftDrawable(easy3d::Viewer& viewer);
+    void createGridDrawable(easy3d::Viewer& viewer);
+    bool animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt);
+    void initializeVerticesIndices();
+   
+
+
 
     private:
 
