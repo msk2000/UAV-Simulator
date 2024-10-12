@@ -213,7 +213,7 @@ struct State
     void dynamics(State& X, const Aircraft& Y, double& dt);
     void graphing(const State& X);
     // functions for 3D rendering based on state changes
-    void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
+    void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size);
     void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
     void initializePreviousState();
     void initializeVertices();
@@ -223,6 +223,7 @@ struct State
     void initializeVerticesIndices();
     void initKeyboard();
     void collectInput(State& X);
+    //easy3d::Mat3<float> transpose(const easy3d::Mat3<float>& matrix); // test for easy3d mat3 transpose
    
    
 
