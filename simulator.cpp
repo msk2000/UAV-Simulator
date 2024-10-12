@@ -172,6 +172,15 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
             file >> delta_a;
             file >> delta_e;
             file >> delta_r;
+            file >> delta_t_max;
+            file >> delta_t_min;
+            file >> delta_a_max;
+            file >> delta_a_min;
+            file >> delta_e_max;
+            file >> delta_e_min;
+            file >> delta_r_max;
+            file >> delta_r_min;
+            
 
             file.close();
             wing_aspect_ratio = (wing_span*wing_span)/wing_area;
@@ -230,7 +239,8 @@ steps(10)
         state.delta_t = delta_t;
         state.delta_a = delta_a;
         state.delta_e = delta_e;
-        state.delta_r = delta_r; 
+        state.delta_r = delta_r;
+
 
         
 
@@ -778,29 +788,85 @@ void Aircraft::collectInput(State& X) {
     char input = getch(); 
 
     switch (input) {
-        case '1':
-            X.delta_a += 0.01;  // Increment the value
+        case '1': // Positive roll
+            if (X.delta_a+0.02617993878 >= delta_a_max)
+            {
+                X.delta_a = delta_a_max;  // set it to max
+            }
+            else
+            {
+                X.delta_a += 0.02617993878;  // Increment the value
+            }
             break;
-        case '3':
-            X.delta_a -= 0.01; // Decrement the value
+        case '3': // Negative roll
+            if(X.delta_a-0.02617993878 <= delta_a_min)
+            {
+                X.delta_a = delta_a_min; // SEt to minimum
+            }
+            else
+            {
+                X.delta_a -= 0.02617993878; // decrement
+            }
             break;
-        case '5':
-            X.delta_e += 0.01;  // Increment the value
+        case '5': // Positive pitch
+            if (X.delta_e+0.02617993878 >= delta_e_max)
+            {
+                X.delta_e = delta_e_max;  // set it to max
+            }
+            else
+            {
+                X.delta_e += 0.02617993878;  // Increment the value
+            }
             break;
-        case '2':
-            X.delta_e -= 0.01; // Decrement the value
+        case '2': // Negative pitch
+            if(X.delta_e-0.02617993878 <= delta_e_min)
+            {
+                X.delta_e = delta_e_min; // SEt to minimum
+            }
+            else
+            {
+                X.delta_e -= 0.02617993878; // decrement
+            }
             break;
-        case '4':
-            X.delta_r += 0.01;  // Increment the value
+        case '4': // Positive Yaw
+            if (X.delta_r+0.02617993878 >= delta_r_max)
+            {
+                X.delta_r = delta_r_max;  // set it to max
+            }
+            else
+            {
+                X.delta_r += 0.02617993878;  // Increment the value
+            }
             break;
-        case '6':
-            X.delta_r -= 0.01; // Decrement the value
+        case '6': // Negative Yaw
+            if(X.delta_r-0.02617993878 <= delta_r_min)
+            {
+                X.delta_r = delta_r_min; // SEt to minimum
+            }
+            else
+            {
+                X.delta_r -= 0.02617993878; // decrement
+            }
             break;
-        case '+':
-            X.delta_t += 5;  // Increment the value
+        case '+': // Positive Throttle
+            if (X.delta_t+5 >= delta_t_max)
+            {
+                X.delta_t = delta_t_max;  // set it to max
+            }
+            else
+            {
+                X.delta_t += 5;  // Increment the value
+            }
             break;
-        case '-':
-            X.delta_t -= 5; // Decrement the value
+        case '-': // Negative Throttle
+            if(X.delta_t-5 <= delta_t_min)
+            {
+                X.delta_t = delta_t_min; // SEt to minimum
+            }
+            else
+            {
+                X.delta_t -= 5; // decrement
+            }
             break;
         case '7':
             X.pd += 100;  // Increment the value
@@ -814,7 +880,7 @@ void Aircraft::collectInput(State& X) {
     }
     // Debug output to monitor input changes
     // Display updated values on the screen
-        mvprintw(0, 0, "delta_a: %.2f, delta_e: %.2f, delta_r: %.2f", X.delta_a, X.delta_e, X.delta_r);
+        mvprintw(0, 0, "delta_a: %.2f, delta_e: %.2f, delta_r: %.2f, delta_t: %.2f", X.delta_a, X.delta_e, X.delta_r, X.delta_t);
         refresh(); // Refresh to display updates
     
 }

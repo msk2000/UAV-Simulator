@@ -156,6 +156,15 @@ struct State
     double delta_a; //aileron
     double delta_e; //elevator
     double delta_r; //rudder
+    // aircraft specific maximum control inputs
+    double delta_t_max; 
+    double delta_t_min;
+    double delta_a_max;
+    double delta_a_min;
+    double delta_e_max;
+    double delta_e_min;
+    double delta_r_max;
+    double delta_r_min;
 
     // Geometry and init
     float old_roll;
