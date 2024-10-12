@@ -238,7 +238,7 @@ steps(10)
 // Class Destructor
 Aircraft::~Aircraft() 
 {
-    if (aircraft) {
+    /*if (aircraft) {
         delete aircraft;
         aircraft = nullptr;  
     }
@@ -246,7 +246,7 @@ Aircraft::~Aircraft()
         delete gridDrawable; 
         gridDrawable = nullptr;
     }
-
+        */
     endwin(); // End ncurses stuff
 }
 // Function to calculate the forces and moments acting on the aircraft 
