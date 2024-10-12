@@ -513,17 +513,17 @@ void Aircraft::graphing(const State& X)
 void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw )
 {
 
-        float roll = static_cast<float>(X.phi);
+        /*float roll = static_cast<float>(X.phi);
         float pitch = static_cast<float>(X.theta);
         float yaw = static_cast <float>(X.psi);
-        std::cout<< "Roll: "<<(roll*180/3.14) << "Pitch: "<<(pitch*180/3.14)<<" Yaw: "<<(yaw*180/3.14)<<"\n";
+        std::cout<< "Roll: "<<(roll*180/3.14) << "Pitch: "<<(pitch*180/3.14)<<" Yaw: "<<(yaw*180/3.14)<<"\n";*/
             
         // Create the rotation matrix using Euler angles
-        easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(old_roll-roll, old_pitch-pitch , old_yaw-yaw, 321);
+        easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X.phi, X.theta , X.psi, 321);
         
-        old_roll = roll;
+        /*old_roll = roll;
         old_pitch = pitch;
-        old_yaw = yaw;
+        old_yaw = yaw;*/
 
 
     // Apply the rotation to the vertices and hope that it actually works
@@ -578,7 +578,7 @@ void Aircraft::initializeVertices()
     std::cout<<"SIZE = "<<vertices_size<<"\n";
 
     // For scaling the thing
-    aircraft_scale = 50;
+    aircraft_scale = 500;
     for (int i = 0; i < vertices_x.size()-1; i++)
     {
         vertices_x[i] = aircraft_scale*vertices_x[i];
