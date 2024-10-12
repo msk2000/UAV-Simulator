@@ -16,6 +16,7 @@
 #include <easy3d/renderer/vertex_array_object.h>
 #include <memory>
 #include "simulator.h"
+#include <ncurses.h>
 #define _USE_MATH_DEFINES
 
 namespace plt = matplotlibcpp;
@@ -35,6 +36,9 @@ int main()
     Aircraft::State state = obj.get_state(); 
     obj.steps = steps;
     obj.dt = dt;
+
+    // Keyboard control
+    obj.initKeyboard();
     
     // Initialize UAV geometry
     obj.initializeVertices();
@@ -235,11 +239,15 @@ steps(10)
 Aircraft::~Aircraft() 
 {
     if (aircraft) {
-        delete aircraft; 
+        delete aircraft;
+        aircraft = nullptr;  
     }
     if (gridDrawable) {
         delete gridDrawable; 
+        gridDrawable = nullptr;
     }
+
+    endwin(); // End ncurses stuff
 }
 // Function to calculate the forces and moments acting on the aircraft 
 void Aircraft::forces_moments(State& X, const Aircraft& Y)
@@ -414,83 +422,83 @@ X.clock++;
 }
 
 // Function to generate 2D plots for the states
-void Aircraft::graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta) 
+void Aircraft::graphing(const State& X) 
 {
-    
-    clock.push_back(X.clock);
-	pn.push_back(X.pn);
-    pe.push_back(X.pe);
-    pd.push_back(X.pd);
-    phi.push_back((180/M_PI)*X.phi);
-    theta.push_back((180/M_PI)*X.theta);
-    psi.push_back((180/M_PI)*X.psi);
-    p.push_back((180/M_PI)*X.p);
-    q.push_back((180/M_PI)*X.q);
-    r.push_back((180/M_PI)*X.r);
-    V_m.push_back(X.V_m);
-	alpha.push_back((180/M_PI)*X.alpha);
-    beta.push_back((180/M_PI)*X.beta); 
+    /* TEMPORARILY SUPPRESSED: FUTURE FEATURE
+    g_clock.push_back(X.clock);
+	g_pn.push_back(X.pn);
+    g_pe.push_back(X.pe);
+    g_pd.push_back(X.pd);
+    g_phi.push_back((180/M_PI)*X.phi);
+    g_theta.push_back((180/M_PI)*X.theta);
+    g_psi.push_back((180/M_PI)*X.psi);
+    g_p.push_back((180/M_PI)*X.p);
+    g_q.push_back((180/M_PI)*X.q);
+    g_r.push_back((180/M_PI)*X.r);
+    g_V_m.push_back(X.V_m);
+	g_alpha.push_back((180/M_PI)*X.alpha);
+    g_beta.push_back((180/M_PI)*X.beta); 
 
     // Pn
     plt::subplot(4, 3, 1);
     plt::xlabel("time /s");
     plt::ylabel("pn");
-	plt::plot(clock, pn);
+	plt::plot(clock, &g_pn);
     // Pe
     plt::subplot(4, 3, 2);
     plt::xlabel("time /s");
     plt::ylabel("pe");
-    plt::plot(clock, pe);
+    plt::plot(clock, &g_pe);
     // Pd
     plt::subplot(4, 3, 3);
     plt::xlabel("time /s");
     plt::ylabel("pd");
-    plt::plot(clock, pd);
+    plt::plot(clock, g_pd);
     // Roll angle
     plt::subplot(4, 3, 4);
     plt::xlabel("time /s");
     plt::ylabel("ϕ");
-	plt::plot(clock, phi);
+	plt::plot(clock, g_phi);
     // Pitch angle
     plt::subplot(4, 3, 5);
     plt::xlabel("time /s");
     plt::ylabel("θ");
-    plt::plot(clock, theta);
+    plt::plot(clock, g_theta);
     // Yay angle
     plt::subplot(4, 3, 6);
     plt::xlabel("time /s");
     plt::ylabel("𝛙");
-    plt::plot(clock, psi);
+    plt::plot(clock, g_psi);
     // Roll Rate
     plt::subplot(4, 3, 7);
     plt::xlabel("time /s");
     plt::ylabel("p");
-	plt::plot(clock, p);
+	plt::plot(clock, g_p);
     // Pitch Rate
     plt::subplot(4, 3, 8);
     plt::xlabel("time /s");
     plt::ylabel("q");
-    plt::plot(clock, q);
+    plt::plot(clock, g_q);
     // Yaw Rate
     plt::subplot(4, 3, 9);
     plt::xlabel("time /s");
     plt::ylabel("r");
-    plt::plot(clock, r);
+    plt::plot(clock, g_r);
     // Velocity magnitude
     plt::subplot(4, 3, 10);
     plt::xlabel("time /s");
     plt::ylabel("V_m");
-	plt::plot(clock, V_m);
+	plt::plot(clock, g_V_m);
     // Angle of attack
     plt::subplot(4, 3, 11);
     plt::xlabel("time /s");
     plt::ylabel("α");
-    plt::plot(clock, alpha);
+    plt::plot(clock, g_alpha);
     // Side slip angle
     plt::subplot(4, 3, 12);
     plt::xlabel("time /s");
     plt::ylabel("β");
-    plt::plot(clock, beta);
+    plt::plot(clock, g_beta);
 
 
     
@@ -499,7 +507,7 @@ void Aircraft::graphing(const State& X, std::vector<double>& clock, std::vector<
     
 
 	// Show plots
-	
+	*/
 }
 // Function to perform rotation on the aircraft geometry
 void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw )
@@ -570,7 +578,7 @@ void Aircraft::initializeVertices()
     std::cout<<"SIZE = "<<vertices_size<<"\n";
 
     // For scaling the thing
-    aircraft_scale = 500;
+    aircraft_scale = 50;
     for (int i = 0; i < vertices_x.size()-1; i++)
     {
         vertices_x[i] = aircraft_scale*vertices_x[i];
@@ -678,7 +686,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt
     if (!vertices) {
         return false;
     }
-
+    
     // Calculate forces and moments
     forces_moments(state, *this);
     std::cout << "State.Vm  " << state.V_m << "\n";
@@ -692,7 +700,8 @@ bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt
     // Rotate and translate the aircraft
     rotate(state, vertices, vertices_size, old_roll, old_pitch, old_yaw);
     translate(state, vertices, vertices_size, old_pn, old_pe, old_pd);
-
+    // Keyboard input
+    collectInput(state);
     // Unmap the vertex buffer
     easy3d::VertexArrayObject::unmap_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer());
 
@@ -757,3 +766,52 @@ void Aircraft::initializeVerticesIndices()
 
     std::cout<<"Finished initializeVerticesIndices()"<<std::endl;
 }
+
+void Aircraft::initKeyboard()
+{
+    // Initialize ncurses for keyboard input (boiler plate)
+    initscr();            // Start curses mode
+    cbreak();             // Disable line buffering
+    noecho();             // Don't echo user input
+    keypad(stdscr, TRUE); // Enable function keys like arrow keys
+
+}
+
+void Aircraft::collectInput(State& X) {
+
+    // Set non-blocking input
+    nodelay(stdscr, TRUE);
+
+    char input = getch(); 
+
+    switch (input) {
+        case '5':
+            X.delta_a += 0.1;  // Increment the value
+            break;
+        case '2':
+            X.delta_a -= 0.1; // Decrement the value
+            break;
+        case '1':
+            X.delta_e += 0.1;  // Increment the value
+            break;
+        case '3':
+            X.delta_e -= 0.1; // Decrement the value
+            break;
+        case '4':
+            X.delta_r += 0.1;  // Increment the value
+            break;
+        case '6':
+            X.delta_r -= 0.1; // Decrement the value
+            break;
+        case '+':
+            X.delta_t += 5;  // Increment the value
+            break;
+        case '-':
+            X.delta_t -= 5; // Decrement the value
+            break;
+        default:
+            // Ignore any other keys
+            break;
+    }
+}
+

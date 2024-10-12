@@ -23,6 +23,11 @@ add_executable(UAVSim simulator.cpp)
 # Link libraries to your target
 target_link_libraries(UAVSim easy3d::viewer)
 
+#For keyboard ncurses
+# Add this line in your CMakeLists.txt
+target_link_libraries(UAVSim ncurses)
+
+
 find_package(Python3 REQUIRED COMPONENTS Development)
 target_link_libraries(UAVSim Python3::Python)
 
@@ -31,6 +36,8 @@ target_include_directories(UAVSim PRIVATE /usr/include/python3.6) # Replace this
 target_compile_options(UAVSim PRIVATE -std=c++17) # Set C++ standard to C++17
 # Add the path to the Eigen include directory
 target_include_directories(UAVSim PRIVATE /usr/local/include/Eigen)
+# If matplotlibcpp requires the Python include directory
+target_include_directories(UAVSim PRIVATE /usr/include/python3.6)
 
 # Add the path to the directory containing "matplotlibcpp.h"
 target_include_directories(UAVSim PRIVATE /home/fahim/Downloads/Git/UAV-Simulator)

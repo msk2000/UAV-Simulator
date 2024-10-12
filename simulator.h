@@ -190,7 +190,7 @@ struct State
     std::vector<easy3d::vec3> grid_vertices;
 
     // For Plotting graphs [FUTURE]
-    //std::vector<double> clock(steps), pn(steps),pe(steps),pd(steps),phi(steps),theta(steps),psi(steps), p(steps),q(steps),r(steps),V_m(steps),alpha(steps),beta(steps);
+    std::vector<double> g_clock, g_pn,g_pe,g_pd,g_phi,g_theta,g_psi, g_p,g_q,g_r,g_V_m,g_alpha,g_beta;
     
 
 
@@ -211,7 +211,7 @@ struct State
     // functions to act on the state changes
     void forces_moments(State& X, const Aircraft& Y);
     void dynamics(State& X, const Aircraft& Y, double& dt);
-    void graphing(const State& X, std::vector<double>& clock, std::vector<double>& pn, std::vector<double>& pe,  std::vector<double>& pd,  std::vector<double>& phi,  std::vector<double>& theta,  std::vector<double>& psi,  std::vector<double>& p,  std::vector<double>& q,  std::vector<double>& r,  std::vector<double>& V_m, std::vector<double>& alpha, std::vector<double>& beta);
+    void graphing(const State& X);
     // functions for 3D rendering based on state changes
     void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw );
     void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
@@ -221,6 +221,9 @@ struct State
     void createGridDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt);
     void initializeVerticesIndices();
+    void initKeyboard();
+    void collectInput(State& X);
+   
    
 
 
