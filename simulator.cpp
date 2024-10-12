@@ -510,20 +510,15 @@ void Aircraft::graphing(const State& X)
 	*/
 }
 // Function to perform rotation on the aircraft geometry
-void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size, float& old_roll, float& old_pitch, float& old_yaw )
+void Aircraft::rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size)
 {
 
-        /*float roll = static_cast<float>(X.phi);
-        float pitch = static_cast<float>(X.theta);
-        float yaw = static_cast <float>(X.psi);
-        std::cout<< "Roll: "<<(roll*180/3.14) << "Pitch: "<<(pitch*180/3.14)<<" Yaw: "<<(yaw*180/3.14)<<"\n";*/
+        
             
         // Create the rotation matrix using Euler angles
         easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X.phi, X.theta , X.psi, 321);
+        //rotationMatrix = transpose(rotationMatrix);
         
-        /*old_roll = roll;
-        old_pitch = pitch;
-        old_yaw = yaw;*/
 
 
     // Apply the rotation to the vertices and hope that it actually works
@@ -547,7 +542,8 @@ float pd_float = static_cast<float>(X.pd);
 
 // Position Update loop
 
-            for (int j=0; j<vertices_size; ++j){
+            for (int j=0; j<vertices_size; ++j)
+            {
                 vertices[j].x += pn_float;
                 vertices[j].y += pe_float;
                 vertices[j].z += pd_float;
@@ -590,7 +586,7 @@ void Aircraft::initializeVertices()
 // Function to create the Easy3D drawable object
 void Aircraft::createAircraftDrawable(easy3d::Viewer& viewer)
 {
-   std::cout<<"Reached createAircraftDrawable()"<<std::endl;
+   
     
     aircraft = new easy3d::TrianglesDrawable("faces");
     std::cout << "Triangles Drawable Created" <<"\n";
@@ -610,12 +606,11 @@ void Aircraft::createAircraftDrawable(easy3d::Viewer& viewer)
 void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 {
 
-    std::cout<<"Reached createGrid"<<std::endl;
+    
 
     // Create a LinesDrawable to visualize the 3D grid.
     gridDrawable = new easy3d::LinesDrawable("grid");
-    std::cout << "Grid lines drawing created" <<"\n";
-
+    
     // Create the grid lines.
     
     for (int i = 0; i < numLines; i++) 
@@ -648,11 +643,7 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 
     }
 
-    //DEBUG
-    for (const auto& vertex : grid_vertices) 
-    {
-        std::cout << "Vertex: " << vertex.x << ", " << vertex.y << ", " << vertex.z << std::endl;
-    }
+    
 
     
     // Upload the grid vertices to the GPU.
@@ -689,16 +680,18 @@ bool Aircraft::animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt
     
     // Calculate forces and moments
     forces_moments(state, *this);
-    std::cout << "State.Vm  " << state.V_m << "\n";
+    /*std::cout << "State.Vm  " << state.V_m << "\n";
     std::cout << "state.fx: " << state.fx << "\n";
     std::cout << "state.fy: " << state.fy << "\n";
-    std::cout << "state.fz " << state.fz << "\n";
+    std::cout << "state.fz " << state.fz << "\n";*/
+    //std::cout << state.phi *(180/M_PI)<<std::endl;
+    
 
     // Update dynamics
     dynamics(state, *this, dt);
 
     // Rotate and translate the aircraft
-    rotate(state, vertices, vertices_size, old_roll, old_pitch, old_yaw);
+    rotate(state, vertices, vertices_size);
     translate(state, vertices, vertices_size, old_pn, old_pe, old_pd);
     // Keyboard input
     collectInput(state);
@@ -785,23 +778,23 @@ void Aircraft::collectInput(State& X) {
     char input = getch(); 
 
     switch (input) {
-        case '5':
-            X.delta_a += 0.1;  // Increment the value
-            break;
-        case '2':
-            X.delta_a -= 0.1; // Decrement the value
-            break;
         case '1':
-            X.delta_e += 0.1;  // Increment the value
+            X.delta_a += 0.01;  // Increment the value
             break;
         case '3':
-            X.delta_e -= 0.1; // Decrement the value
+            X.delta_a -= 0.01; // Decrement the value
+            break;
+        case '5':
+            X.delta_e += 0.01;  // Increment the value
+            break;
+        case '2':
+            X.delta_e -= 0.01; // Decrement the value
             break;
         case '4':
-            X.delta_r += 0.1;  // Increment the value
+            X.delta_r += 0.01;  // Increment the value
             break;
         case '6':
-            X.delta_r -= 0.1; // Decrement the value
+            X.delta_r -= 0.01; // Decrement the value
             break;
         case '+':
             X.delta_t += 5;  // Increment the value
@@ -809,9 +802,32 @@ void Aircraft::collectInput(State& X) {
         case '-':
             X.delta_t -= 5; // Decrement the value
             break;
+        case '7':
+            X.pd += 100;  // Increment the value
+            break;
+        case '8':
+            X.pd -= 100;; // Decrement the value
+            break;
         default:
             // Ignore any other keys
             break;
     }
+    // Debug output to monitor input changes
+    // Display updated values on the screen
+        mvprintw(0, 0, "delta_a: %.2f, delta_e: %.2f, delta_r: %.2f", X.delta_a, X.delta_e, X.delta_r);
+        refresh(); // Refresh to display updates
+    
 }
 
+/*easy3d::Mat3<float> Aircraft::transpose(const easy3d::Mat3<float>& matrix) 
+{    
+    easy3d::Mat3<float> transposed;    
+    for (int i = 0; i < 3; ++i) 
+    {        
+        for (int j = 0; j < 3; ++j) 
+        {            
+            transposed(i, j) = matrix(j, i);  // Swap indices for transposition 
+        }    
+    }    
+    return transposed;
+}*/
