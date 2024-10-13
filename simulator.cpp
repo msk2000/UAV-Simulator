@@ -209,9 +209,9 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
-size(120000.0f),
+size(60000.0f),
 numLines(22),
-offset(120000.0f/2),
+offset(60000.0f/2),
 points(dummy_points),
 aircraft(nullptr),
 gridDrawable(nullptr),
@@ -580,6 +580,7 @@ void Aircraft::initializeVertices()
     vertices_x = {-4, -2, -2, -2, -2, 12, 0, 3, 3, 0, 9.5, 12, 12, 9.5, 9.5, 12};
     vertices_y = {0, 1, -1, -1, 1, 0, 5, 5, -5, -5, 2.5, 2.5, -2.5, -2.6, 0, 0};
     vertices_z = {0, -1, -1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5};
+    
     vertices_size = vertices_x.size();
     std::cout<<"SIZE = "<<vertices_size<<"\n";
 
@@ -667,6 +668,19 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 
     // Add the grid drawable to the viewer.
     viewer.add_drawable(gridDrawable);
+
+    // Color settings for viewer background
+        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
+        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.44f, 1.0f)); // Midnight Blue
+        //viewer.set_background_color(easy3d::vec4(0.6f, 0.8f, 0.6f, 1.0f)); // Soft Pastel Green
+        //viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
+        //viewer.set_background_color(easy3d::vec4(1.0f, 0.5f, 0.0f, 1.0f)); // Sunset Orange
+        //viewer.set_background_color(easy3d::vec4(0.0f, 0.5f, 0.5f, 1.0f)); // Ocean Teal
+        //viewer.set_background_color(easy3d::vec4(0.5f, 0.0f, 0.13f, 1.0f)); // Rich Burgundy
+        //viewer.set_background_color(easy3d::vec4(0.53f, 0.81f, 0.98f, 1.0f)); // Bright Sky Blue
+
+
+
     std::cout << "Grid drawable added to viewer" <<"\n";
 
     // Update the viewer
@@ -784,68 +798,69 @@ void Aircraft::collectInput(State& X) {
 
     // Set non-blocking input
     nodelay(stdscr, TRUE);
+    double control_step = 0.02617993878/2; //-> Move to class members
 
     char input = getch(); 
 
     switch (input) {
         case '1': // Positive roll
-            if (X.delta_a+0.02617993878 >= delta_a_max)
+            if (X.delta_a+control_step >= delta_a_max)
             {
                 X.delta_a = delta_a_max;  // set it to max
             }
             else
             {
-                X.delta_a += 0.02617993878;  // Increment the value
+                X.delta_a += control_step;  // Increment the value
             }
             break;
         case '3': // Negative roll
-            if(X.delta_a-0.02617993878 <= delta_a_min)
+            if(X.delta_a-control_step <= delta_a_min)
             {
                 X.delta_a = delta_a_min; // SEt to minimum
             }
             else
             {
-                X.delta_a -= 0.02617993878; // decrement
+                X.delta_a -= control_step; // decrement
             }
             break;
         case '5': // Positive pitch
-            if (X.delta_e+0.02617993878 >= delta_e_max)
+            if (X.delta_e+control_step >= delta_e_max)
             {
                 X.delta_e = delta_e_max;  // set it to max
             }
             else
             {
-                X.delta_e += 0.02617993878;  // Increment the value
+                X.delta_e += control_step;  // Increment the value
             }
             break;
         case '2': // Negative pitch
-            if(X.delta_e-0.02617993878 <= delta_e_min)
+            if(X.delta_e-control_step <= delta_e_min)
             {
                 X.delta_e = delta_e_min; // SEt to minimum
             }
             else
             {
-                X.delta_e -= 0.02617993878; // decrement
+                X.delta_e -= control_step; // decrement
             }
             break;
         case '4': // Positive Yaw
-            if (X.delta_r+0.02617993878 >= delta_r_max)
+            if (X.delta_r+control_step >= delta_r_max)
             {
                 X.delta_r = delta_r_max;  // set it to max
             }
             else
             {
-                X.delta_r += 0.02617993878;  // Increment the value
+                X.delta_r += control_step;  // Increment the value
             }
             break;
         case '6': // Negative Yaw
-            if(X.delta_r-0.02617993878 <= delta_r_min)
+            if(X.delta_r-control_step <= delta_r_min)
             {
                 X.delta_r = delta_r_min; // SEt to minimum
             }
             else
             {
-                X.delta_r -= 0.02617993878; // decrement
+                X.delta_r -= control_step; // decrement
             }
             break;
         case '+': // Positive Throttle
@@ -869,10 +884,10 @@ void Aircraft::collectInput(State& X) {
             }
             break;
         case '7':
-            X.pd += 100;  // Increment the value
+            X.pn += 100;  // Increment the value
             break;
         case '8':
-            X.pd -= 100;; // Decrement the value
+            X.pn -= 100;; // Decrement the value
             break;
         default:
             // Ignore any other keys
