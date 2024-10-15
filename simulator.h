@@ -1,5 +1,18 @@
+#ifndef SIMULATOR_H
+#define SIMULATOR_H
 //Header file for the simulator project
 #include <memory> // For std::unique_ptr
+#include <string>
+#include <vector>
+#include <Eigen/Dense>
+#include <easy3d/viewer/viewer.h>
+#include <easy3d/renderer/drawable_triangles.h>
+#include <easy3d/renderer/drawable_lines.h>
+#include <easy3d/renderer/vertex_array_object.h>
+#include <fstream>
+#include <cmath>
+#include <ncurses.h>
+
 
 class Aircraft 
 {
@@ -245,3 +258,5 @@ struct State
     
     
 };
+
+#endif
