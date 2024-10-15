@@ -1,6 +1,8 @@
+//Header file for the simulator project
+
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
-//Header file for the simulator project
+
 #include <memory> // For std::unique_ptr
 #include <string>
 #include <vector>
