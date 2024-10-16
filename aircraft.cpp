@@ -5,130 +5,126 @@
 void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) 
 {
             
-            int id = vehicle_count;
+    int id = vehicle_count;
              
            
     
-        std::ifstream file(filePath);
-        if (file.is_open()) {
-            // Read and assign values to member variables
+    std::ifstream file(filePath);
+    if (file.is_open()) {
+        // Read and assign values to member variables
             
-            //Physical
-            file >> mass;
-            file >> Jx;
-            file >> Jy;
-            file >> Jz;
-            file >> Jxz;
-            file >> wing_area;
-            file >> wing_chord;
-            file >> wing_span;
-            
-            file >> e; // oswalds efficiency factor
-            file >> g; // gravity
-            file >> rho; // density of air
-            
-            file >> k_motor; //motor constant
-            file >> prop_area; //s_[rop]
-            file >> prop_thrust_coef; // constant determined by experiment k_t_p
-            file >> prop_efficiency; // e
-            file >> prop_omega; //angular speed k_omega
+        //Physical
+        file >> mass;
+        file >> Jx;
+        file >> Jy;
+        file >> Jz;
+        file >> Jxz;
+        file >> wing_area;
+        file >> wing_chord;
+        file >> wing_span;
+        
+        file >> e; // oswalds efficiency factor
+        file >> g; // gravity
+        file >> rho; // density of air
+        
+        file >> k_motor; //motor constant
+        file >> prop_area; //s_[rop]
+        file >> prop_thrust_coef; // constant determined by experiment k_t_p
+        file >> prop_efficiency; // e
+        file >> prop_omega; //angular speed k_omega
 
-            
+        file >> C_L_0;
+        file >> C_L_alpha;
+        file >> C_L_q;
+        file >> C_L_delta_e;
 
-           
+        file >> C_D_0;
+        file >> C_D_alpha;
+        file >> C_D_p;
+        file >> C_D_q;
+        file >> C_D_delta_e;
 
-            file >> C_L_0         ;
-            file >> C_L_alpha     ;
-            file >> C_L_q         ;
-            file >> C_L_delta_e   ;
+        file >> C_m_0;
+        file >> C_m_alpha;
+        file >> C_m_q;
+        file >> C_m_delta_e;
 
-            file >> C_D_0         ;
-            file >> C_D_alpha     ;
-            file >> C_D_p         ;
-            file >> C_D_q         ;
-            file >> C_D_delta_e   ;
+        file >> C_Y_0;
+        file >> C_Y_beta;
+        file >> C_Y_p;
+        file >> C_Y_r;
+        file >> C_Y_delta_a;
+        file >> C_Y_delta_r;
 
-            file >> C_m_0         ;
-            file >> C_m_alpha     ;
-            file >> C_m_q         ;
-            file >> C_m_delta_e   ;
+        file >> C_ell_0;
+        file >> C_ell_beta;
+        file >> C_ell_p;
+        file >> C_ell_r;
+        file >> C_ell_delta_a;
+        file >> C_ell_delta_r;
 
-            file >> C_Y_0         ;
-            file >> C_Y_beta      ;
-            file >> C_Y_p         ;
-            file >> C_Y_r         ;
-            file >> C_Y_delta_a   ;
-            file >> C_Y_delta_r   ;
+        file >> C_n_0;
+        file >> C_n_beta;
+        file >> C_n_p;
+        file >> C_n_r;
+        file >> C_n_delta_a;
+        file >> C_n_delta_r;
 
-            file >> C_ell_0       ;
-            file >> C_ell_beta    ;
-            file >> C_ell_p       ;
-            file >> C_ell_r       ;
-            file >> C_ell_delta_a ;
-            file >> C_ell_delta_r ;
+        file >> C_prop;
+        file >> trans_rate;
+        file >> epsilon;
+        file >> alpha0;
 
-            file >> C_n_0         ;
-            file >> C_n_beta      ;
-            file >> C_n_p         ;
-            file >> C_n_r         ;
-            file >> C_n_delta_a   ;
-            file >> C_n_delta_r   ;
+        
+        file >> pn_0;
+        file >> pe_0;
+        file >> pd_0;
 
-            file >> C_prop        ;
-            file >> trans_rate    ;
-            file >> epsilon       ;
-            file >> alpha0        ;
+        file >> u_0; //body axis velocity
+        file >> v_0; //body axis velocity
+        file >> w_0; //body axis velocity
 
-            
-            file >> pn_0;
-            file >> pe_0;
-            file >> pd_0;
+        file >> phi_0; 
+        file >> theta_0;
+        file >> psi_0;
 
-            file >> u_0; //body axis velocity
-            file >> v_0; //body axis velocity
-            file >> w_0; //body axis velocity
+        file >> p_0;
+        file >> q_0;
+        file >> r_0;
+        file >> delta_t;
+        file >> delta_a;
+        file >> delta_e;
+        file >> delta_r;
+        file >> delta_t_max;
+        file >> delta_t_min;
+        file >> delta_a_max;
+        file >> delta_a_min;
+        file >> delta_e_max;
+        file >> delta_e_min;
+        file >> delta_r_max;
+        file >> delta_r_min;
+        
 
-            file >> phi_0; 
-            file >> theta_0;
-            file >> psi_0;
-
-            file >> p_0;
-            file >> q_0;
-            file >> r_0;
-            file >> delta_t;
-            file >> delta_a;
-            file >> delta_e;
-            file >> delta_r;
-            file >> delta_t_max;
-            file >> delta_t_min;
-            file >> delta_a_max;
-            file >> delta_a_min;
-            file >> delta_e_max;
-            file >> delta_e_min;
-            file >> delta_r_max;
-            file >> delta_r_min;
-            
-
-            file.close();
-            wing_aspect_ratio = (wing_span*wing_span)/wing_area;
-            Gamma=(Jx*Jz)-(Jxz*Jxz);
-            Gamma_1=(Jxz*(Jx-Jy+Jz))/Gamma;
-            Gamma_2=(Jz*(Jz-Jy)+(Jxz*Jxz))/Gamma;
-            Gamma_3=Jz/Gamma;
-            Gamma_4=Jxz/Gamma;
-            Gamma_5=(Jz-Jx)/Jy;
-            Gamma_6=Jxz/Jy;
-            Gamma_7=(((Jx-Jy)*Jx)+(Jxz*Jxz))/Gamma;
-            Gamma_8=Jx/Gamma;
-            beta0 = 1*(M_PI/180);
-            std::cout << "Aircraft loaded from file successfully" << "\n";
-            std::cout << "Vehicle has been given the ID number: "<< vehicle_count <<"\n";
-            vehicle_count++;
-        }
-        else {
-            std::cerr << "Unable to open file: " << filePath << "\n";
-        }
+        file.close();
+        wing_aspect_ratio = (wing_span*wing_span)/wing_area;
+        Gamma=(Jx*Jz)-(Jxz*Jxz);
+        Gamma_1=(Jxz*(Jx-Jy+Jz))/Gamma;
+        Gamma_2=(Jz*(Jz-Jy)+(Jxz*Jxz))/Gamma;
+        Gamma_3=Jz/Gamma;
+        Gamma_4=Jxz/Gamma;
+        Gamma_5=(Jz-Jx)/Jy;
+        Gamma_6=Jxz/Jy;
+        Gamma_7=(((Jx-Jy)*Jx)+(Jxz*Jxz))/Gamma;
+        Gamma_8=Jx/Gamma;
+        beta0 = 1*(M_PI/180);
+        std::cout << "Aircraft loaded from file successfully" << "\n";
+        std::cout << "Vehicle has been given the ID number: "<< vehicle_count <<"\n";
+        vehicle_count++;
     }
+    else {
+        std::cerr << "Unable to open file: " << filePath << "\n";
+    }
+}
 
 
 
