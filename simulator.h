@@ -150,48 +150,48 @@ public:
 
     //Stability & Control derivatives
 
-    double C_L_0         ;
-    double C_L_alpha     ;
-    double C_L_q         ;
-    double C_L_delta_e   ;
+    double C_L_0;
+    double C_L_alpha;
+    double C_L_q;
+    double C_L_delta_e;
 
-    double C_D_0         ;
-    double C_D_alpha     ;
-    double C_D_p         ;
-    double C_D_q         ;
-    double C_D_delta_e   ;
+    double C_D_0;
+    double C_D_alpha;
+    double C_D_p;
+    double C_D_q;
+    double C_D_delta_e;
 
-    double C_m_0         ;
-    double C_m_alpha     ;
-    double C_m_q         ;
-    double C_m_delta_e   ;
+    double C_m_0;
+    double C_m_alpha;
+    double C_m_q;
+    double C_m_delta_e;
 
-    double C_Y_0         ;
-    double C_Y_beta      ;
-    double C_Y_p         ;
-    double C_Y_r         ;
-    double C_Y_delta_a   ;
-    double C_Y_delta_r   ;
+    double C_Y_0;
+    double C_Y_beta;
+    double C_Y_p;
+    double C_Y_r;
+    double C_Y_delta_a;
+    double C_Y_delta_r;
 
-    double C_ell_0       ;
-    double C_ell_beta    ;
-    double C_ell_p       ;
-    double C_ell_r       ;
-    double C_ell_delta_a ;
-    double C_ell_delta_r ;
+    double C_ell_0;
+    double C_ell_beta;
+    double C_ell_p;
+    double C_ell_r
+    double C_ell_delta_a;
+    double C_ell_delta_r;
 
-    double C_n_0         ;
-    double C_n_beta      ;
-    double C_n_p         ;
-    double C_n_r         ;
-    double C_n_delta_a   ;
-    double C_n_delta_r   ;
+    double C_n_0;
+    double C_n_beta;
+    double C_n_p;
+    double C_n_r;
+    double C_n_delta_a;
+    double C_n_delta_r;
 
-    double C_prop        ;
-    double trans_rate    ;
-    double epsilon       ;
-    double alpha0        ;
-    double beta0         ;
+    double C_prop;
+    double trans_rate;
+    double epsilon;
+    double alpha0;
+    double beta0;
 
     // Initial state: To set the initial condition
     double pn_0;
