@@ -20,9 +20,7 @@ class Aircraft
 {
 public:
 
-struct State
-{
-    // This will be used to track state variables
+    // These will be used to track state variables
     double clock;
     double pn;
     double pe;
@@ -45,11 +43,7 @@ struct State
     double ell;
     double m;
     double n;
-    // This will be used to track control inputs
-    double delta_t; //throttle
-    double delta_a; //aileron
-    double delta_e; //elevator
-    double delta_r; //rudder
+    
     // More
     std::vector<double> velocity_b;
     //Rates
@@ -65,10 +59,6 @@ struct State
     double p_dot;
     double q_dot;
     double r_dot;
-
-    
-    
-};
 
     int steps;
     double dt;
@@ -104,6 +94,54 @@ struct State
     double Gamma_6=Jxz/Jy;
     double Gamma_7=(((Jx-Jy)*Jx)+(Jxz*Jxz))/Gamma;
     double Gamma_8=Jx/Gamma;
+
+    //Forces&Moments function:
+    double Cd_of_alpha;
+      
+        // sigma(alpha)
+        double sigma_num;
+        double sigma_den;
+        double sigma_of_alpha;
+    
+        // Cl of flat plate
+        double Cl_flat_plate;
+        // Linear Cl
+        double Cl_linear;
+        // Combined Cl
+        double Cl_of_alpha;
+
+    // Coefficients for X and Z directions
+    double CxAlpha;
+    double CxqAlpha;
+    double CxdeltaeAlpha;
+    double CzAlpha;
+    double CzqAlpha;
+    double CzdeltaeAlpha;
+
+    // Sources of Forces
+    Eigen::Vector3d force_g; // Component: Gravity
+    double force_aero1;
+
+    Eigen::Vector3d force_aero2;
+    Eigen::Vector3d force_aero;
+
+    double force_prop1;
+    Eigen::Vector3d force_prop2;
+    Eigen::Vector3d force_prop;
+
+    Eigen::Vector3d Force;
+
+   
+
+    // Moment/Torque calculations
+
+    double Aero_t1 = force_aero1;
+    
+    Eigen::Vector3d Aero_t2;
+    Eigen::Vector3d Aero_torque;
+    Eigen::Vector3d Prop_torque;
+    Eigen::Vector3d Torque;
+
 
     //Stability & Control derivatives
 
@@ -223,30 +261,25 @@ struct State
     //Destructor
     ~Aircraft();
     
-    // functin to get the state
-    State get_state()
-    {
-
-        return state;
-    }
+    
 
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
     // functions to act on the state changes
-    void forces_moments(State& X, const Aircraft& Y);
-    void dynamics(State& X, const Aircraft& Y, double& dt);
-    void graphing(const State& X);
+    void forces_moments(const Aircraft& Y);
+    void dynamics(const Aircraft& Y, double& dt);
+    void graphing();
     // functions for 3D rendering based on state changes
-    void rotate(const State& X, easy3d::vec3* vertices, const int& vertices_size);
-    void translate(const State& X, easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
+    void rotate(easy3d::vec3* vertices, const int& vertices_size);
+    void translate(easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
     void initializePreviousState();
     void initializeVertices();
     void createAircraftDrawable(easy3d::Viewer& viewer);
     void createGridDrawable(easy3d::Viewer& viewer);
-    bool animate(easy3d::Viewer* viewer, Aircraft::State& state, double dt);
+    bool animate(easy3d::Viewer* viewer, double dt);
     void initializeVerticesIndices();
     void initKeyboard();
-    void collectInput(State& X);
+    void collectInput();
     //easy3d::Mat3<float> transpose(const easy3d::Mat3<float>& matrix); // test for easy3d mat3 transpose
    
    
@@ -255,7 +288,7 @@ struct State
 
     private:
 
-    State state;
+    
     
     
     

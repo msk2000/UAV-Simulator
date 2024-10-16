@@ -24,18 +24,18 @@ int main()
     std::string fname = "../data.txt";
 
     //Instantiate a UAV
-    Aircraft obj(fname,vehicle_count);
-    Aircraft::State state = obj.get_state(); 
-    obj.steps = steps;
-    obj.dt = dt;
+    Aircraft drone(fname,vehicle_count);
+     
+    drone.steps = steps;
+    drone.dt = dt;
 
     // Keyboard control
-    obj.initKeyboard();
+    drone.initKeyboard();
     
     // Initialize UAV geometry
-    obj.initializeVertices();
-    obj.initializePreviousState();
-    obj.initializeVerticesIndices();
+    drone.initializeVertices();
+    drone.initializePreviousState();
+    drone.initializeVerticesIndices();
     
     
     // initialize Easy3D.
@@ -45,8 +45,8 @@ int main()
     easy3d::Viewer viewer("UAV Simulator");
 
     // Draw the aircraft and 3D graphs
-    obj.createAircraftDrawable(viewer);
-    obj.createGridDrawable(viewer);
+    drone.createAircraftDrawable(viewer);
+    drone.createGridDrawable(viewer);
 
     // Make sure everything is within the visible region of the viewer.
     viewer.fit_screen();
@@ -55,7 +55,7 @@ int main()
     // Animation function
     viewer.animation_func_ = [&](easy3d::Viewer* v) -> bool 
     {
-        return obj.animate(v, state, dt);
+        return drone.animate(v,dt);
     };
 
       
