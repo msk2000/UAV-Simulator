@@ -14,6 +14,11 @@
 #include <fstream>
 #include <cmath>
 #include <ncurses.h>
+#include "matplotlibcpp.h"
+
+#define _USE_MATH_DEFINES
+
+namespace plt = matplotlibcpp;
 
 
 class Aircraft 
@@ -188,7 +193,7 @@ public:
     double alpha0        ;
     double beta0         ;
 
-    // Initial state
+    // Initial state: To set the initial condition
     double pn_0;
     double pe_0;
     double pd_0;
@@ -280,16 +285,9 @@ public:
     void initializeVerticesIndices();
     void initKeyboard();
     void collectInput();
-    //easy3d::Mat3<float> transpose(const easy3d::Mat3<float>& matrix); // test for easy3d mat3 transpose
-   
-   
-
-
-
+    
     private:
 
-    
-    
     
     
 };

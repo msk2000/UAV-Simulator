@@ -1,17 +1,11 @@
+// This is the main program from which you setup/run the simulation
 #include <iostream>
 #include <simulator.h>
 #include <easy3d/viewer/viewer.h>
-#include "matplotlibcpp.h"
 #include <easy3d/renderer/camera.h>
 #include <easy3d/core/types.h>
 #include <easy3d/util/resource.h>
 #include <easy3d/util/initializer.h>
-
-
-
-#define _USE_MATH_DEFINES
-
-namespace plt = matplotlibcpp;
 
 
 
