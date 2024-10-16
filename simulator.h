@@ -176,7 +176,7 @@ public:
     double C_ell_0;
     double C_ell_beta;
     double C_ell_p;
-    double C_ell_r
+    double C_ell_r;
     double C_ell_delta_a;
     double C_ell_delta_r;
 
