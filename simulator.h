@@ -276,8 +276,8 @@ public:
     void graphing();
     // functions for 3D rendering based on state changes
     void rotate(easy3d::vec3* vertices, const int& vertices_size);
-    void translate(easy3d::vec3* vertices, const int& vertices_size,float& pn, float& pe, float& pd);
-    void initializePreviousState();
+    void translate(easy3d::vec3* vertices, const int& vertices_size);
+    
     void initializeVertices();
     void createAircraftDrawable(easy3d::Viewer& viewer);
     void createGridDrawable(easy3d::Viewer& viewer);

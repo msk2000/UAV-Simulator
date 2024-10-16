@@ -412,7 +412,7 @@ void Aircraft::rotate(easy3d::vec3* vertices, const int& vertices_size)
 }
 
 // Function to perform translation of the aircraft geometry
-void Aircraft::translate(easy3d::vec3* vertices, const int& vertices_size, float& old_pn, float& old_pe, float& old_pd)
+void Aircraft::translate(easy3d::vec3* vertices, const int& vertices_size)
 {
     float pn_float = static_cast<float>(pn);
     float pe_float = static_cast<float>(pe);
@@ -429,16 +429,7 @@ void Aircraft::translate(easy3d::vec3* vertices, const int& vertices_size, float
 
 }
 
-// Function to make previous state values available
-void Aircraft::initializePreviousState() {
-    old_roll = static_cast<float>(phi_0);
-    old_pitch = static_cast<float>(theta_0);
-    old_yaw = static_cast<float>(psi_0);
-    
-    old_pn = static_cast<float>(pn_0);
-    old_pe = static_cast<float>(pe_0);
-    old_pd = static_cast<float>(pd_0); 
-}
+
 
 // Function to initialize aircraft vertices
 void Aircraft::initializeVertices()
@@ -582,7 +573,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 
     // Rotate and translate the aircraft
     rotate(vertices, vertices_size);
-    translate(vertices, vertices_size, old_pn, old_pe, old_pd);
+    translate(vertices, vertices_size);
     // Keyboard input
     collectInput();
     // Unmap the vertex buffer

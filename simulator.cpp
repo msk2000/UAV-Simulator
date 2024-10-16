@@ -28,7 +28,6 @@ int main()
     
     // Initialize UAV geometry
     drone.initializeVertices();
-    drone.initializePreviousState();
     drone.initializeVerticesIndices();
     
     
