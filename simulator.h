@@ -85,15 +85,15 @@ public:
 
     //Inertial constants
 
-    double Gamma=(Jx*Jz)-(Jxz*Jxz);
-    double Gamma_1=(Jxz*(Jx-Jy+Jz))/Gamma;
-    double Gamma_2=(Jz*(Jz-Jy)+(Jxz*Jxz))/Gamma;
-    double Gamma_3=Jz/Gamma;
-    double Gamma_4=Jxz/Gamma;
-    double Gamma_5=(Jz-Jx)/Jy;
-    double Gamma_6=Jxz/Jy;
-    double Gamma_7=(((Jx-Jy)*Jx)+(Jxz*Jxz))/Gamma;
-    double Gamma_8=Jx/Gamma;
+    double Gamma;
+    double Gamma_1;
+    double Gamma_2;
+    double Gamma_3;
+    double Gamma_4;
+    double Gamma_5;
+    double Gamma_6;
+    double Gamma_7;
+    double Gamma_8;
 
     //Forces&Moments function:
     double Cd_of_alpha;
@@ -110,37 +110,37 @@ public:
         // Combined Cl
         double Cl_of_alpha;
 
-    // Coefficients for X and Z directions
-    double CxAlpha;
-    double CxqAlpha;
-    double CxdeltaeAlpha;
-    double CzAlpha;
-    double CzqAlpha;
-    double CzdeltaeAlpha;
+        // Coefficients for X and Z directions
+        double CxAlpha;
+        double CxqAlpha;
+        double CxdeltaeAlpha;
+        double CzAlpha;
+        double CzqAlpha;
+        double CzdeltaeAlpha;
 
-    // Sources of Forces
-    Eigen::Vector3d force_g; // Component: Gravity
-    double force_aero1;
+        // Sources of Forces
+        Eigen::Vector3d force_g; // Component: Gravity
+        double force_aero1;
 
-    Eigen::Vector3d force_aero2;
-    Eigen::Vector3d force_aero;
+        Eigen::Vector3d force_aero2;
+        Eigen::Vector3d force_aero;
 
-    double force_prop1;
-    Eigen::Vector3d force_prop2;
-    Eigen::Vector3d force_prop;
+        double force_prop1;
+        Eigen::Vector3d force_prop2;
+        Eigen::Vector3d force_prop;
 
-    Eigen::Vector3d Force;
+        Eigen::Vector3d Force;
 
-   
-
-    // Moment/Torque calculations
-
-    double Aero_t1 = force_aero1;
     
-    Eigen::Vector3d Aero_t2;
-    Eigen::Vector3d Aero_torque;
-    Eigen::Vector3d Prop_torque;
-    Eigen::Vector3d Torque;
+
+        // Moment/Torque calculations
+
+        double Aero_t1 = force_aero1;
+        
+        Eigen::Vector3d Aero_t2;
+        Eigen::Vector3d Aero_torque;
+        Eigen::Vector3d Prop_torque;
+        Eigen::Vector3d Torque;
 
 
     //Stability & Control derivatives
