@@ -26,19 +26,20 @@ int main()
     // Keyboard control
     drone.initKeyboard();
     
-    // Initialize UAV geometry
-    drone.initializeVertices();
-    drone.initializeVerticesIndices();
-    
-    
+
     // initialize Easy3D.
     easy3d::initialize(true);
     
     // Create the default Easy3D viewer. Note: a viewer must be created before creating any drawables.
     easy3d::Viewer viewer("UAV Simulator");
 
+    // Load a 3D model (OBJ, PLY, STL, etc.)
+    drone.file_name = "/home/fahim/Downloads/Git/UAV-Simulator/scaled_uav6.stl";  // Replace with your actual model path
+    drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
+
     // Draw the aircraft and 3D graphs
-    drone.createAircraftDrawable(viewer);
+   
+    drone.renderAircraft(viewer);
     drone.createGridDrawable(viewer);
 
     // Make sure everything is within the visible region of the viewer.
@@ -50,6 +51,8 @@ int main()
     {
         return drone.animate(v,dt);
     };
+
+    
 
       
     return viewer.run();

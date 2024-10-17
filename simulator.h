@@ -11,6 +11,8 @@
 #include <easy3d/renderer/drawable_triangles.h>
 #include <easy3d/renderer/drawable_lines.h>
 #include <easy3d/renderer/vertex_array_object.h>
+#include <easy3d/core/surface_mesh.h>
+#include <easy3d/fileio/surface_mesh_io.h>
 #include <fstream>
 #include <cmath>
 #include <ncurses.h>
@@ -240,7 +242,7 @@ public:
     
 
     // For scaling the thing
-    int aircraft_scale = 500;
+    int aircraft_scale = 10;
 
     std::vector<std::vector<int>> faces;
     std::vector<easy3d::vec3> vertices_aircraft;
@@ -259,7 +261,10 @@ public:
     // For Plotting graphs [FUTURE]
     std::vector<double> g_clock, g_pn,g_pe,g_pd,g_phi,g_theta,g_psi, g_p,g_q,g_r,g_V_m,g_alpha,g_beta;
     
+    //surface mesh
+    std::string file_name;
 
+    easy3d::SurfaceMesh* mesh;
 
     // Constructor
     Aircraft(const std::string& fname, int& vehicle_count);
@@ -275,11 +280,12 @@ public:
     void dynamics(const Aircraft& Y, double& dt);
     void graphing();
     // functions for 3D rendering based on state changes
-    void rotate(easy3d::vec3* vertices, const int& vertices_size);
-    void translate(easy3d::vec3* vertices, const int& vertices_size);
+    void rotate(easy3d::vec3* vertices);
+    void translate(easy3d::vec3* vertices);
     
     void initializeVertices();
-    void createAircraftDrawable(easy3d::Viewer& viewer);
+    void createAircraftDrawable(easy3d::Viewer& viewer); // OLD
+    void renderAircraft(easy3d::Viewer& viewer); // NEW
     void createGridDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, double dt);
     void initializeVerticesIndices();
