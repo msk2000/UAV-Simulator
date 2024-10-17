@@ -282,13 +282,10 @@ public:
     // functions for 3D rendering based on state changes
     void rotate(easy3d::vec3* vertices);
     void translate(easy3d::vec3* vertices);
-    
-    void initializeVertices();
-    void createAircraftDrawable(easy3d::Viewer& viewer); // OLD
     void renderAircraft(easy3d::Viewer& viewer); // NEW
     void createGridDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, double dt);
-    void initializeVerticesIndices();
+    
     void initKeyboard();
     void collectInput();
     
