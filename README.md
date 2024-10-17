@@ -14,6 +14,13 @@ This project is a fun and educational initiative aimed at simulating small scale
 
 **Incomplete:** The project is currently in an incomplete state due to data loss. The most recent source code was unfortunately lost, but a primitive, underdeveloped version has been recovered and will be uploaded here.
 
+## Recent Changelog:
+
+*16th October 2024*
+- **Visualisation Method:** Changed the simple vertex/face based rendering to surface mesh based one allowing for import of any 3d model into the simulator.
+- **Changes to Aircraft Class:** Removed multiple depricated functionds and added new ones to help with the new render system.
+
+
 ## Features
 
 - **Aircraft Dynamics:** Models the physical characteristics and flight dynamics of an aircraft.
