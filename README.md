@@ -17,7 +17,7 @@ This project is a fun and educational initiative aimed at simulating small scale
 
 ## Current Status
 
-**Incomplete:** The project is currently in an incomplete state due to data loss. The most recent source code was unfortunately lost, but a primitive, underdeveloped version has been recovered and will be uploaded here.
+**Active Development:** The project is currently being actively developed. While a recent data loss occurred, I've managed to recover a primitive version of the simulator, which will serve as a foundation for ongoing improvements. Stay tuned for regular updates as we enhance features and functionalities!
 
 ## Recent Changelog:
 
