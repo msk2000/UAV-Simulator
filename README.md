@@ -20,7 +20,7 @@ This project is a fun and educational initiative aimed at simulating small scale
 **Incomplete:** The project is currently in an incomplete state due to data loss. The most recent source code was unfortunately lost, but a primitive, underdeveloped version has been recovered and will be uploaded here.
 
 ## Recent Changelog:
-<div style="max-height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+<div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
 
 *20th October 2024*
 - **Modularization:** Refactored the **forces and moments** function from a monolithic structure to a more modular design for improved clarity and maintainability.
