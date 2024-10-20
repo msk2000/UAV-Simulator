@@ -176,138 +176,185 @@ Aircraft::~Aircraft()
     endwin(); // End ncurses stuff
 }
 // Function to calculate the forces and moments acting on the aircraft 
-void Aircraft::forces_moments(const Aircraft& Y)
+void Aircraft::calculate_forces()
 {
-    // Velocity in bodyframe
-    velocity_b = {u,v,w};
-    // Velocity magnitude (square root of the sum of the squares of u v w)
-    V_m = sqrt((velocity_b[0]*velocity_b[0])+(velocity_b[1]*velocity_b[1])+( velocity_b[2]*velocity_b[2]));
-    // Angle of attack (alpha)
-    alpha = std::atan2(velocity_b[2],velocity_b[0]);
-    // Side slip angle (beta)
-    beta = std::asin(velocity_b[1]/V_m);
+    // Calculate velocity, alpha and beta (in body-frame)
+    calculate_body_frame_velocity_and_angles();
+   
+    calculate_lift_drag_coefficients();
+    
+    // Sources of Forces
+    // Component: Gravity
+    force_g << -mass * g*std::sin(theta),mass * g*std::cos(theta)*sin(phi),mass * g*std::cos(theta)*cos(phi);
+    
+    
+    // Component: Aerodynamic
+    force_aero1 = 0.5 * rho * (V_m*V_m) * wing_area;
 
+  
+    force_aero2 <<(CxAlpha+CxqAlpha*((wing_chord)/(2*V_m))*q)+CxdeltaeAlpha*delta_e,
+        C_Y_0+(C_Y_beta*beta)+(C_Y_p*((wing_span)/(2*V_m))*p)+(C_Y_r*((wing_span)/(2*V_m))*r)+(C_Y_delta_a*delta_a)+(C_Y_delta_r*delta_r),
+        CzAlpha+(CzqAlpha*((wing_chord)/(2*V_m))*q)+CzdeltaeAlpha*delta_e;
+    
+    force_aero << force_aero1 * force_aero2;
+
+    // Component: Propulsive
+    force_prop1 = 0.5*rho*prop_area*C_prop;
+    
+    force_prop2 << ((k_motor*delta_t)*(k_motor*delta_t))-(V_m*V_m),0,0; 
+    
+    force_prop << force_prop1 * force_prop2; 
+
+    // Total Force
+    Force << force_g + force_aero + force_prop;  
+
+    // Writing outputs for components of the Force
+    fx = Force[0];
+    fy = Force[1];
+    fz = Force[2];
+
+    
+}
+// Function to calculate the body-frame velocity, angle of attack and side slip
+void Aircraft::calculate_body_frame_velocity_and_angles() 
+{
+    velocity_b = {u, v, w};
+    V_m = sqrt((velocity_b[0]*velocity_b[0]) + (velocity_b[1]*velocity_b[1]) + (velocity_b[2]*velocity_b[2]));
+    alpha = std::atan2(velocity_b[2], velocity_b[0]);
+    beta = std::asin(velocity_b[1] / V_m);
+}
+
+// Function to calculate the lift and drag related coeefficients
+void Aircraft::calculate_lift_drag_coefficients()
+{
     // Lift/Drag coefficient calculations [ Cl and Cd ]
       // Cd(alpha)                                          //* <------SUSPECT
-     Cd_of_alpha = Y.C_D_p + ((Y.C_L_0 + Y.C_L_alpha*alpha)*(Y.C_L_0 + Y.C_L_alpha*alpha)/(M_PI*Y.e*Y.wing_aspect_ratio));
+     Cd_of_alpha = C_D_p + ((C_L_0 + C_L_alpha*alpha)*(C_L_0 + C_L_alpha*alpha)/(M_PI*e*wing_aspect_ratio));
       
       // sigma(alpha)
-     sigma_num = 1 + std::exp(-Y.trans_rate*(alpha-alpha0)) + std::exp(Y.trans_rate*(alpha+alpha0));
-     sigma_den = (1 + std::exp(-Y.trans_rate*(alpha-alpha0))) * (1 + std::exp(Y.trans_rate*(alpha+alpha0)));
+     sigma_num = 1 + std::exp(-trans_rate*(alpha-alpha0)) + std::exp(trans_rate*(alpha+alpha0));
+     sigma_den = (1 + std::exp(-trans_rate*(alpha-alpha0))) * (1 + std::exp(trans_rate*(alpha+alpha0)));
      sigma_of_alpha = sigma_num/sigma_den;
     
      // Cl of flat plate
       Cl_flat_plate = 2*(std::signbit(alpha) ? -1.0 : 1.0) * (std::sin(alpha) * std::sin(alpha)) * (std::cos(alpha));
      // Linear Cl
-      Cl_linear = Y.C_L_0 + Y.C_L_alpha*alpha;
+      Cl_linear = C_L_0 + C_L_alpha*alpha;
      // Combined Cl
       Cl_of_alpha = ((1-sigma_of_alpha) * (Cl_linear)) + (sigma_of_alpha * Cl_flat_plate);
 
     // Coefficients for X and Z directions
      CxAlpha = (-Cd_of_alpha*std::cos(alpha))+(Cl_of_alpha*std::sin(alpha));
-     CxqAlpha = (-Y.C_D_q*std::cos(alpha))+(Y.C_L_q*std::sin(alpha));
-     CxdeltaeAlpha = (-Y.C_D_delta_e*std::cos(alpha))+(Y.C_L_delta_e*std::sin(alpha));
+     CxqAlpha = (-C_D_q*std::cos(alpha))+(C_L_q*std::sin(alpha));
+     CxdeltaeAlpha = (-C_D_delta_e*std::cos(alpha))+(C_L_delta_e*std::sin(alpha));
      CzAlpha = (-Cd_of_alpha*std::sin(alpha))-(Cl_of_alpha*std::cos(alpha));
-     CzqAlpha = (-Y.C_D_q*std::sin(alpha))-(Y.C_L_q*std::cos(alpha));
-     CzdeltaeAlpha = (-Y.C_D_delta_e*std::sin(alpha))-(Y.C_L_delta_e*std::cos(alpha));
+     CzqAlpha = (-C_D_q*std::sin(alpha))-(C_L_q*std::cos(alpha));
+     CzdeltaeAlpha = (-C_D_delta_e*std::sin(alpha))-(C_L_delta_e*std::cos(alpha));
 
-    // Sources of Forces
-    force_g; // Component: Gravity
-    force_g << -Y.mass * Y.g*std::sin(theta),Y.mass * Y.g*std::cos(theta)*sin(phi),Y.mass * Y.g*std::cos(theta)*cos(phi);
-     force_aero1 = 0.5 * Y.rho * (V_m*V_m) * Y.wing_area;
+}
 
-    force_aero2;
-    force_aero2 <<(CxAlpha+CxqAlpha*((Y.wing_chord)/(2*V_m))*q)+CxdeltaeAlpha*delta_e,
-        Y.C_Y_0+(Y.C_Y_beta*beta)+(Y.C_Y_p*((Y.wing_span)/(2*V_m))*p)+(Y.C_Y_r*((Y.wing_span)/(2*V_m))*r)+(Y.C_Y_delta_a*delta_a)+(Y.C_Y_delta_r*delta_r),
-        CzAlpha+(CzqAlpha*((Y.wing_chord)/(2*V_m))*q)+CzdeltaeAlpha*delta_e;
-    force_aero;
-    force_aero << force_aero1 * force_aero2;
-
-     force_prop1 = 0.5*Y.rho*Y.prop_area*Y.C_prop;
-    force_prop2;
-    force_prop2 << ((Y.k_motor*delta_t)*(Y.k_motor*delta_t))-(V_m*V_m),0,0; 
-    force_prop;
-    force_prop << force_prop1 * force_prop2; 
-
-    Force;
-    Force << force_g + force_aero + force_prop;  
-
-   
-
+// Function to calculate the moments acting on the UAV
+ void Aircraft::calculate_moments()
+ {
     // Moment/Torque calculations
 
-     Aero_t1 = force_aero1;
+    // Moment/Torque resulting from aerodynamic forces
+    Aero_t1 = force_aero1;
     
-    //Suspect (Y.C_n_p**((Y.wing_span)/(2*V_m))*p
-    Aero_t2;
-    Aero_t2 << Y.wing_span*(Y.C_ell_0 + (Y.C_ell_beta*beta) + (Y.C_ell_p*((Y.wing_span)/(2*V_m))*p) + (Y.C_ell_r*((Y.wing_span)/(2*V_m))*r) + (Y.C_ell_delta_a*delta_a)+(Y.C_ell_delta_r*delta_r)),
-    Y.wing_chord*(Y.C_m_0 + (Y.C_m_alpha*alpha) + (Y.C_m_q*((Y.wing_chord)/(2*V_m))*q) + (Y.C_m_delta_e*delta_e)),
-    Y.wing_span*(Y.C_n_0 + (Y.C_n_beta*beta) + (Y.C_n_p*((Y.wing_span)/(2*V_m))*p) + (Y.C_n_r*((Y.wing_span)/(2*V_m))*r) + (Y.C_n_delta_a*delta_a)+(Y.C_n_delta_r*delta_r));  
-    //std::cout<<"Aero_t2: "<< Aero_t2<<"\n"; //DEBUG
-    Aero_torque;
+   
+    
+    Aero_t2 << wing_span*(C_ell_0 + (C_ell_beta*beta) + (C_ell_p*((wing_span)/(2*V_m))*p) + (C_ell_r*((wing_span)/(2*V_m))*r) + (C_ell_delta_a*delta_a)+(C_ell_delta_r*delta_r)),
+    wing_chord*(C_m_0 + (C_m_alpha*alpha) + (C_m_q*((wing_chord)/(2*V_m))*q) + (C_m_delta_e*delta_e)),
+    wing_span*(C_n_0 + (C_n_beta*beta) + (C_n_p*((wing_span)/(2*V_m))*p) + (C_n_r*((wing_span)/(2*V_m))*r) + (C_n_delta_a*delta_a)+(C_n_delta_r*delta_r));  
+    
 
     Aero_torque = Aero_t1 * Aero_t2;
-    //std::cout<<"Aero_t1 * Aero_t2: "<<Aero_torque<<"\n"; //DEBUG
-    Prop_torque;
+    
+    // Moment/Torque due to propulsion system
 
-    Prop_torque << -Y.prop_thrust_coef * ((Y.prop_omega*delta_t)*(Y.prop_omega*delta_t)),0,0;
-    //std::cout<<"Prop_torque: "<<Prop_torque<<"\n"; //DEBUG
-    Torque;
-
+    Prop_torque << -prop_thrust_coef * ((prop_omega*delta_t)*(prop_omega*delta_t)),0,0;
+    
+    
+    // Total Moment/Torque
     Torque = Aero_torque + Prop_torque;
-    //std::cout<<"Torque total: "<<Torque<<"\n"; //DEBUG
-    // Writing outputs for Force and Torque
-    fx = Force[0];
-    fy = Force[1];
-    fz = Force[2];
-
-    ell = Torque[0];
+    
+    
+    // l m n - 3 components of the moment/torque
+    ell = Torque[0]; // this is just "l", written this way for readability
     m = Torque[1];
     n = Torque[2];
 
-    alpha = alpha;
-    beta = beta;
-    V_m = V_m;
-    
-    
-}
+
+ }
+
+
+
+
 
 //Function to calculate the State changes (position, orientation,etc)
-void Aircraft::dynamics(const Aircraft& Y, double& dt)
+void Aircraft::calculate_dynamics(double& dt)
 {
 
- pn_dot = w*(std::sin(phi)*std::sin(psi) + std::cos(phi)*std::cos(psi)*std::sin(theta)) - v*(std::cos(phi)*std::sin(psi) - std::cos(psi)*std::sin(phi)*std::sin(theta)) + u*std::cos(psi)*std::cos(theta);
- pe_dot = v*(std::cos(phi)*std::cos(psi) + std::sin(phi)*std::sin(psi)*std::sin(theta)) - w*(std::cos(psi)*std::sin(phi) - std::cos(phi)*std::sin(psi)*std::sin(theta)) + u*std::cos(theta)*std::sin(psi);
- pd_dot = w*std::cos(phi)*std::cos(theta) - u*std::sin(theta) + v*std::cos(theta)*std::sin(phi);
- u_dot = (r*v - q*w)+(fx/Y.mass);
- v_dot = (p*w - r*u)+(fy/Y.mass);
- w_dot = (q*u - p*v)+(fz/Y.mass);
- phi_dot = p + r*std::cos(phi)*std::tan(theta) + q*std::sin(phi)*std::tan(theta);
- theta_dot = q*std::cos(phi) - r*std::sin(phi);
- psi_dot = (r*std::cos(phi))/std::cos(theta) + (q*std::sin(phi))/std::cos(theta);
- p_dot = Y.Gamma_1*p*q - Y.Gamma_2*q*r + Y.Gamma_3*ell + Y.Gamma_4*n;
- q_dot = Y.Gamma_5*p*r - Y.Gamma_6*((p*p)-(r*r)) + (m/Y.Jy); 
- r_dot = Y.Gamma_7*p*q - Y.Gamma_1*q*r + Y.Gamma_4*ell + Y.Gamma_8*n;
-
-// Making this the next initial values
-pn =  pn + pn_dot * dt;
-pe = pe + pe_dot * dt;
-pd = pd + pd_dot * dt;
-u = u + u_dot * dt;
-v = v + v_dot * dt;
-w = w + w_dot * dt;
-phi = phi + phi_dot * dt;
-theta = theta + theta_dot * dt;
-psi =  psi + psi_dot * dt;
-p = p + p_dot * dt;
-q = q + q_dot * dt;
-r = r + r_dot * dt;
-clock++;
-
-
-
+ calculate_position_rate(dt);
+ calculate_velocity_rate(dt);
+ calculate_orientation_rate(dt);
+ calculate_angular_rate(dt);
+ update_state(dt);
 
 }
+
+// Function to calculate delta_position
+void Aircraft::calculate_position_rate(double& dt)
+{
+    pn_dot = w*(std::sin(phi)*std::sin(psi) + std::cos(phi)*std::cos(psi)*std::sin(theta)) - v*(std::cos(phi)*std::sin(psi) - std::cos(psi)*std::sin(phi)*std::sin(theta)) + u*std::cos(psi)*std::cos(theta);
+    pe_dot = v*(std::cos(phi)*std::cos(psi) + std::sin(phi)*std::sin(psi)*std::sin(theta)) - w*(std::cos(psi)*std::sin(phi) - std::cos(phi)*std::sin(psi)*std::sin(theta)) + u*std::cos(theta)*std::sin(psi);
+    pd_dot = w*std::cos(phi)*std::cos(theta) - u*std::sin(theta) + v*std::cos(theta)*std::sin(phi);
+}
+
+// Function to calculate the angular changes of the orientation
+void Aircraft::calculate_orientation_rate(double& dt)
+{
+    phi_dot = p + r*std::cos(phi)*std::tan(theta) + q*std::sin(phi)*std::tan(theta);
+    theta_dot = q*std::cos(phi) - r*std::sin(phi);
+    psi_dot = (r*std::cos(phi))/std::cos(theta) + (q*std::sin(phi))/std::cos(theta);
+}
+
+// Function to calculate the rate of change of velocity components
+void Aircraft::calculate_velocity_rate(double& dt)
+{   
+     u_dot = (r*v - q*w)+(fx/mass);
+     v_dot = (p*w - r*u)+(fy/mass);
+     w_dot = (q*u - p*v)+(fz/mass);
+} 
+
+// Function to calculate the angular rates
+void Aircraft::calculate_angular_rate(double& dt)
+{
+     p_dot = Gamma_1*p*q - Gamma_2*q*r + Gamma_3*ell + Gamma_4*n;
+    q_dot = Gamma_5*p*r - Gamma_6*((p*p)-(r*r)) + (m/Jy); 
+    r_dot = Gamma_7*p*q - Gamma_1*q*r + Gamma_4*ell + Gamma_8*n;
+}
+
+// Function to update the state parameters of the UAV
+void Aircraft::update_state(double& dt)
+{
+    // Making this the next initial values
+    pn =  pn + pn_dot * dt;
+    pe = pe + pe_dot * dt;
+    pd = pd + pd_dot * dt;
+    u = u + u_dot * dt;
+    v = v + v_dot * dt;
+    w = w + w_dot * dt;
+    phi = phi + phi_dot * dt;
+    theta = theta + theta_dot * dt;
+    psi =  psi + psi_dot * dt;
+    p = p + p_dot * dt;
+    q = q + q_dot * dt;
+    r = r + r_dot * dt;
+    clock++;
+}
+
+
 
 // Function to generate 2D plots for the states
 void Aircraft::graphing() 
@@ -408,10 +455,20 @@ void Aircraft::rotate(easy3d::vec3* vertices)
             vertices[i] = rotationMatrix * vertices[i];
         }
 
-        
-
-
 }
+
+// Function to perform rotation on the axis vertices
+void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
+{
+    // Create the rotation matrix using Euler angles (same rotation as aircraft)
+    easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(phi, theta, psi, 321);
+    
+    // Assuming we have 6 vertices for the 3 axes (X, Y, Z), rotate them
+    for (int i = 0; i < 6; ++i) {
+        axesVertices[i] = rotationMatrix * axesVertices[i];
+    }
+}
+
 
 // Function to perform translation of the aircraft geometry
 void Aircraft::translate(easy3d::vec3* vertices)
@@ -429,6 +486,19 @@ void Aircraft::translate(easy3d::vec3* vertices)
 
     
 }
+
+// Function to perform translation of the axes
+void Aircraft::translate_axes(easy3d::vec3* axesVertices)
+{
+    // Use the aircraft's position (pn, pe, pd) as the translation vector
+    easy3d::vec3 translationVector(static_cast<float>(pn), static_cast<float>(pe), static_cast<float>(pd));
+
+    // Apply the translation to each vertex (assuming 6 vertices for the axes)
+    for (int i = 0; i < 6; ++i) {
+        axesVertices[i] += translationVector;
+    }
+}
+
 
 void Aircraft::renderAircraft(easy3d::Viewer& viewer)
 {
@@ -465,20 +535,70 @@ void Aircraft::renderAircraft(easy3d::Viewer& viewer)
     }
     aircraft->update_element_buffer(indices);
 
-    aircraft->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    aircraft->set_uniform_coloring(easy3d::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    
 
     // Add the drawable to the viewer
     viewer.add_drawable(aircraft);
 
+    viewer.update();
+
 
 }
 
-// Function to create the grid system
-void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
-{
+
+// Function to render a local coordinate frame for the UAV
+void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
+{   
+    // Create a LinesDrawable to visualize the 3D axes.
+    axesDrawable = new easy3d::LinesDrawable("axes");
+
+    // Define the vertices for the three axes.
+    axes_vertices = 
+    {
+    // X-axis 
+    easy3d::vec3(pn, pe, pd+500), // Origin
+    easy3d::vec3(pn - 5000.0f, pe, pd+500), // X-axis endpoint (moving in negative x-direction)
+    
+    // Y-axis 
+    easy3d::vec3(pn, pe, pd+500), // Origin
+    easy3d::vec3(pn, pe + 5000.0f, pd+500), // Y-axis endpoint (moving in positive y-direction)
+    
+    // Z-axis
+    easy3d::vec3(pn, pe, pd+500), // Origin
+    easy3d::vec3(pn, pe, pd - 5000.0f)  // Z-axis endpoint (moving downward in negative z-direction)
+    };
+
+
+    // Upload the axes vertices to the GPU.
+    axesDrawable->update_vertex_buffer(axes_vertices);
+    
+
+    // Set color
+    axesDrawable->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f)); //Red
+   
+
+    // Set the width of the axes lines (here 3 pixels).
+    axesDrawable->set_line_width(3.0f);
+
+    // Add the axes drawable to the viewer.
+    viewer.add_drawable(axesDrawable);
+
+   
 
     
 
+    // Update the viewer.
+    viewer.update();
+}
+
+
+
+
+
+// Function to create the grid system
+void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
+{   
     // Create a LinesDrawable to visualize the 3D grid.
     gridDrawable = new easy3d::LinesDrawable("grid");
     
@@ -548,37 +668,64 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 
 
 }
+// Function to update all UAV related parameters per cycle
+easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* axesVertices,double& dt)
+{
+    // Calculate forces and moments
+    calculate_forces();
+    calculate_moments();    
 
+    // Update dynamics
+    calculate_dynamics(dt);
+
+    // Perform rotation and translation on the geometry
+    rotate(vertices);
+    translate(vertices);
+    rotate_axes(axesVertices);
+    translate_axes(axesVertices);
+
+    // Keyboard input
+    collectInput();
+    
+
+    return vertices;
+    
+}
 // Function to create the animation of the dynamic UAV
 bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 {
     (void)viewer;  
-
+    // FOR THE UAV
     // Map the vertex buffer into the client's address space
-    void* pointer = easy3d::VertexArrayObject::map_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer(), GL_WRITE_ONLY);
+    void* aircraftPointer = easy3d::VertexArrayObject::map_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer(), GL_WRITE_ONLY);
 
-    easy3d::vec3* vertices = reinterpret_cast<easy3d::vec3*>(pointer);
-    if (!vertices) {
+    easy3d::vec3* vertices = reinterpret_cast<easy3d::vec3*>(aircraftPointer);
+    if (!vertices) 
+    {
         return false;
     }
+
     
-    // Calculate forces and moments
-    forces_moments(*this);    
-
-    // Update dynamics
-    dynamics(*this, dt);
-
-    //  and translate the aircraft
-    //std::cout << "Phi: " << phi << ", Theta: " << theta << ", Psi: " << psi << std::endl;
-
-    rotate(vertices);
-    //std::cout << "Before translation: " << vertices[0] << std::endl;
-    translate(vertices);
-    //std::cout << "AFter rotation: " << vertices[0] << std::endl;
-    // Keyboard input
-    collectInput();
     // Unmap the vertex buffer
     easy3d::VertexArrayObject::unmap_buffer(GL_ARRAY_BUFFER, aircraft->vertex_buffer());
+
+
+    // FOR THE UAV's body axes
+
+    // Map the vertex buffer for the axes
+    void* axesPointer = easy3d::VertexArrayObject::map_buffer(GL_ARRAY_BUFFER, axesDrawable->vertex_buffer(), GL_WRITE_ONLY);
+    
+    easy3d::vec3* axesVertices = reinterpret_cast<easy3d::vec3*>(axesPointer);
+    if (!axesVertices) {
+        return false;
+    }
+
+           
+    // Unmap the vertex buffer
+    easy3d::VertexArrayObject::unmap_buffer(GL_ARRAY_BUFFER, axesDrawable->vertex_buffer());
+
+    // Update UAV per cycle of the loop [Also updates axes]
+    update_aircraft(vertices, axesVertices, dt);
 
     // Update the viewer
     viewer->update();

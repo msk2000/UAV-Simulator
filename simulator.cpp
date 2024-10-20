@@ -41,6 +41,7 @@ int main()
    
     drone.renderAircraft(viewer);
     drone.createGridDrawable(viewer);
+    drone.createAxesDrawable(viewer);
 
     // Make sure everything is within the visible region of the viewer.
     viewer.fit_screen();

@@ -258,6 +258,9 @@ public:
     easy3d::LinesDrawable* gridDrawable;
     std::vector<easy3d::vec3> grid_vertices;
 
+    easy3d::LinesDrawable* axesDrawable;
+    std::vector<easy3d::vec3> axes_vertices;
+
     // For Plotting graphs [FUTURE]
     std::vector<double> g_clock, g_pn,g_pe,g_pd,g_phi,g_theta,g_psi, g_p,g_q,g_r,g_V_m,g_alpha,g_beta;
     
@@ -275,15 +278,32 @@ public:
 
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
-    // functions to act on the state changes
-    void forces_moments(const Aircraft& Y);
-    void dynamics(const Aircraft& Y, double& dt);
+    // functions to calculate forces, velocities and moments
+    void calculate_forces();
+    void calculate_body_frame_velocity_and_angles();
+    void calculate_lift_drag_coefficients();
+    void calculate_moments();
+    // functions to calculate and update the dynamic state of the UAV
+    void calculate_dynamics(double& dt);
+    void calculate_position_rate(double& dt);
+    void calculate_orientation_rate(double& dt);
+    void calculate_velocity_rate(double& dt);
+    void calculate_angular_rate(double& dt);
+    void update_state(double& dt);
+
+    // function to update the overall state of the aircraft
+    easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
+
     void graphing();
     // functions for 3D rendering based on state changes
     void rotate(easy3d::vec3* vertices);
+    void rotate_axes(easy3d::vec3* axesVertices);
     void translate(easy3d::vec3* vertices);
+    void translate_axes(easy3d::vec3* axesVertices);
+    
     void renderAircraft(easy3d::Viewer& viewer); // NEW
     void createGridDrawable(easy3d::Viewer& viewer);
+    void createAxesDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, double dt);
     
     void initKeyboard();
