@@ -20,10 +20,18 @@ This project is a fun and educational initiative aimed at simulating small scale
 **Incomplete:** The project is currently in an incomplete state due to data loss. The most recent source code was unfortunately lost, but a primitive, underdeveloped version has been recovered and will be uploaded here.
 
 ## Recent Changelog:
+<div style="max-height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+
+*20th October 2024*
+- **Modularization:** Refactored the **forces and moments** function from a monolithic structure to a more modular design for improved clarity and maintainability.
+- **Dynamics Function:** Transitioned the **dynamics** function to a modular structure, facilitating easier updates and modifications.
+- **Animation Cleanup:** Cleaned up the **animation** function by introducing an **update** function that manages all necessary updates to the simulation before rendering.
+- **Coordinate Frame:** Added a **body frame coordinate system** that is always visible and coincident with the aircraft, providing a consistent reference for the simulation.
 
 *16th October 2024*
 - **Visualisation Method:** Changed the simple vertex/face based rendering to surface mesh based one allowing for import of any 3d model into the simulator.
 - **Changes to Aircraft Class:** Removed multiple depricated functionds and added new ones to help with the new render system.
+</div>
 
 
 ## Features
