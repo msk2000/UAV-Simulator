@@ -1,6 +1,7 @@
 // This is the main program from which you setup/run the simulation
 #include <iostream>
 #include <simulator.h>
+#include <world.h>
 #include <easy3d/viewer/viewer.h>
 #include <easy3d/renderer/camera.h>
 #include <easy3d/core/types.h>
@@ -19,6 +20,8 @@ int main()
 
     //Instantiate a UAV
     Aircraft drone(fname,vehicle_count);
+    //Initiate the world/environment
+    World world;
      
     drone.steps = steps;
     drone.dt = dt;
@@ -37,8 +40,8 @@ int main()
     drone.file_name = "/home/fahim/Downloads/Git/UAV-Simulator/scaled_uav6.stl";  // Replace with your actual model path
     drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
-    // Draw the aircraft and 3D graphs
-   
+    // Draw the aircraft and 3D graphs and world
+    world.createGround(viewer);
     drone.renderAircraft(viewer);
     drone.createGridDrawable(viewer);
     drone.createAxesDrawable(viewer);

@@ -18,7 +18,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}) # This will include the current
 
 
 # Add your CPP program source file
-add_executable(UAVSim simulator.cpp aircraft.cpp)
+add_executable(UAVSim simulator.cpp aircraft.cpp world.cpp)
 
 # Link libraries to your target
 target_link_libraries(UAVSim easy3d::viewer)

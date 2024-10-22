@@ -650,7 +650,7 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
     viewer.add_drawable(gridDrawable);
 
     // Color settings for viewer background
-        viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
+        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
         //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.44f, 1.0f)); // Midnight Blue
         //viewer.set_background_color(easy3d::vec4(0.6f, 0.8f, 0.6f, 1.0f)); // Soft Pastel Green
         //viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
@@ -658,7 +658,8 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
         //viewer.set_background_color(easy3d::vec4(0.0f, 0.5f, 0.5f, 1.0f)); // Ocean Teal
         //viewer.set_background_color(easy3d::vec4(0.5f, 0.0f, 0.13f, 1.0f)); // Rich Burgundy
         //viewer.set_background_color(easy3d::vec4(0.53f, 0.81f, 0.98f, 1.0f)); // Bright Sky Blue
-
+        viewer.set_background_color(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f)); // SKY attempts
+    //set_uniform_coloring(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f));
 
 
     std::cout << "Grid drawable added to viewer" <<"\n";
