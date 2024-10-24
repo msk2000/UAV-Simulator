@@ -133,9 +133,9 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
-size(40000.0f),
+size(400.0f),
 numLines(22),
-offset(40000.0f/2),
+offset(200.0f),//10000.0f/2
 points(dummy_points),
 aircraft(nullptr),
 gridDrawable(nullptr),
@@ -306,9 +306,20 @@ void Aircraft::calculate_dynamics(double& dt)
 // Function to calculate delta_position
 void Aircraft::calculate_position_rate(double& dt)
 {
-    pn_dot = w*(std::sin(phi)*std::sin(psi) + std::cos(phi)*std::cos(psi)*std::sin(theta)) - v*(std::cos(phi)*std::sin(psi) - std::cos(psi)*std::sin(phi)*std::sin(theta)) + u*std::cos(psi)*std::cos(theta);
-    pe_dot = v*(std::cos(phi)*std::cos(psi) + std::sin(phi)*std::sin(psi)*std::sin(theta)) - w*(std::cos(psi)*std::sin(phi) - std::cos(phi)*std::sin(psi)*std::sin(theta)) + u*std::cos(theta)*std::sin(psi);
-    pd_dot = w*std::cos(phi)*std::cos(theta) - u*std::sin(theta) + v*std::cos(theta)*std::sin(phi);
+    pn_dot = 
+    u*std::cos(psi)*std::cos(theta) 
+    + v*(std::cos(psi)*std::sin(phi)*std::sin(theta) - std::cos(phi)*std::sin(psi)) 
+    + w*(std::sin(phi)*std::sin(psi) + std::cos(phi)*std::cos(psi)*std::sin(theta)) ;
+    
+    pe_dot = 
+    u*std::cos(theta)*std::sin(psi) 
+    + v*(std::cos(phi)*std::cos(psi) + std::sin(phi)*std::sin(psi)*std::sin(theta)) 
+    + w*(std::cos(phi)*std::sin(psi)*std::sin(theta) - std::cos(psi)*std::sin(phi));
+
+    pd_dot = 
+    - u*std::sin(theta) 
+    + v*std::cos(theta)*std::sin(phi) 
+    + w*std::cos(phi)*std::cos(theta) ;
 }
 
 // Function to calculate the angular changes of the orientation
@@ -352,6 +363,37 @@ void Aircraft::update_state(double& dt)
     q = q + q_dot * dt;
     r = r + r_dot * dt;
     clock++;
+
+}
+
+// Function to apply RK4 to state update
+void Aircraft::RK4(double& dt)
+{
+    // Temporary variables to hold intermediate slopes
+    double k1_pn_dot;
+    double k2_pn_dot;
+    double k3_pn_dot;
+    double k4_pn_dot;
+    
+    // Step 1: Evaluate k1 (slope at the current time)
+    k1_pn_dot = pn_dot;
+
+    // Step 2: Evaluate k2 (slope at the midpoint, using k1)
+    double pn_temp = pn + 0.5 * dt * k1_pn_dot;
+    k2_pn_dot = // Calculate pn_dot at t + 0.5*dt using updated pn_temp
+
+    // Step 3: Evaluate k3 (another midpoint slope, using k2)
+    pn_temp = pn + 0.5 * dt * k2_pn_dot;
+    k3_pn_dot = // Calculate pn_dot at t + 0.5*dt using updated pn_temp
+
+    // Step 4: Evaluate k4 (slope at the end of the interval, using k3)
+    pn_temp = pn + dt * k3_pn_dot;
+    k4_pn_dot = // Calculate pn_dot at t + dt using updated pn_temp
+
+    // Combine the slopes to compute the next state
+    pn = pn + (dt / 6.0) * (k1_pn_dot + 2*k2_pn_dot + 2*k3_pn_dot + k4_pn_dot);
+
+    // Repeat for pe, pd, u, v, w, phi, theta, psi, p, q, r in a similar manner
 }
 
 
@@ -481,7 +523,7 @@ void Aircraft::translate(easy3d::vec3* vertices)
 
             for (int j=0; j<mesh->n_vertices(); ++j)
             {
-                vertices[j] += translationVector;  // Apply translation
+                vertices[j] -= translationVector;  // Apply translation
             }    
 
     
@@ -495,7 +537,7 @@ void Aircraft::translate_axes(easy3d::vec3* axesVertices)
 
     // Apply the translation to each vertex (assuming 6 vertices for the axes)
     for (int i = 0; i < 6; ++i) {
-        axesVertices[i] += translationVector;
+        axesVertices[i] -= translationVector;
     }
 }
 
@@ -557,16 +599,16 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
     axes_vertices = 
     {
     // X-axis 
-    easy3d::vec3(pn, pe, pd+500), // Origin
-    easy3d::vec3(pn - 5000.0f, pe, pd+500), // X-axis endpoint (moving in negative x-direction)
+    easy3d::vec3(pn, pe, pd), // Origin
+    easy3d::vec3(pn - 50.0f, pe, pd), // X-axis endpoint (moving in negative x-direction)
     
     // Y-axis 
-    easy3d::vec3(pn, pe, pd+500), // Origin
-    easy3d::vec3(pn, pe + 5000.0f, pd+500), // Y-axis endpoint (moving in positive y-direction)
+    easy3d::vec3(pn, pe, pd), // Origin
+    easy3d::vec3(pn, pe + 50.0f, pd), // Y-axis endpoint (moving in positive y-direction)
     
     // Z-axis
-    easy3d::vec3(pn, pe, pd+500), // Origin
-    easy3d::vec3(pn, pe, pd - 5000.0f)  // Z-axis endpoint (moving downward in negative z-direction)
+    easy3d::vec3(pn, pe, pd), // Origin
+    easy3d::vec3(pn, pe, pd - 50.0f)  // Z-axis endpoint (moving downward in negative z-direction)
     };
 
 
@@ -579,7 +621,7 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
    
 
     // Set the width of the axes lines (here 3 pixels).
-    axesDrawable->set_line_width(3.0f);
+    axesDrawable->set_line_width(1.0f);
 
     // Add the axes drawable to the viewer.
     viewer.add_drawable(axesDrawable);
@@ -653,12 +695,12 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
         //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
         //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.44f, 1.0f)); // Midnight Blue
         //viewer.set_background_color(easy3d::vec4(0.6f, 0.8f, 0.6f, 1.0f)); // Soft Pastel Green
-        //viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
+        viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
         //viewer.set_background_color(easy3d::vec4(1.0f, 0.5f, 0.0f, 1.0f)); // Sunset Orange
         //viewer.set_background_color(easy3d::vec4(0.0f, 0.5f, 0.5f, 1.0f)); // Ocean Teal
         //viewer.set_background_color(easy3d::vec4(0.5f, 0.0f, 0.13f, 1.0f)); // Rich Burgundy
         //viewer.set_background_color(easy3d::vec4(0.53f, 0.81f, 0.98f, 1.0f)); // Bright Sky Blue
-        viewer.set_background_color(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f)); // SKY attempts
+        //viewer.set_background_color(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f)); // SKY attempts
     //set_uniform_coloring(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f));
 
 
@@ -685,8 +727,12 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     rotate_axes(axesVertices);
     translate_axes(axesVertices);
 
+    //std::cout << pn << "\t" <<pe << "\t" << pd << std::endl;
+
+
     // Keyboard input
     collectInput();
+    
     
 
     return vertices;
@@ -727,6 +773,10 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 
     // Update UAV per cycle of the loop [Also updates axes]
     update_aircraft(vertices, axesVertices, dt);
+
+    
+
+
 
     // Update the viewer
     viewer->update();
@@ -816,23 +866,23 @@ void Aircraft::collectInput() {
             }
             break;
         case '+': // Positive Throttle
-            if (delta_t+5 >= delta_t_max)
+            if (delta_t+0.05 >= delta_t_max)
             {
                 delta_t = delta_t_max;  // set it to max
             }
             else
             {
-                delta_t += 5;  // Increment the value
+                delta_t += 0.05;  // Increment the value
             }
             break;
         case '-': // Negative Throttle
-            if(delta_t-5 <= delta_t_min)
+            if(delta_t-0.05 <= delta_t_min)
             {
                 delta_t = delta_t_min; // SEt to minimum
             }
             else
             {
-                delta_t -= 5; // decrement
+                delta_t -= 0.05; // decrement
             }
             break;
         case '7':
@@ -848,6 +898,7 @@ void Aircraft::collectInput() {
     // Debug output to monitor input changes
     // Display updated values on the screen
         mvprintw(0, 0, "delta_a: %.2f, delta_e: %.2f, delta_r: %.2f, delta_t: %.2f", delta_a, delta_e, delta_r, delta_t);
+        //mvprintw(0, 0, "L: %.2f, M: %.2f, N: %.2f", phi*(180/M_PI), theta*(180/M_PI), psi*(180/M_PI));
         refresh(); // Refresh to display updates
     
 }

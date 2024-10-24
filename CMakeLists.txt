@@ -14,22 +14,25 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}) # This will include the current source directory
 
 
-
-
+#Matplotlibcpp
+add_subdirectory(matplotplusplus)
 
 # Add your CPP program source file
-add_executable(UAVSim simulator.cpp aircraft.cpp world.cpp)
+add_executable(UAVSim simulator.cpp aircraft.cpp world.cpp plotter.cpp)
+
+# Link Matplot++
+target_link_libraries(UAVSim PUBLIC matplot)
 
 # Link libraries to your target
-target_link_libraries(UAVSim easy3d::viewer)
+target_link_libraries(UAVSim PUBLIC easy3d::viewer)
 
 #For keyboard ncurses
 # Add this line in your CMakeLists.txt
-target_link_libraries(UAVSim ncurses)
+target_link_libraries(UAVSim PUBLIC ncurses)
 
 
 find_package(Python3 REQUIRED COMPONENTS Development)
-target_link_libraries(UAVSim Python3::Python)
+target_link_libraries(UAVSim PUBLIC Python3::Python)
 
 # Additional include directories and compile options
 target_include_directories(UAVSim PRIVATE /usr/include/python3.6) # Replace this with the path to the Python include directory

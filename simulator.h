@@ -242,7 +242,7 @@ public:
     
 
     // For scaling the thing
-    int aircraft_scale = 10;
+    int aircraft_scale = 1;
 
     std::vector<std::vector<int>> faces;
     std::vector<easy3d::vec3> vertices_aircraft;
@@ -290,6 +290,8 @@ public:
     void calculate_velocity_rate(double& dt);
     void calculate_angular_rate(double& dt);
     void update_state(double& dt);
+    
+    
 
     // function to update the overall state of the aircraft
     easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
