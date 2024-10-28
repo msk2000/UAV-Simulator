@@ -58,14 +58,6 @@ int main()
     // Animation function
     viewer.animation_func_ = [&](easy3d::Viewer* v) -> bool 
     {
-        /*static int frame_count = 0;
-        if (frame_count % 10 == 0)
-        {
-            plotter.updatePlot(drone.clock,drone.V_m);
-        }
-        frame_count++;*/
-    
-        
         return drone.animate(v,dt);
     };
 

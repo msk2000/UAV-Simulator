@@ -275,7 +275,7 @@ public:
     ~Aircraft();
     
     
-
+    
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
     // functions to calculate forces, velocities and moments
@@ -283,15 +283,37 @@ public:
     void calculate_body_frame_velocity_and_angles();
     void calculate_lift_drag_coefficients();
     void calculate_moments();
-    // functions to calculate and update the dynamic state of the UAV
-    void calculate_dynamics(double& dt);
-    void calculate_position_rate(double& dt);
-    void calculate_orientation_rate(double& dt);
-    void calculate_velocity_rate(double& dt);
-    void calculate_angular_rate(double& dt);
-    void update_state(double& dt);
     
     
+    
+    //Algo
+    std::vector <double> X = {pn,pe,pd,u,v,w,p,q,r,phi,theta,psi,fx,fy,fz,ell,m,n};
+    void RK4(std::vector<double>& X,  double dt);
+    // Function to calculate pn_dot
+    double calculate_pn_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi);
+    //Function to calculate pe_dot
+    double calculate_pe_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi);
+    // Function to calculate pd_dot
+    double calculate_pd_dot(double& u, double& v, double& w, double& phi, double& theta);
+    // Function to calculate phi_dot
+    double calculate_phi_dot(double& p, double& q, double& r, double& phi, double& theta);
+    // Function to calculate theta_dot
+    double calculate_theta_dot(double& q, double& r,double& phi);
+    // Function to calculate psi_dot
+    double calculate_psi_dot(double& q, double& r, double& phi, double& theta);
+    // Function to calculate u_dot
+    double calculate_u_dot(double& v, double& w, double& q, double& r, double& fx, double& mass);
+    // Function to calculate v_dot
+    double calculate_v_dot(double& u, double& w, double&p,double& fy, double& mass);
+    // Function to calculate w_dot
+    double calculate_w_dot(double& u, double& v, double& p,  double& q,double& fz, double& mass);
+    // Function to calculate p_dot
+    double calculate_p_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_2,double& Gamma_3,double& Gamma_4);
+    // Function to calculate q_dot
+    double calculate_q_dot(double& p, double& r,  double& m ,double& Jy, double& Gamma_5,double& Gamma_6);
+    // Function to calculate r_dot
+    double calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8);
+
 
     // function to update the overall state of the aircraft
     easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);

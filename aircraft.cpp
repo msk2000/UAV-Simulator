@@ -133,9 +133,9 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
-size(400.0f),
+size(1000.0f),
 numLines(22),
-offset(200.0f),//10000.0f/2
+offset(500.0f),//10000.0f/2
 points(dummy_points),
 aircraft(nullptr),
 gridDrawable(nullptr),
@@ -165,6 +165,27 @@ steps(10)
         delta_e = delta_e;
         delta_r = delta_r;
 
+        //Added after RK4
+        X[0] = pn_0;
+        X[1] = pe_0;
+        X[2] = pd_0;
+        X[3] = u_0;
+        X[4] = v_0;
+        X[5] = w_0; 
+        X[6] = p_0;
+        X[7] = q_0;
+        X[8]= r_0;
+        X[9] = phi_0;
+        X[10] = theta_0;
+        X[11] = psi_0;
+        X[12] = fx;
+        X[13] = fy;
+        X[14] = fz;
+        X[15] = ell;
+        X[16] = m;
+        X[17] = n;
+
+
 
         
 
@@ -185,16 +206,16 @@ void Aircraft::calculate_forces()
     
     // Sources of Forces
     // Component: Gravity
-    force_g << -mass * g*std::sin(theta),mass * g*std::cos(theta)*sin(phi),mass * g*std::cos(theta)*cos(phi);
+    force_g << -mass * g*std::sin(X[10]),mass * g*std::cos(X[10])*sin(X[9]),mass * g*std::cos(X[9])*cos(X[9]);
     
     
     // Component: Aerodynamic
     force_aero1 = 0.5 * rho * (V_m*V_m) * wing_area;
 
   
-    force_aero2 <<(CxAlpha+CxqAlpha*((wing_chord)/(2*V_m))*q)+CxdeltaeAlpha*delta_e,
-        C_Y_0+(C_Y_beta*beta)+(C_Y_p*((wing_span)/(2*V_m))*p)+(C_Y_r*((wing_span)/(2*V_m))*r)+(C_Y_delta_a*delta_a)+(C_Y_delta_r*delta_r),
-        CzAlpha+(CzqAlpha*((wing_chord)/(2*V_m))*q)+CzdeltaeAlpha*delta_e;
+    force_aero2 <<(CxAlpha+CxqAlpha*((wing_chord)/(2*V_m))*X[7])+CxdeltaeAlpha*delta_e,
+        C_Y_0+(C_Y_beta*beta)+(C_Y_p*((wing_span)/(2*V_m))*X[6])+(C_Y_r*((wing_span)/(2*V_m))*X[8])+(C_Y_delta_a*delta_a)+(C_Y_delta_r*delta_r),
+        CzAlpha+(CzqAlpha*((wing_chord)/(2*V_m))*X[7])+CzdeltaeAlpha*delta_e;
     
     force_aero << force_aero1 * force_aero2;
 
@@ -213,12 +234,16 @@ void Aircraft::calculate_forces()
     fy = Force[1];
     fz = Force[2];
 
+    X[12] = fx;
+    X[13] = fy;
+    X[14] = fz;
+
     
 }
 // Function to calculate the body-frame velocity, angle of attack and side slip
 void Aircraft::calculate_body_frame_velocity_and_angles() 
 {
-    velocity_b = {u, v, w};
+    velocity_b = {X[3], X[4], X[5]};
     V_m = sqrt((velocity_b[0]*velocity_b[0]) + (velocity_b[1]*velocity_b[1]) + (velocity_b[2]*velocity_b[2]));
     alpha = std::atan2(velocity_b[2], velocity_b[0]);
     beta = std::asin(velocity_b[1] / V_m);
@@ -231,7 +256,7 @@ void Aircraft::calculate_lift_drag_coefficients()
       // Cd(alpha)                                          //* <------SUSPECT
      Cd_of_alpha = C_D_p + ((C_L_0 + C_L_alpha*alpha)*(C_L_0 + C_L_alpha*alpha)/(M_PI*e*wing_aspect_ratio));
       
-      // sigma(alpha)
+    // sigma(alpha)
      sigma_num = 1 + std::exp(-trans_rate*(alpha-alpha0)) + std::exp(trans_rate*(alpha+alpha0));
      sigma_den = (1 + std::exp(-trans_rate*(alpha-alpha0))) * (1 + std::exp(trans_rate*(alpha+alpha0)));
      sigma_of_alpha = sigma_num/sigma_den;
@@ -263,9 +288,9 @@ void Aircraft::calculate_lift_drag_coefficients()
     
    
     
-    Aero_t2 << wing_span*(C_ell_0 + (C_ell_beta*beta) + (C_ell_p*((wing_span)/(2*V_m))*p) + (C_ell_r*((wing_span)/(2*V_m))*r) + (C_ell_delta_a*delta_a)+(C_ell_delta_r*delta_r)),
-    wing_chord*(C_m_0 + (C_m_alpha*alpha) + (C_m_q*((wing_chord)/(2*V_m))*q) + (C_m_delta_e*delta_e)),
-    wing_span*(C_n_0 + (C_n_beta*beta) + (C_n_p*((wing_span)/(2*V_m))*p) + (C_n_r*((wing_span)/(2*V_m))*r) + (C_n_delta_a*delta_a)+(C_n_delta_r*delta_r));  
+    Aero_t2 << wing_span*(C_ell_0 + (C_ell_beta*beta) + (C_ell_p*((wing_span)/(2*V_m))*X[6]) + (C_ell_r*((wing_span)/(2*V_m))*X[8]) + (C_ell_delta_a*delta_a)+(C_ell_delta_r*delta_r)),
+    wing_chord*(C_m_0 + (C_m_alpha*alpha) + (C_m_q*((wing_chord)/(2*V_m))*X[7]) + (C_m_delta_e*delta_e)),
+    wing_span*(C_n_0 + (C_n_beta*beta) + (C_n_p*((wing_span)/(2*V_m))*X[6]) + (C_n_r*((wing_span)/(2*V_m))*X[8]) + (C_n_delta_a*delta_a)+(C_n_delta_r*delta_r));  
     
 
     Aero_torque = Aero_t1 * Aero_t2;
@@ -284,117 +309,282 @@ void Aircraft::calculate_lift_drag_coefficients()
     m = Torque[1];
     n = Torque[2];
 
+    X[15] = ell;
+    X[16] = m;
+    X[17] = n;
 
  }
 
 
 
+// Function to apply RK4 on state vector
+// Takes in a vector of state variables, dt (step size)
+// Computes approximate for state variables at the end of the time step 
+// X = {pn,pe,pd,u,v,w,p,q,r,phi,theta,psi,fx,fy,fz,ell,m,n}; 
 
-
-//Function to calculate the State changes (position, orientation,etc)
-void Aircraft::calculate_dynamics(double& dt)
+void Aircraft::RK4(std::vector<double>& X,  double dt)
 {
+    // Initial states stored in temporary variables
+    double pn_k1 = X[0];
+    double pe_k1 = X[1];
+    double pd_k1 = X[2];
+    double u_k1 = X[3];
+    double v_k1 = X[4];
+    double w_k1 = X[5];
+    double p_k1 = X[6];
+    double q_k1 = X[7];
+    double r_k1 = X[8];
+    double phi_k1 = X[9];
+    double theta_k1 = X[10];
+    double psi_k1 = X[11];
+    double fx_k1 = X[12];
+    double fy_k1 = X[13];
+    double fz_k1 = X[14];
+    double ell_k1 = X[15];
+    double m_k1 = X[16];
+    double n_k1 = X[17];
 
- calculate_position_rate(dt);
- calculate_velocity_rate(dt);
- calculate_orientation_rate(dt);
- calculate_angular_rate(dt);
- update_state(dt);
+    // Arrays to store k-values for each variable
+    double k1[12], k2[12], k3[12], k4[12];
 
+    // Step 1: Compute k1 for each variable [ k1 = h * f(x,y,z.....)]
+    k1[0] = dt * calculate_pn_dot(u_k1,v_k1,w_k1,phi_k1,theta_k1,psi_k1);
+    k1[1] = dt * calculate_pe_dot(u_k1,v_k1,w_k1,phi_k1,theta_k1,psi_k1);
+    k1[2] = dt * calculate_pd_dot(u_k1,v_k1,w_k1,phi_k1,theta_k1);
+    k1[3] = dt * calculate_u_dot(v_k1,w_k1,q_k1,r_k1,fx_k1,mass);
+    k1[4] = dt * calculate_v_dot(u_k1,w_k1,p_k1,fy_k1,mass);
+    k1[5] = dt * calculate_w_dot(u_k1,v_k1,p_k1,q_k1,fz_k1,mass);
+    k1[6] = dt * calculate_p_dot(p_k1,q_k1,r_k1,ell_k1,n_k1,Gamma_1,Gamma_2,Gamma_3,Gamma_4);
+    k1[7] = dt * calculate_q_dot(p_k1,r_k1,m_k1,Jy,Gamma_5,Gamma_6);
+    k1[8] = dt * calculate_r_dot(p_k1,q_k1,r_k1,ell_k1,n_k1,Gamma_1,Gamma_4,Gamma_7,Gamma_8);
+    k1[9] = dt * calculate_phi_dot(p_k1,q_k1,r_k1,phi_k1,theta_k1);
+    k1[10] = dt * calculate_theta_dot(q_k1,r_k1,phi_k1);
+    k1[11] = dt * calculate_psi_dot(q_k1,r_k1,phi_k1,theta_k1);
+
+    // Step 2: Compute k2 for each variable using updated intermediate values
+    double pn_k2 = pn_k1 + 0.5 * k1[0];
+    double pe_k2 = pe_k1 + 0.5 * k1[1];
+    double pd_k2 = pd_k1 + 0.5 * k1[2];
+    double u_k2 = u_k1 + 0.5 * k1[3];
+    double v_k2 = v_k1 + 0.5 * k1[4];
+    double w_k2 = w_k1 + 0.5 * k1[5];
+    double p_k2 = p_k1 + 0.5 * k1[6];
+    double q_k2 = q_k1 + 0.5 * k1[7];
+    double r_k2 = r_k1 + 0.5 * k1[8];
+    double phi_k2 = phi_k1 + 0.5 * k1[9];
+    double theta_k2 = theta_k1 + 0.5 * k1[10];
+    double psi_k2 = psi_k1 + 0.5 * k1[11];
+    double fx_k2 = fx_k1 + 0.5 * k1[12];
+    double fy_k2 = fy_k1 + 0.5 * k1[13];
+    double fz_k2 = fz_k1 + 0.5 * k1[14];
+    double ell_k2 = ell_k1 + 0.5 * k1[15];
+    double m_k2 = m_k1 + 0.5 * k1[16];
+    double n_k2 = n_k1 + 0.5 * k1[17];
+
+    // Compute k2 for each variable [ k2 = h * f(x+0.5*k1, y+0.5*k1,z+0.5*k1.....)]
+    k2[0] = dt * calculate_pn_dot(u_k2, v_k2, w_k2, phi_k2, theta_k2, psi_k2);
+    k2[1] = dt * calculate_pe_dot(u_k2, v_k2, w_k2, phi_k2, theta_k2, psi_k2);
+    k2[2] = dt * calculate_pd_dot(u_k2, v_k2, w_k2, phi_k2, theta_k2);
+    k2[3] = dt * calculate_u_dot(v_k2, w_k2, q_k2, r_k2, fx_k2, mass);
+    k2[4] = dt * calculate_v_dot(u_k2, w_k2, p_k2, fy_k2, mass);
+    k2[5] = dt * calculate_w_dot(u_k2, v_k2, p_k2, q_k2, fz_k2, mass);
+    k2[6] = dt * calculate_p_dot(p_k2, q_k2, r_k2, ell_k2, n_k2, Gamma_1, Gamma_2, Gamma_3, Gamma_4);
+    k2[7] = dt * calculate_q_dot(p_k2, r_k2, m_k2, Jy, Gamma_5, Gamma_6);
+    k2[8] = dt * calculate_r_dot(p_k2, q_k2, r_k2, ell_k2, n_k2, Gamma_1, Gamma_4, Gamma_7, Gamma_8);
+    k2[9] = dt * calculate_phi_dot(p_k2, q_k2, r_k2, phi_k2, theta_k2);
+    k2[10] = dt * calculate_theta_dot(q_k2, r_k2, phi_k2);
+    k2[11] = dt * calculate_psi_dot(q_k2, r_k2, phi_k2, theta_k2);
+
+    // Step 2: Compute k3 for each variable using updated intermediate values from k2
+    double pn_k3 = pn_k1 + 0.5 * k2[0];
+    double pe_k3 = pe_k1 + 0.5 * k2[1];
+    double pd_k3 = pd_k1 + 0.5 * k2[2];
+    double u_k3 = u_k1 + 0.5 * k2[3];
+    double v_k3 = v_k1 + 0.5 * k2[4];
+    double w_k3 = w_k1 + 0.5 * k2[5];
+    double p_k3 = p_k1 + 0.5 * k2[6];
+    double q_k3 = q_k1 + 0.5 * k2[7];
+    double r_k3 = r_k1 + 0.5 * k2[8];
+    double phi_k3 = phi_k1 + 0.5 * k2[9];
+    double theta_k3 = theta_k1 + 0.5 * k2[10];
+    double psi_k3 = psi_k1 + 0.5 * k2[11];
+    double fx_k3 = fx_k1 + 0.5 * k2[12];
+    double fy_k3 = fy_k1 + 0.5 * k2[13];
+    double fz_k3 = fz_k1 + 0.5 * k2[14];
+    double ell_k3 = ell_k1 + 0.5 * k2[15];
+    double m_k3 = m_k1 + 0.5 * k2[16];
+    double n_k3 = n_k1 + 0.5 * k2[17];
+
+    // Calculate k3 for each variable using the intermediate state values  [ k3 = h * f(x+0.5*k2, y+0.5*k2,z+0.5*k2.....)]
+    k3[0] = dt * calculate_pn_dot(u_k3, v_k3, w_k3, phi_k3, theta_k3, psi_k3);
+    k3[1] = dt * calculate_pe_dot(u_k3, v_k3, w_k3, phi_k3, theta_k3, psi_k3);
+    k3[2] = dt * calculate_pd_dot(u_k3, v_k3, w_k3, phi_k3, theta_k3);
+    k3[3] = dt * calculate_u_dot(v_k3, w_k3, q_k3, r_k3, fx_k3, mass);
+    k3[4] = dt * calculate_v_dot(u_k3, w_k3, p_k3, fy_k3, mass);
+    k3[5] = dt * calculate_w_dot(u_k3, v_k3, p_k3, q_k3, fz_k3, mass);
+    k3[6] = dt * calculate_p_dot(p_k3, q_k3, r_k3, ell_k3, n_k3, Gamma_1, Gamma_2, Gamma_3, Gamma_4);
+    k3[7] = dt * calculate_q_dot(p_k3, r_k3, m_k3, Jy, Gamma_5, Gamma_6);
+    k3[8] = dt * calculate_r_dot(p_k3, q_k3, r_k3, ell_k3, n_k3, Gamma_1, Gamma_4, Gamma_7, Gamma_8);
+    k3[9] = dt * calculate_phi_dot(p_k3, q_k3, r_k3, phi_k3, theta_k3);
+    k3[10] = dt * calculate_theta_dot(q_k3, r_k3, phi_k3);
+    k3[11] = dt * calculate_psi_dot(q_k3, r_k3, phi_k3, theta_k3);
+
+    // Step 4: Compute k4 for each variable using updated intermediate values from k3 
+    double pn_k4 = pn_k1 + k3[0];
+    double pe_k4 = pe_k1 + k3[1];
+    double pd_k4 = pd_k1 + k3[2];
+    double u_k4 = u_k1 + k3[3];
+    double v_k4 = v_k1 + k3[4];
+    double w_k4 = w_k1 + k3[5];
+    double p_k4 = p_k1 + k3[6];
+    double q_k4 = q_k1 + k3[7];
+    double r_k4 = r_k1 + k3[8];
+    double phi_k4 = phi_k1 + k3[9];
+    double theta_k4 = theta_k1 + k3[10];
+    double psi_k4 = psi_k1 + k3[11];
+    double fx_k4 = fx_k1 + k3[12];
+    double fy_k4 = fy_k1 + k3[13];
+    double fz_k4 = fz_k1 + k3[14];
+    double ell_k4 = ell_k1 + k3[15];
+    double m_k4 = m_k1 + k3[16];
+    double n_k4 = n_k1 + k3[17];
+
+    // Calculating k4 values for each variable   [ k4 = h * f(x+k3, y+k3,z+k3.....)]
+    k4[0] = dt * calculate_pn_dot(u_k4, v_k4, w_k4, phi_k4, theta_k4, psi_k4);
+    k4[1] = dt * calculate_pe_dot(u_k4, v_k4, w_k4, phi_k4, theta_k4, psi_k4);
+    k4[2] = dt * calculate_pd_dot(u_k4, v_k4, w_k4, phi_k4, theta_k4);
+    k4[3] = dt * calculate_u_dot(v_k4, w_k4, q_k4, r_k4, fx_k4, mass);
+    k4[4] = dt * calculate_v_dot(u_k4, w_k4, p_k4, fy_k4, mass);
+    k4[5] = dt * calculate_w_dot(u_k4, v_k4, p_k4, q_k4, fz_k4, mass);
+    k4[6] = dt * calculate_p_dot(p_k4, q_k4, r_k4, ell_k4, n_k4, Gamma_1, Gamma_2, Gamma_3, Gamma_4);
+    k4[7] = dt * calculate_q_dot(p_k4, r_k4, m_k4, Jy, Gamma_5, Gamma_6);
+    k4[8] = dt * calculate_r_dot(p_k4, q_k4, r_k4, ell_k4, n_k4, Gamma_1, Gamma_4, Gamma_7, Gamma_8);
+    k4[9] = dt * calculate_phi_dot(p_k4, q_k4, r_k4, phi_k4, theta_k4);
+    k4[10] = dt * calculate_theta_dot(q_k4, r_k4, phi_k4);
+    k4[11] = dt * calculate_psi_dot(q_k4, r_k4, phi_k4, theta_k4);
+
+    // Update each state variable with RK4 final formula
+    // X_new​ = X_old + (1/6)*(k1+2*k2+2*k3+k4)
+
+    X[0] += (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]) / 6; // pn
+    X[1] += (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]) / 6; // pe
+    X[2] += (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]) / 6; // pd
+    X[3] += (k1[3] + 2 * k2[3] + 2 * k3[3] + k4[3]) / 6; // u
+    X[4] += (k1[4] + 2 * k2[4] + 2 * k3[4] + k4[4]) / 6; // v
+    X[5] += (k1[5] + 2 * k2[5] + 2 * k3[5] + k4[5]) / 6; // w
+    X[6] += (k1[6] + 2 * k2[6] + 2 * k3[6] + k4[6]) / 6; // p
+    X[7] += (k1[7] + 2 * k2[7] + 2 * k3[7] + k4[7]) / 6; // q
+    X[8] += (k1[8] + 2 * k2[8] + 2 * k3[8] + k4[8]) / 6; // r
+    X[9] += (k1[9] + 2 * k2[9] + 2 * k3[9] + k4[9]) / 6; // phi
+    X[10] += (k1[10] + 2 * k2[10] + 2 * k3[10] + k4[10]) / 6; // theta
+    X[11] += (k1[11] + 2 * k2[11] + 2 * k3[11] + k4[11]) / 6; // psi
+    
+
+    // After updating, these values represent the state at t + dt (fingers crossed)
 }
 
-// Function to calculate delta_position
-void Aircraft::calculate_position_rate(double& dt)
+// Function to calculate pn_dot
+double Aircraft::calculate_pn_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi)
 {
     pn_dot = 
     u*std::cos(psi)*std::cos(theta) 
     + v*(std::cos(psi)*std::sin(phi)*std::sin(theta) - std::cos(phi)*std::sin(psi)) 
     + w*(std::sin(phi)*std::sin(psi) + std::cos(phi)*std::cos(psi)*std::sin(theta)) ;
     
+    return pn_dot;
+}
+//Function to calculate pe_dot
+double Aircraft::calculate_pe_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi)
+{
+
     pe_dot = 
     u*std::cos(theta)*std::sin(psi) 
     + v*(std::cos(phi)*std::cos(psi) + std::sin(phi)*std::sin(psi)*std::sin(theta)) 
     + w*(std::cos(phi)*std::sin(psi)*std::sin(theta) - std::cos(psi)*std::sin(phi));
 
+    return pe_dot;
+
+}
+// Function to calculate pd_dot
+double Aircraft::calculate_pd_dot(double& u, double& v, double& w, double& phi, double& theta)
+{
     pd_dot = 
     - u*std::sin(theta) 
     + v*std::cos(theta)*std::sin(phi) 
     + w*std::cos(phi)*std::cos(theta) ;
+
+    return pd_dot;
 }
 
-// Function to calculate the angular changes of the orientation
-void Aircraft::calculate_orientation_rate(double& dt)
+
+// Function to calculate phi_dot
+double Aircraft::calculate_phi_dot(double& p, double& q, double& r, double& phi, double& theta)
 {
     phi_dot = p + r*std::cos(phi)*std::tan(theta) + q*std::sin(phi)*std::tan(theta);
-    theta_dot = q*std::cos(phi) - r*std::sin(phi);
+    
+    return phi_dot;
+}
+// Function to calculate theta_dot
+double Aircraft::calculate_theta_dot(double& q, double& r,double& phi)
+{
+   theta_dot = q*std::cos(phi) - r*std::sin(phi);
+   
+   return theta_dot;
+}
+// Function to calculate psi_dot
+double Aircraft::calculate_psi_dot(double& q, double& r, double& phi, double& theta)
+{
     psi_dot = (r*std::cos(phi))/std::cos(theta) + (q*std::sin(phi))/std::cos(theta);
+   
+    return psi_dot;
 }
 
-// Function to calculate the rate of change of velocity components
-void Aircraft::calculate_velocity_rate(double& dt)
+// Function to calculate u_dot
+double Aircraft::calculate_u_dot(double& v, double& w, double& q, double& r, double& fx, double& mass)
 {   
      u_dot = (r*v - q*w)+(fx/mass);
+
+     return u_dot;
+} 
+// Function to calculate v_dot
+double Aircraft::calculate_v_dot(double& u, double& w, double&p,double& fy, double& mass)
+{   
      v_dot = (p*w - r*u)+(fy/mass);
+     
+     return v_dot;
+} 
+// Function to calculate w_dot
+double Aircraft::calculate_w_dot(double& u, double& v, double& p,  double& q,double& fz, double& mass)
+{  
      w_dot = (q*u - p*v)+(fz/mass);
+
+     return w_dot;
 } 
 
-// Function to calculate the angular rates
-void Aircraft::calculate_angular_rate(double& dt)
+// Function to calculate p_dot
+double Aircraft::calculate_p_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_2,double& Gamma_3,double& Gamma_4)
 {
-     p_dot = Gamma_1*p*q - Gamma_2*q*r + Gamma_3*ell + Gamma_4*n;
+    p_dot = Gamma_1*p*q - Gamma_2*q*r + Gamma_3*ell + Gamma_4*n;
+ 
+    return p_dot;
+}
+
+// Function to calculate q_dot
+double Aircraft::calculate_q_dot(double& p, double& r,  double& m ,double& Jy, double& Gamma_5,double& Gamma_6)
+{
     q_dot = Gamma_5*p*r - Gamma_6*((p*p)-(r*r)) + (m/Jy); 
+
+    return q_dot;    
+}
+// Function to calculate r_dot
+double Aircraft::calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8)
+{ 
     r_dot = Gamma_7*p*q - Gamma_1*q*r + Gamma_4*ell + Gamma_8*n;
+
+    return r_dot;
 }
 
-// Function to update the state parameters of the UAV
-void Aircraft::update_state(double& dt)
-{
-    // Making this the next initial values
-    pn =  pn + pn_dot * dt;
-    pe = pe + pe_dot * dt;
-    pd = pd + pd_dot * dt;
-    u = u + u_dot * dt;
-    v = v + v_dot * dt;
-    w = w + w_dot * dt;
-    phi = phi + phi_dot * dt;
-    theta = theta + theta_dot * dt;
-    psi =  psi + psi_dot * dt;
-    p = p + p_dot * dt;
-    q = q + q_dot * dt;
-    r = r + r_dot * dt;
-    clock++;
 
-}
-
-// Function to apply RK4 to state update
-void Aircraft::RK4(double& dt)
-{
-    // Temporary variables to hold intermediate slopes
-    double k1_pn_dot;
-    double k2_pn_dot;
-    double k3_pn_dot;
-    double k4_pn_dot;
-    
-    // Step 1: Evaluate k1 (slope at the current time)
-    k1_pn_dot = pn_dot;
-
-    // Step 2: Evaluate k2 (slope at the midpoint, using k1)
-    double pn_temp = pn + 0.5 * dt * k1_pn_dot;
-    k2_pn_dot = // Calculate pn_dot at t + 0.5*dt using updated pn_temp
-
-    // Step 3: Evaluate k3 (another midpoint slope, using k2)
-    pn_temp = pn + 0.5 * dt * k2_pn_dot;
-    k3_pn_dot = // Calculate pn_dot at t + 0.5*dt using updated pn_temp
-
-    // Step 4: Evaluate k4 (slope at the end of the interval, using k3)
-    pn_temp = pn + dt * k3_pn_dot;
-    k4_pn_dot = // Calculate pn_dot at t + dt using updated pn_temp
-
-    // Combine the slopes to compute the next state
-    pn = pn + (dt / 6.0) * (k1_pn_dot + 2*k2_pn_dot + 2*k3_pn_dot + k4_pn_dot);
-
-    // Repeat for pe, pd, u, v, w, phi, theta, psi, p, q, r in a similar manner
-}
 
 
 
@@ -490,7 +680,7 @@ void Aircraft::graphing()
 void Aircraft::rotate(easy3d::vec3* vertices)
 {
     // Create the rotation matrix using Euler angles
-    easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(phi, theta , psi, 321);
+    easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X[9], X[10] , X[11], 321);
         
     // Apply the rotation to the vertices and hope that it actually works
         for (int i = 0; i < mesh->n_vertices(); ++i) {
@@ -503,7 +693,7 @@ void Aircraft::rotate(easy3d::vec3* vertices)
 void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 {
     // Create the rotation matrix using Euler angles (same rotation as aircraft)
-    easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(phi, theta, psi, 321);
+    easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X[9], X[10] , X[11], 321);
     
     // Assuming we have 6 vertices for the 3 axes (X, Y, Z), rotate them
     for (int i = 0; i < 6; ++i) {
@@ -516,7 +706,7 @@ void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 void Aircraft::translate(easy3d::vec3* vertices)
 {
 
-    easy3d::vec3 translationVector(static_cast<float>(pn), static_cast<float>(pe), static_cast<float>(pd));
+    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(X[2]));
 
 
 // Position Update loop
@@ -533,7 +723,7 @@ void Aircraft::translate(easy3d::vec3* vertices)
 void Aircraft::translate_axes(easy3d::vec3* axesVertices)
 {
     // Use the aircraft's position (pn, pe, pd) as the translation vector
-    easy3d::vec3 translationVector(static_cast<float>(pn), static_cast<float>(pe), static_cast<float>(pd));
+    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(X[2]));
 
     // Apply the translation to each vertex (assuming 6 vertices for the axes)
     for (int i = 0; i < 6; ++i) {
@@ -599,16 +789,16 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
     axes_vertices = 
     {
     // X-axis 
-    easy3d::vec3(pn, pe, pd), // Origin
-    easy3d::vec3(pn - 50.0f, pe, pd), // X-axis endpoint (moving in negative x-direction)
+    easy3d::vec3(X[9], X[10] , X[11]), // Origin
+    easy3d::vec3(X[9] - 50.0f,  X[10] , X[11]), // X-axis endpoint (moving in negative x-direction)
     
     // Y-axis 
-    easy3d::vec3(pn, pe, pd), // Origin
-    easy3d::vec3(pn, pe + 50.0f, pd), // Y-axis endpoint (moving in positive y-direction)
+    easy3d::vec3(X[9], X[10] , X[11]), // Origin
+    easy3d::vec3(X[9], X[9] + 50.0f, X[11]), // Y-axis endpoint (moving in positive y-direction)
     
     // Z-axis
-    easy3d::vec3(pn, pe, pd), // Origin
-    easy3d::vec3(pn, pe, pd - 50.0f)  // Z-axis endpoint (moving downward in negative z-direction)
+    easy3d::vec3(X[9], X[10] , X[11]), // Origin
+    easy3d::vec3(X[9], X[10] , X[11] - 50.0f)  // Z-axis endpoint (moving downward in negative z-direction)
     };
 
 
@@ -715,11 +905,14 @@ void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
 easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* axesVertices,double& dt)
 {
     // Calculate forces and moments
+    
     calculate_forces();
-    calculate_moments();    
+    calculate_moments();  
+    
 
+    
     // Update dynamics
-    calculate_dynamics(dt);
+    RK4(X,dt);
 
     // Perform rotation and translation on the geometry
     rotate(vertices);
@@ -727,7 +920,9 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     rotate_axes(axesVertices);
     translate_axes(axesVertices);
 
-    //std::cout << pn << "\t" <<pe << "\t" << pd << std::endl;
+    
+    /*std::cout<<"After RK4"<<std::endl;
+    std::cout << X[12] << "\t" <<X[13] << "\t" << X[14] << std::endl;*/
 
 
     // Keyboard input
@@ -886,10 +1081,10 @@ void Aircraft::collectInput() {
             }
             break;
         case '7':
-            pn += 100;  // Increment the value
+            X[0] += 100;  // Increment the value
             break;
         case '8':
-            pn -= 100;; // Decrement the value
+            X[0] -= 100;; // Decrement the value
             break;
         default:
             // Ignore any other keys
@@ -903,15 +1098,3 @@ void Aircraft::collectInput() {
     
 }
 
-/*easy3d::Mat3<float> Aircraft::transpose(const easy3d::Mat3<float>& matrix) 
-{    
-    easy3d::Mat3<float> transposed;    
-    for (int i = 0; i < 3; ++i) 
-    {        
-        for (int j = 0; j < 3; ++j) 
-        {            
-            transposed(i, j) = matrix(j, i);  // Swap indices for transposition 
-        }    
-    }    
-    return transposed;
-}*/
