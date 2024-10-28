@@ -25,6 +25,7 @@ This project is a fun and educational initiative aimed at simulating small scale
 
 *28th October 2024*
 - **Runga-Kutta 4:** Changed the simplistic solver to RK4 based integrator for much better estimation of state parameters.
+
 *20th October 2024*
 - **Modularization:** Refactored the **forces and moments** function from a monolithic structure to a more modular design for improved clarity and maintainability.
 - **Dynamics Function:** Transitioned the **dynamics** function to a modular structure, facilitating easier updates and modifications.
