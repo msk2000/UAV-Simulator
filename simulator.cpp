@@ -1,6 +1,6 @@
 // This is the main program from which you setup/run the simulation
 #include <iostream>
-#include <simulator.h>
+#include <aircraft.h>
 #include <world.h>
 #include <plotter.h>
 #include <easy3d/viewer/viewer.h>

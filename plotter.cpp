@@ -1,5 +1,5 @@
 // Implementation of plotter class
-#include <simulator.h>
+#include <aircraft.h>
 #include <plotter.h>
 #include <matplot/matplot.h>
 #include <memory>

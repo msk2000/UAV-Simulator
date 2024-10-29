@@ -1,5 +1,5 @@
 // Implementation file for Aircraft class
-#include "simulator.h"
+#include "aircraft.h"
 // Aircraft Member Functions:
 
 
