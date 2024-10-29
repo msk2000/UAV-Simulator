@@ -242,7 +242,7 @@ public:
     
 
     // For scaling the thing
-    int aircraft_scale = 1;
+    int aircraft_scale = 20;
 
     std::vector<std::vector<int>> faces;
     std::vector<easy3d::vec3> vertices_aircraft;

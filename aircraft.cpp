@@ -705,8 +705,8 @@ void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 // Function to perform translation of the aircraft geometry
 void Aircraft::translate(easy3d::vec3* vertices)
 {
-
-    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(X[2]));
+    // pd (X[2]) here is set to negative as pd = - altitude
+    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(-X[2]));
 
 
 // Position Update loop
@@ -723,7 +723,7 @@ void Aircraft::translate(easy3d::vec3* vertices)
 void Aircraft::translate_axes(easy3d::vec3* axesVertices)
 {
     // Use the aircraft's position (pn, pe, pd) as the translation vector
-    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(X[2]));
+    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(-X[2]));
 
     // Apply the translation to each vertex (assuming 6 vertices for the axes)
     for (int i = 0; i < 6; ++i) {
