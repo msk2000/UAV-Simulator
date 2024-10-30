@@ -39,7 +39,7 @@ int main()
     // Create the default Easy3D viewer. Note: a viewer must be created before creating any drawables.
     easy3d::Viewer viewer("UAV Simulator");
     // Flip the camera view by setting the opposite direction
-    viewer.camera()->setViewDirection(easy3d::vec3(-1, 0, 0)); // Flips to the opposite side along X-axis
+    ///viewer.camera()->setViewDirection(easy3d::vec3(-1, 0, 0)); // Flips to the opposite side along X-axis
 
     // Load a 3D model (OBJ, PLY, STL, etc.)
     drone.file_name = "/home/fahim/Downloads/Git/UAV-Simulator/y_for_z_up_uav.stl";  // Replace with your actual model path

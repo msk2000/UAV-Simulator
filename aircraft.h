@@ -278,17 +278,47 @@ public:
     
     // function to load a plane from text file
     void load_a_plane(const std::string& filePath, int& vehicle_count);
+    
+    
+    
+    
+    //State vector
+    std::vector <double> X = {pn,pe,pd,u,v,w,p,q,r,phi,theta,psi,fx,fy,fz,ell,m,n};
+    
+    
+
+
+    // function to update the overall state of the aircraft
+    easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
+
+    void graphing();
+    
+    
+    void renderAircraft(easy3d::Viewer& viewer); // NEW
+    void createGridDrawable(easy3d::Viewer& viewer);
+    void createAxesDrawable(easy3d::Viewer& viewer);
+    bool animate(easy3d::Viewer* viewer, double dt);
+    
+    void initKeyboard();
+    
+    
+    private:
+
     // functions to calculate forces, velocities and moments
     void calculate_forces();
     void calculate_body_frame_velocity_and_angles();
     void calculate_lift_drag_coefficients();
     void calculate_moments();
-    
-    
-    
-    //Algo
-    std::vector <double> X = {pn,pe,pd,u,v,w,p,q,r,phi,theta,psi,fx,fy,fz,ell,m,n};
-    void RK4(std::vector<double>& X,  double dt);
+
+    // functions for 3D rendering based on state changes
+    void rotate(easy3d::vec3* vertices);
+    void rotate_axes(easy3d::vec3* axesVertices);
+    void translate(easy3d::vec3* vertices);
+    void translate_axes(easy3d::vec3* axesVertices);
+
+    // Algo
+    void RK4(std::vector<double>& X,  double dt); 
+    // Dynamics: Called by the RK4 function
     // Function to calculate pn_dot
     double calculate_pn_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi);
     //Function to calculate pe_dot
@@ -314,26 +344,8 @@ public:
     // Function to calculate r_dot
     double calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8);
 
-
-    // function to update the overall state of the aircraft
-    easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
-
-    void graphing();
-    // functions for 3D rendering based on state changes
-    void rotate(easy3d::vec3* vertices);
-    void rotate_axes(easy3d::vec3* axesVertices);
-    void translate(easy3d::vec3* vertices);
-    void translate_axes(easy3d::vec3* axesVertices);
-    
-    void renderAircraft(easy3d::Viewer& viewer); // NEW
-    void createGridDrawable(easy3d::Viewer& viewer);
-    void createAxesDrawable(easy3d::Viewer& viewer);
-    bool animate(easy3d::Viewer* viewer, double dt);
-    
-    void initKeyboard();
+    // NCurses: Keyboard input
     void collectInput();
-    
-    private:
 
     
     
