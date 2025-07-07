@@ -15,7 +15,7 @@
 #include <easy3d/fileio/surface_mesh_io.h>
 #include <fstream>
 #include <cmath>
-#include <ncurses.h>
+//#include <ncurses.h>
 #include "matplotlibcpp.h"
 
 #define _USE_MATH_DEFINES
@@ -299,7 +299,17 @@ public:
     void createAxesDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, double dt);
     
-    void initKeyboard();
+    //void initKeyboard();
+
+    //void render_HUD(easy3d::TextRenderer& text_renderer);
+    void render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) const;
+    void printState();
+
+     //getter for shading
+    easy3d::TrianglesDrawable* getAircraftDrawable() const
+    {
+        return aircraft;
+    }
     
     
     private:
@@ -345,9 +355,9 @@ public:
     double calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8);
 
     // NCurses: Keyboard input
-    void collectInput();
+    //void collectInput();
 
-    
+
     
 };
 

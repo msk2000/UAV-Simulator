@@ -1,5 +1,7 @@
 // Implementation file for Aircraft class
 #include "aircraft.h"
+#include <easy3d/renderer/text_renderer.h>
+
 // Aircraft Member Functions:
 
 
@@ -133,9 +135,9 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
-size(1000.0f),
+size(2000.0f),
 numLines(22),
-offset(500.0f),//10000.0f/2
+offset(1000.0f),//10000.0f/2
 points(dummy_points),
 aircraft(nullptr),
 gridDrawable(nullptr),
@@ -194,7 +196,7 @@ steps(10)
 Aircraft::~Aircraft() 
 {
     
-    endwin(); // End ncurses stuff
+    //endwin(); // End ncurses stuff  -< Deprecated
 }
 // Function to calculate the forces and moments acting on the aircraft 
 void Aircraft::calculate_forces()
@@ -753,7 +755,7 @@ void Aircraft::renderAircraft(easy3d::Viewer& viewer)
     
     for (auto v : mesh->vertices()) 
     {
-        vertices_aircraft.push_back(mesh->position(v)*aircraft_scale);
+        vertices_aircraft.push_back(mesh->position(v));
     }
     aircraft->update_vertex_buffer(vertices_aircraft);
 
@@ -923,10 +925,11 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     
     /*std::cout<<"After RK4"<<std::endl;
     std::cout << X[12] << "\t" <<X[13] << "\t" << X[14] << std::endl;*/
-
+     
+    //printState();
 
     // Keyboard input
-    collectInput();
+    // Deprecated -> collectInput();
     
     
 
@@ -969,6 +972,8 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
     // Update UAV per cycle of the loop [Also updates axes]
     update_aircraft(vertices, axesVertices, dt);
 
+   
+
     
 
 
@@ -980,7 +985,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 
 }
 
-
+/* Deprecated
 void Aircraft::initKeyboard()
 {
     // Initialize ncurses for keyboard input (boiler plate)
@@ -995,7 +1000,7 @@ void Aircraft::collectInput() {
 
     // Set non-blocking input
     nodelay(stdscr, TRUE);
-    double control_step = 0.02617993878/2; //-> Move to class members
+    double control_step = 1; //-> Move to class members
 
     char input = getch(); 
 
@@ -1081,10 +1086,10 @@ void Aircraft::collectInput() {
             }
             break;
         case '7':
-            X[0] += 100;  // Increment the value
+            X[0] += 1;  // Increment the value
             break;
         case '8':
-            X[0] -= 100;; // Decrement the value
+            X[0] -= 1;; // Decrement the value
             break;
         default:
             // Ignore any other keys
@@ -1097,4 +1102,94 @@ void Aircraft::collectInput() {
         refresh(); // Refresh to display updates
     
 }
+
+*/
+
+/*void Aircraft::render_HUD(easy3d::TextRenderer& text_renderer)
+{
+    /// Update HUD content with simulation state data
+    std::string north_text = "North: " + std::to_string(X[0]);
+    std::string east_text = "East: " + std::to_string(X[1]);
+    std::string altitude_text = "Altitude: " + std::to_string(-X[2]);
+
+    // Set the starting position for the text
+    float start_x = 10000.0f;  // Adjust as needed for padding
+    float start_y = 10000.0f;  // Starting Y position
+
+    //Font size
+    float font_size = 300.0f;
+
+
+
+    // Draw each line of the HUD text separately
+    text_renderer.draw(north_text, start_x, start_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true);
+    text_renderer.draw(east_text, start_x, start_y + 25.0f, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true); // Adjust Y for spacing
+    text_renderer.draw(altitude_text, start_x, start_y + 50.0f, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true); // Adjust Y for spacing
+
+}*/
+
+void Aircraft::printState()
+{
+    std::cout << "State Variables:\n";
+    std::cout << "-----------------\n";
+    std::cout << "pn    (North position): " << X[0] << "\n";
+    std::cout << "pe    (East position):  " << X[1] << "\n";
+    std::cout << "pd    (Down position):  " << X[2] << "\n";
+    std::cout << "u     (Body x-velocity): " << X[3] << "\n";
+    std::cout << "v     (Body y-velocity): " << X[4] << "\n";
+    std::cout << "w     (Body z-velocity): " << X[5] << "\n";
+    std::cout << "p     (Roll rate):       " << X[6] << "\n";
+    std::cout << "q     (Pitch rate):      " << X[7] << "\n";
+    std::cout << "r     (Yaw rate):        " << X[8] << "\n";
+    std::cout << "phi   (Roll angle):      " << X[9]*180/M_PI << "\n";
+    std::cout << "theta (Pitch angle):     " << X[10]*180/M_PI << "\n";
+    std::cout << "psi   (Yaw angle):       " << X[11] *180/M_PI<< "\n";
+}
+// For HUD test
+void Aircraft::render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) const
+{
+    int width = viewer->width();
+    int height = viewer->height();
+
+    // Format key variables into a multi-line string
+    std::ostringstream hud_stream;
+    hud_stream << std::fixed << std::setprecision(2);
+    hud_stream << std::left;
+    hud_stream << std::setw(28) << "Clock:"                     << clock << " s\n";
+    hud_stream << std::setw(28) << "Pos (N, E, D) [m]:"         << X[0] << ", " << X[1] << ", " << X[2] << "\n";
+    hud_stream << std::setw(28) << "Vel (u, v, w) [m/s]:"       << X[3] << ", " << X[4] << ", " << X[5] << "\n";
+    hud_stream << std::setw(28) << "Angular Rates (p, q, r) [deg/s]:"
+           << X[6] << ", " << X[7] << ", " << X[8] << "\n";
+    hud_stream << std::setw(28) << "Euler Angles (phi, theta, psi) [deg]:"
+           << X[9] * 180 / M_PI << ", "
+           << X[10] * 180 / M_PI << ", "
+           << X[11] * 180 / M_PI << "\n";
+    hud_stream << std::setw(28) << "Air Data (V, alpha, beta):"
+           << V_m << ", " << alpha << ", " << beta << "\n";
+    hud_stream << std::setw(28) << "Forces (fx, fy, fz) [N]:"
+           << X[12] << ", " << X[13] << ", " << X[14] << "\n";
+    hud_stream << std::setw(28) << "Moments (ell, m, n) [Nm]:"
+            << X[15] << ", " << X[16] << ", " << X[17];
+
+    std::string hud_text = hud_stream.str();
+
+    // Set font and color
+    float font_size = 16.0f;
+    int font_id = 0;
+    easy3d::vec3 color(1.0f, 1.0f, 1.0f);  // White
+
+    // Draw HUD on screen (bottom-right)
+    tr.draw(hud_text,
+            width - 410,          // x position
+            height -150,         // y position
+            font_size,
+            easy3d::TextRenderer::ALIGN_LEFT,
+            font_id,
+            color,
+            0.0f,                 // Line spacing
+            true);                // Origin at upper-left
+}
+
+
+
 
