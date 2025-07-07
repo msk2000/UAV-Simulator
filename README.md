@@ -1,7 +1,14 @@
 # UAV-Simulator Project
 
+A texture mapped terrain and control demo footage:
 
-A stall demo footage:
+
+
+https://github.com/user-attachments/assets/9578d49b-d618-4981-91b6-300246770b43
+
+
+
+A stall demo footage (old):
 
 
 
@@ -22,6 +29,15 @@ This project is a fun and educational initiative aimed at simulating small scale
 ## Recent Changelog:
 
 <div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+
+*6th July 2025*
+
+- **Terrain Texture Mapping:** Implemented texture mapping on the STL terrain using UV coordinates and a texture image. Normalized and tiled the UVs for consistent texture scaling.
+- **Texture Wrap Mode:** Set texture wrap mode to `REPEAT` to allow seamless tiling across the terrain surface.
+- **Coordinate Adjustment:** Corrected UV mapping to use the X and Y axes (`pos[0]`, `pos[1]`) instead of X and Z, since Z is the up-axis in this simulator.
+- **Shadow Rendering:** Attempted basic hard shadow support for the aircraft model using Easy3D's `Shadow` class. **Pending Implementation**.
+- **HUD Implementation:** Integrated a Heads-Up Display (HUD) in the viewer using Easy3D's `TextRenderer`. The HUD overlays real-time flight data from the aircraft onto the screen during simulation.
+- **Viewer Improvements:** Introduced a new `TestViewer` class derived from Easy3D’s `Viewer`. This class handles aircraft HUD rendering, user input for aircraft control, and shadow rendering(incomplete).
 
 *28th October 2024*
 - **Runga-Kutta 4:** Changed the simplistic solver to RK4 based integrator for much better estimation of state parameters.
