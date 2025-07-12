@@ -835,13 +835,13 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
 {
     // Calculate forces and moments
     
-    //calculate_forces();
-    //calculate_moments();
+    calculate_forces();
+    calculate_moments();
     
 
     
     // Update dynamics
-    //RK4(X,dt);
+    RK4(X,dt);
 
     // Perform rotation and translation on the geometry
     rotate(vertices);
@@ -902,7 +902,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
    
 
     
-
+    //viewer->fit_screen(mesh);
 
 
     // Update the viewer

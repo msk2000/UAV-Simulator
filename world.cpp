@@ -159,6 +159,7 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 
     // Add model to viewer
     viewer.add_model(terrainMesh, true);
+    viewer.fit_screen(terrainMesh.get());
 
 
     // Get drawable and assign texture

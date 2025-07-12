@@ -4,6 +4,8 @@
 #include <world.h>
 #include <plotter.h>
 #include <simviewer.h>
+#include <mission_manager.h>
+#include <waypoint_list.h>
 #include <easy3d/viewer/viewer.h>
 #include <easy3d/renderer/camera.h>
 #include <easy3d/core/types.h>
@@ -39,12 +41,20 @@ int main()
     drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
     world.createTerrainWithTexture(viewer);
-    world.createGridDrawable(viewer);
+    //world.createGridDrawable(viewer);
     drone.renderAircraft(viewer);
     //drone.createGridDrawable(viewer);
     drone.createAxesDrawable(viewer);
 
-    //viewer.fit_screen();
+    //============= MISSION PLAN & GNC ================
+    MissionManager mission;
+    Path path = mission.generateSquareCircuit(0, 0, 1800, drone.pd);
+    WaypointList waypoints(path.generateWaypoints(150.0f));
+
+    // Render the mission path and waypoints
+    //path.draw(viewer);
+    waypoints.draw(viewer);
+
     viewer.set_animation(true);
 
     viewer.animation_func_ = [&](easy3d::Viewer* v) -> bool
