@@ -252,11 +252,7 @@ public:
     std::vector<easy3d::vec3> &points;
 
     easy3d::TrianglesDrawable* aircraft;
-    const float size;
-    const int numLines;
-    const float offset;
-    easy3d::LinesDrawable* gridDrawable;
-    std::vector<easy3d::vec3> grid_vertices;
+
 
     easy3d::LinesDrawable* axesDrawable;
     std::vector<easy3d::vec3> axes_vertices;
@@ -295,7 +291,7 @@ public:
     
     
     void renderAircraft(easy3d::Viewer& viewer); // NEW
-    void createGridDrawable(easy3d::Viewer& viewer);
+
     void createAxesDrawable(easy3d::Viewer& viewer);
     bool animate(easy3d::Viewer* viewer, double dt);
     

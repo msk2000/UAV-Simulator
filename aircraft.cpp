@@ -13,7 +13,8 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
            
     
     std::ifstream file(filePath);
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         // Read and assign values to member variables
             
         //Physical
@@ -135,12 +136,8 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 // Class constructor
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
-size(2000.0f),
-numLines(22),
-offset(1000.0f),//10000.0f/2
 points(dummy_points),
 aircraft(nullptr),
-gridDrawable(nullptr),
 steps(10)
 {
     //1. First it loads the aircraft parameters from the file using the following function
@@ -162,10 +159,10 @@ steps(10)
         V_m = u_0; // SUSPECT
         alpha = alpha0;
         beta = beta0;
-        delta_t = delta_t;
+        /*delta_t = delta_t;
         delta_a = delta_a;
         delta_e = delta_e;
-        delta_r = delta_r;
+        delta_r = delta_r;*/
 
         //Added after RK4
         X[0] = pn_0;
@@ -186,6 +183,10 @@ steps(10)
         X[15] = ell;
         X[16] = m;
         X[17] = n;
+
+        fx = fy = fz = 0;
+        ell = m = n = 0;
+
 
 
 
@@ -685,7 +686,8 @@ void Aircraft::rotate(easy3d::vec3* vertices)
     easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X[9], X[10] , X[11], 321);
         
     // Apply the rotation to the vertices and hope that it actually works
-        for (int i = 0; i < mesh->n_vertices(); ++i) {
+        for (int i = 0; i < mesh->n_vertices(); ++i)
+        {
             vertices[i] = rotationMatrix * vertices[i];
         }
 
@@ -828,93 +830,18 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
 
 
 
-
-
-// Function to create the grid system
-void Aircraft::createGridDrawable(easy3d::Viewer& viewer)
-{   
-    // Create a LinesDrawable to visualize the 3D grid.
-    gridDrawable = new easy3d::LinesDrawable("grid");
-    
-    // Create the grid lines.
-    
-    for (int i = 0; i < numLines; i++) 
-    {
-        float t = -0.5f * size + (size / (numLines - 1)) * i;
-// X-Y Plane
-        // Create a vertical line along the x-axis.
-        grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(t, 0.5f * size, 0.0f-offset));
-
-        // Create a horizontal line along the y-axis.
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, t, 0.0f-offset));
-// Y-Z Plane
-        // Create y line along the z-axis.
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, -0.5f * size, t));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset,  0.5f * size, t));
-
-        // intersecting lines (z lines/verticals)
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t,  0.5f * size));
-// X-Z Plane 
-        // The horizontal lines
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f-offset,  t));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, 0.0f-offset,   t));
-        
-        // The vertical lines
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset,  0.5f * size));
-
-    }
-
-    
-
-    
-    // Upload the grid vertices to the GPU.
-    gridDrawable->update_vertex_buffer(grid_vertices);
-
-    // Set the color of the grid lines (here we use gray).
-    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-
-    // Set the width of the grid lines (here we use 1 pixel).
-    gridDrawable->set_line_width(1.0f);
-
-    // Add the grid drawable to the viewer.
-    viewer.add_drawable(gridDrawable);
-
-    // Color settings for viewer background
-        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
-        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.44f, 1.0f)); // Midnight Blue
-        //viewer.set_background_color(easy3d::vec4(0.6f, 0.8f, 0.6f, 1.0f)); // Soft Pastel Green
-        viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
-        //viewer.set_background_color(easy3d::vec4(1.0f, 0.5f, 0.0f, 1.0f)); // Sunset Orange
-        //viewer.set_background_color(easy3d::vec4(0.0f, 0.5f, 0.5f, 1.0f)); // Ocean Teal
-        //viewer.set_background_color(easy3d::vec4(0.5f, 0.0f, 0.13f, 1.0f)); // Rich Burgundy
-        //viewer.set_background_color(easy3d::vec4(0.53f, 0.81f, 0.98f, 1.0f)); // Bright Sky Blue
-        //viewer.set_background_color(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f)); // SKY attempts
-    //set_uniform_coloring(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f));
-
-
-    std::cout << "Grid drawable added to viewer" <<"\n";
-
-    // Update the viewer
-    viewer.update();
-
-
-}
 // Function to update all UAV related parameters per cycle
 easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* axesVertices,double& dt)
 {
     // Calculate forces and moments
     
-    calculate_forces();
-    calculate_moments();  
+    //calculate_forces();
+    //calculate_moments();
     
 
     
     // Update dynamics
-    RK4(X,dt);
+    //RK4(X,dt);
 
     // Perform rotation and translation on the geometry
     rotate(vertices);

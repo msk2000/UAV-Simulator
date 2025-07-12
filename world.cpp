@@ -1,6 +1,12 @@
 // Class implementation file for the class world
 #include "world.h"
 
+World::World(): size(DEFAULT_GRID_SIZE),
+      numLines(DEFAULT_NUM_LINES),
+      offset(DEFAULT_OFFSET),
+      gridDrawable(nullptr)
+      {}
+
 void World::createGround(easy3d::Viewer& viewer) 
 {
     // Create a TrianglesDrawable for the ground plane
@@ -164,6 +170,80 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
     drawable->set_smooth_shading(true);
 }
 
+
+// Function to create the grid system
+void World::createGridDrawable(easy3d::Viewer& viewer)
+{
+    // Create a LinesDrawable to visualize the 3D grid.
+    gridDrawable = new easy3d::LinesDrawable("grid");
+
+    // Create the grid lines.
+
+    for (int i = 0; i < numLines; i++)
+    {
+        float t = -0.5f * size + (size / (numLines - 1)) * i;
+// X-Y Plane
+        // Create a vertical line along the x-axis.
+        grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0.0f-offset));
+        grid_vertices.push_back(easy3d::vec3(t, 0.5f * size, 0.0f-offset));
+
+        // Create a horizontal line along the y-axis.
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0.0f-offset));
+        grid_vertices.push_back(easy3d::vec3(0.5f * size, t, 0.0f-offset));
+// Y-Z Plane
+        // Create y line along the z-axis.
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, -0.5f * size, t));
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset,  0.5f * size, t));
+
+        // intersecting lines (z lines/verticals)
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t, -0.5f * size));
+        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t,  0.5f * size));
+// X-Z Plane
+        // The horizontal lines
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f-offset,  t));
+        grid_vertices.push_back(easy3d::vec3(0.5f * size, 0.0f-offset,   t));
+
+        // The vertical lines
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset, -0.5f * size));
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset,  0.5f * size));
+
+    }
+
+
+
+
+    // Upload the grid vertices to the GPU.
+    gridDrawable->update_vertex_buffer(grid_vertices);
+
+    // Set the color of the grid lines (here we use gray).
+    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+
+    // Set the width of the grid lines (here we use 1 pixel).
+    gridDrawable->set_line_width(1.0f);
+
+    // Add the grid drawable to the viewer.
+    viewer.add_drawable(gridDrawable);
+
+    // Color settings for viewer background
+        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.1f, 1.0f)); // RGBA: dark gray, fully opaque
+        //viewer.set_background_color(easy3d::vec4(0.1f, 0.1f, 0.44f, 1.0f)); // Midnight Blue
+        //viewer.set_background_color(easy3d::vec4(0.6f, 0.8f, 0.6f, 1.0f)); // Soft Pastel Green
+        viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Deep Space Black
+        //viewer.set_background_color(easy3d::vec4(1.0f, 0.5f, 0.0f, 1.0f)); // Sunset Orange
+        //viewer.set_background_color(easy3d::vec4(0.0f, 0.5f, 0.5f, 1.0f)); // Ocean Teal
+        //viewer.set_background_color(easy3d::vec4(0.5f, 0.0f, 0.13f, 1.0f)); // Rich Burgundy
+        //viewer.set_background_color(easy3d::vec4(0.53f, 0.81f, 0.98f, 1.0f)); // Bright Sky Blue
+        //viewer.set_background_color(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f)); // SKY attempts
+    //set_uniform_coloring(easy3d::vec4(0.678f, 0.847f, 0.902f, 1.0f));
+
+
+    std::cout << "Grid drawable added to viewer" <<"\n";
+
+    // Update the viewer
+    viewer.update();
+
+
+}
 
 
 

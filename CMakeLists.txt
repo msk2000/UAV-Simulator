@@ -18,7 +18,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}) # This will include the current
 add_subdirectory(matplotplusplus)
 
 # Add your CPP program source file
-add_executable(UAVSim simulator.cpp aircraft.cpp world.cpp plotter.cpp)
+add_executable(UAVSim simulator.cpp aircraft.cpp world.cpp plotter.cpp simviewer.cpp)
 
 # Link Matplot++
 target_link_libraries(UAVSim PUBLIC matplot)
