@@ -809,24 +809,17 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
 
     axes_vertices_original = axes_vertices;  // To avoid compound transformatin
 
-
     // Upload the axes vertices to the GPU.
     axesDrawable->update_vertex_buffer(axes_vertices);
     
-
     // Set color
     axesDrawable->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f)); //Red
    
-
     // Set the width of the axes lines (here 3 pixels).
     axesDrawable->set_line_width(1.0f);
 
     // Add the axes drawable to the viewer.
     viewer.add_drawable(axesDrawable);
-
-   
-
-    
 
     // Update the viewer.
     viewer.update();
@@ -841,9 +834,7 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     
     calculate_forces();
     calculate_moments();
-    
 
-    
     // Update dynamics
     RK4(X,dt);
 
@@ -864,16 +855,9 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     rotate_axes(axesVertices);
     translate_axes(axesVertices);
 
-    
-    /*std::cout<<"After RK4"<<std::endl;
-    std::cout << X[12] << "\t" <<X[13] << "\t" << X[14] << std::endl;*/
-
 
     printState();
 
-
-    
-    
 
     return vertices;
     
@@ -927,148 +911,7 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 
 }
 
-/* Deprecated
-void Aircraft::initKeyboard()
-{
-    // Initialize ncurses for keyboard input (boiler plate)
-    initscr();            // Start curses mode
-    cbreak();             // Disable line buffering
-    noecho();             // Don't echo user input
-    keypad(stdscr, TRUE); // Enable function keys like arrow keys
 
-}
-
-void Aircraft::collectInput() {
-
-    // Set non-blocking input
-    nodelay(stdscr, TRUE);
-    double control_step = 1; //-> Move to class members
-
-    char input = getch(); 
-
-    switch (input) {
-        case '1': // Positive roll
-            if (delta_a+control_step >= delta_a_max)
-            {
-                delta_a = delta_a_max;  // set it to max
-            }
-            else
-            {
-                delta_a += control_step;  // Increment the value
-            }
-            break;
-        case '3': // Negative roll
-            if(delta_a-control_step <= delta_a_min)
-            {
-                delta_a = delta_a_min; // SEt to minimum
-            }
-            else
-            {
-                delta_a -= control_step; // decrement
-            }
-            break;
-        case '5': // Positive pitch
-            if (delta_e+control_step >= delta_e_max)
-            {
-                delta_e = delta_e_max;  // set it to max
-            }
-            else
-            {
-                delta_e += control_step;  // Increment the value
-            }
-            break;
-        case '2': // Negative pitch
-            if(delta_e-control_step <= delta_e_min)
-            {
-                delta_e = delta_e_min; // SEt to minimum
-            }
-            else
-            {
-                delta_e -= control_step; // decrement
-            }
-            break;
-        case '4': // Positive Yaw
-            if (delta_r+control_step >= delta_r_max)
-            {
-                delta_r = delta_r_max;  // set it to max
-            }
-            else
-            {
-                delta_r += control_step;  // Increment the value
-            }
-            break;
-        case '6': // Negative Yaw
-            if(delta_r-control_step <= delta_r_min)
-            {
-                delta_r = delta_r_min; // SEt to minimum
-            }
-            else
-            {
-                delta_r -= control_step; // decrement
-            }
-            break;
-        case '+': // Positive Throttle
-            if (delta_t+0.05 >= delta_t_max)
-            {
-                delta_t = delta_t_max;  // set it to max
-            }
-            else
-            {
-                delta_t += 0.05;  // Increment the value
-            }
-            break;
-        case '-': // Negative Throttle
-            if(delta_t-0.05 <= delta_t_min)
-            {
-                delta_t = delta_t_min; // SEt to minimum
-            }
-            else
-            {
-                delta_t -= 0.05; // decrement
-            }
-            break;
-        case '7':
-            X[0] += 1;  // Increment the value
-            break;
-        case '8':
-            X[0] -= 1;; // Decrement the value
-            break;
-        default:
-            // Ignore any other keys
-            break;
-    }
-    // Debug output to monitor input changes
-    // Display updated values on the screen
-        mvprintw(0, 0, "delta_a: %.2f, delta_e: %.2f, delta_r: %.2f, delta_t: %.2f", delta_a, delta_e, delta_r, delta_t);
-        //mvprintw(0, 0, "L: %.2f, M: %.2f, N: %.2f", phi*(180/M_PI), theta*(180/M_PI), psi*(180/M_PI));
-        refresh(); // Refresh to display updates
-    
-}
-
-*/
-
-/*void Aircraft::render_HUD(easy3d::TextRenderer& text_renderer)
-{
-    /// Update HUD content with simulation state data
-    std::string north_text = "North: " + std::to_string(X[0]);
-    std::string east_text = "East: " + std::to_string(X[1]);
-    std::string altitude_text = "Altitude: " + std::to_string(-X[2]);
-
-    // Set the starting position for the text
-    float start_x = 10000.0f;  // Adjust as needed for padding
-    float start_y = 10000.0f;  // Starting Y position
-
-    //Font size
-    float font_size = 300.0f;
-
-
-
-    // Draw each line of the HUD text separately
-    text_renderer.draw(north_text, start_x, start_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true);
-    text_renderer.draw(east_text, start_x, start_y + 25.0f, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true); // Adjust Y for spacing
-    text_renderer.draw(altitude_text, start_x, start_y + 50.0f, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f), true); // Adjust Y for spacing
-
-}*/
 
 void Aircraft::printState()
 {

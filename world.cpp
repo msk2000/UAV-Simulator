@@ -1,18 +1,36 @@
-// Class implementation file for the class world
+/********************************************************************
+ * @file world.cpp
+ * @brief Implements the World class responsible for grid and terrain creation.
+ ********************************************************************/
 #include "world.h"
-
+/**
+ * @brief Constructs a World instance with default parameters.
+ *
+ * Initializes grid size, line count, and offset for visualization.
+ */
 World::World(): size(DEFAULT_GRID_SIZE),
       numLines(DEFAULT_NUM_LINES),
       offset(DEFAULT_OFFSET),
       gridDrawable(nullptr)
       {}
+// ===============================
+// === Flat Ground Generation ===
+// ===============================
+
+/**
+ * @brief Adds a flat rectangular ground plane to the scene.
+ *
+ * @param viewer Reference to the Easy3D viewer to which the ground is added.
+ *
+ * @deprecated Use createTerrainWithTexture() for enhanced visual realism.
+ */
 [[deprecated("Use createTerrainWithTexture() instead")]]
 void World::createGround(easy3d::Viewer& viewer) 
 {
     // Create a TrianglesDrawable for the ground plane
     auto groundDrawable = new easy3d::TrianglesDrawable("ground");
-    float w_size = 400.0f;
-    float w_height = -200.0f;
+    float w_size = 400.0f; // Half-width of the ground square
+    float w_height = -200.0f; // Height of the flat plaze (Z offset)
 
     // Define vertices for the ground (a large flat plane at a fixed height)
     std::vector<easy3d::vec3> groundVertices = 
@@ -43,7 +61,17 @@ void World::createGround(easy3d::Viewer& viewer)
     viewer.add_drawable(groundDrawable);
 }
 
-// Function to load terrain from stl
+// ==============================
+// === STL Terrain (No Text) ===
+// ==============================
+
+/**
+ * @brief Loads and displays 3D terrain from an STL mesh.
+ *
+ * @param viewer Reference to the Easy3D viewer.
+ *
+ * @deprecated Use createTerrainWithTexture() for textured terrain rendering.
+ */
 [[deprecated("Use createTerrainWithTexture() instead")]]
 void World::createTerrain(easy3d::Viewer& viewer) 
 {
@@ -91,6 +119,17 @@ void World::createTerrain(easy3d::Viewer& viewer)
     }
 }
 
+// ===========================
+// === Textured Terrain ===
+// ===========================
+
+/**
+ * @brief Loads an STL terrain mesh and applies a repeating texture.
+ *
+ * Automatically computes UV coordinates to ensure aspect-ratio-correct tiling.
+ *
+ * @param viewer Reference to the Easy3D viewer.
+ */
 void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 {
     const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain3.stl";
@@ -173,7 +212,17 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 }
 
 
-// Function to create the grid system
+// =====================
+// === Grid Drawing ===
+// =====================
+
+/**
+ * @brief Creates and renders a 3D spatial grid on the three principal planes (XY, YZ, XZ).
+ *
+ * The grid helps users orient themselves in the virtual space.
+ *
+ * @param viewer Reference to the Easy3D viewer.
+ */
 void World::createGridDrawable(easy3d::Viewer& viewer)
 {
     // Create a LinesDrawable to visualize the 3D grid.

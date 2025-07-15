@@ -12,6 +12,7 @@ find_package(Python3 REQUIRED COMPONENTS Development)
 # === ImGui ===
 set(IMGUI_DIR /home/fahim/Libraries/Easy3D/3rd_party/imgui)
 set(IMGUI_BACKENDS_DIR ${IMGUI_DIR}/backends)
+set(IMPLOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/implot")
 
 set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui.cpp
@@ -20,6 +21,8 @@ set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui_tables.cpp
     ${IMGUI_BACKENDS_DIR}/imgui_impl_glfw.cpp
     ${IMGUI_BACKENDS_DIR}/imgui_impl_opengl3.cpp
+    ${IMPLOT_DIR}/implot.cpp
+    ${IMPLOT_DIR}/implot_items.cpp
 )
 
 include_directories(
@@ -27,6 +30,7 @@ include_directories(
     ${EIGEN3_INCLUDE_DIR}
     ${IMGUI_DIR}
     ${IMGUI_BACKENDS_DIR}
+    ${IMPLOT_DIR}
     ${Python3_INCLUDE_DIRS}
     /usr/include/eigen3
     /usr/include/python3.6
@@ -36,6 +40,7 @@ include_directories(
 
 # === Matplot++ ===
 add_subdirectory(matplotplusplus)
+
 
 # === Executable ===
 add_executable(UAVSim
@@ -58,7 +63,6 @@ target_link_libraries(UAVSim
     PUBLIC
     matplot
     easy3d::viewer
-    ncurses
     Python3::Python
     glfw      # Needed for ImGui backend
     GL        # OpenGL

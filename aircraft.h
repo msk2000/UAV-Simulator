@@ -15,7 +15,6 @@
 #include <easy3d/fileio/surface_mesh_io.h>
 #include <fstream>
 #include <cmath>
-//#include <ncurses.h>
 #include "matplotlibcpp.h"
 
 #define _USE_MATH_DEFINES
