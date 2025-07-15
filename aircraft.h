@@ -256,6 +256,9 @@ public:
 
     easy3d::LinesDrawable* axesDrawable;
     std::vector<easy3d::vec3> axes_vertices;
+    std::vector<easy3d::vec3> original_vertices; // to stop compound updates
+    std::vector<easy3d::vec3> axes_vertices_original;
+
 
     // For Plotting graphs [FUTURE]
     std::vector<double> g_clock, g_pn,g_pe,g_pd,g_phi,g_theta,g_psi, g_p,g_q,g_r,g_V_m,g_alpha,g_beta;

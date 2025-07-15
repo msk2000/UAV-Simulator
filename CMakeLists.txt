@@ -36,7 +36,7 @@ target_link_libraries(UAVSim PUBLIC Python3::Python)
 
 # Additional include directories and compile options
 target_include_directories(UAVSim PRIVATE /usr/include/python3.6) # Replace this with the path to the Python include directory
-target_compile_options(UAVSim PRIVATE -std=c++17) # Set C++ standard to C++17
+target_compile_options(UAVSim PRIVATE -std=c++17 -Wattributes) # Set C++ standard to C++17
 # Add the path to the Eigen include directory
 target_include_directories(UAVSim PRIVATE /usr/include/eigen3)
 # If matplotlibcpp requires the Python include directory

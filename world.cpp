@@ -6,7 +6,7 @@ World::World(): size(DEFAULT_GRID_SIZE),
       offset(DEFAULT_OFFSET),
       gridDrawable(nullptr)
       {}
-
+[[deprecated("Use createTerrainWithTexture() instead")]]
 void World::createGround(easy3d::Viewer& viewer) 
 {
     // Create a TrianglesDrawable for the ground plane
@@ -44,6 +44,7 @@ void World::createGround(easy3d::Viewer& viewer)
 }
 
 // Function to load terrain from stl
+[[deprecated("Use createTerrainWithTexture() instead")]]
 void World::createTerrain(easy3d::Viewer& viewer) 
 {
     // Specify the file path to your STL file
@@ -92,7 +93,7 @@ void World::createTerrain(easy3d::Viewer& viewer)
 
 void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 {
-    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain.stl";
+    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain3.stl";
     const std::string texture_file = "/home/fahim/Coding/Git/UAV-Simulator/texture.jpg";
 
     // Load mesh as shared_ptr
@@ -159,7 +160,7 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 
     // Add model to viewer
     viewer.add_model(terrainMesh, true);
-    viewer.fit_screen(terrainMesh.get());
+    //viewer.fit_screen(terrainMesh.get());
 
 
     // Get drawable and assign texture
@@ -178,46 +179,42 @@ void World::createGridDrawable(easy3d::Viewer& viewer)
     // Create a LinesDrawable to visualize the 3D grid.
     gridDrawable = new easy3d::LinesDrawable("grid");
 
-    // Create the grid lines.
+     // Z-axis offset to lift the entire grid above z = 0
+    float z_offset = 0.5f * size;
 
+    // Create the grid lines.
     for (int i = 0; i < numLines; i++)
     {
         float t = -0.5f * size + (size / (numLines - 1)) * i;
-// X-Y Plane
-        // Create a vertical line along the x-axis.
-        grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(t, 0.5f * size, 0.0f-offset));
 
-        // Create a horizontal line along the y-axis.
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0.0f-offset));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, t, 0.0f-offset));
-// Y-Z Plane
-        // Create y line along the z-axis.
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, -0.5f * size, t));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset,  0.5f * size, t));
+        // === X-Y Plane (at z = 0 ) ===
+        /*grid_vertices.push_back(easy3d::vec3(t, -0.5f * size, 0));
+        grid_vertices.push_back(easy3d::vec3(t,  0.5f * size, 0));
 
-        // intersecting lines (z lines/verticals)
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(0.0f-offset, t,  0.5f * size));
-// X-Z Plane
-        // The horizontal lines
-        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f-offset,  t));
-        grid_vertices.push_back(easy3d::vec3(0.5f * size, 0.0f-offset,   t));
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, t, 0));
+        grid_vertices.push_back(easy3d::vec3( 0.5f * size, t, 0));*/
 
-        // The vertical lines
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset, -0.5f * size));
-        grid_vertices.push_back(easy3d::vec3(t, 0.0f-offset,  0.5f * size));
+        // === Y-Z Plane (shift z by offset) ===
+        grid_vertices.push_back(easy3d::vec3(0.0f - offset, -0.5f * size, t + z_offset));
+        grid_vertices.push_back(easy3d::vec3(0.0f - offset,  0.5f * size, t + z_offset));
 
+        grid_vertices.push_back(easy3d::vec3(0.0f - offset, t, -0.5f * size + z_offset));
+        grid_vertices.push_back(easy3d::vec3(0.0f - offset, t,  0.5f * size + z_offset));
+
+        // === X-Z Plane (shift z by offset) ===
+        grid_vertices.push_back(easy3d::vec3(-0.5f * size, 0.0f - offset, t + z_offset));
+        grid_vertices.push_back(easy3d::vec3( 0.5f * size, 0.0f - offset, t + z_offset));
+
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f - offset, -0.5f * size + z_offset));
+        grid_vertices.push_back(easy3d::vec3(t, 0.0f - offset,  0.5f * size + z_offset));
     }
-
-
 
 
     // Upload the grid vertices to the GPU.
     gridDrawable->update_vertex_buffer(grid_vertices);
 
     // Set the color of the grid lines (here we use gray).
-    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+    gridDrawable->set_uniform_coloring(easy3d::vec4(0.5f, 0.5f, 0.5f, 0.3f));
 
     // Set the width of the grid lines (here we use 1 pixel).
     gridDrawable->set_line_width(1.0f);

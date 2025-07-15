@@ -19,7 +19,7 @@ int main()
 {
     // Simulation parameters
     int steps = 10;
-    double dt = 0.0001;
+    double dt = 0.01;//0.0001;
     int vehicle_count = 1;
     std::string fname = "../data.txt";
 
@@ -34,26 +34,27 @@ int main()
     // Use SimViewer instead of Viewer
     SimViewer viewer("UAV Simulator");
     viewer.setAircraft(&drone);  // pass the UAV to the viewer
-    viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+   // viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     // Load and render the model
     drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/y_for_z_up_uav2.stl";
     drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
     world.createTerrainWithTexture(viewer);
-    //world.createGridDrawable(viewer);
+    world.createGridDrawable(viewer);
     drone.renderAircraft(viewer);
-    //drone.createGridDrawable(viewer);
     drone.createAxesDrawable(viewer);
 
     //============= MISSION PLAN & GNC ================
     MissionManager mission;
-    Path path = mission.generateSquareCircuit(0, 0, 1800, drone.pd);
+    Path path = mission.generateSquareCircuit(0, 0, 2800, drone.pd);
     WaypointList waypoints(path.generateWaypoints(150.0f));
 
     // Render the mission path and waypoints
-    //path.draw(viewer);
+    path.draw(viewer);
     waypoints.draw(viewer);
+
+    //============= Main Loop ===================
 
     viewer.set_animation(true);
 

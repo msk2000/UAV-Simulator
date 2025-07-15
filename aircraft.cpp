@@ -757,7 +757,9 @@ void Aircraft::renderAircraft(easy3d::Viewer& viewer)
     
     for (auto v : mesh->vertices()) 
     {
+        easy3d::vec3 original_pos = mesh->position(v);
         vertices_aircraft.push_back(mesh->position(v));
+        original_vertices.push_back(original_pos); // storing a clean copy
     }
     aircraft->update_vertex_buffer(vertices_aircraft);
 
@@ -805,6 +807,8 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
     easy3d::vec3(X[9], X[10] , X[11] - 50.0f)  // Z-axis endpoint (moving downward in negative z-direction)
     };
 
+    axes_vertices_original = axes_vertices;  // To avoid compound transformatin
+
 
     // Upload the axes vertices to the GPU.
     axesDrawable->update_vertex_buffer(axes_vertices);
@@ -843,6 +847,17 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     // Update dynamics
     RK4(X,dt);
 
+    // Start with fresh copy of aircraft and axes vertices
+    // to avoid compound transformations
+    for (size_t i = 0; i < original_vertices.size(); ++i)
+    {
+        vertices[i] = original_vertices[i];
+    }
+    for (size_t i = 0; i < axes_vertices_original.size(); ++i)
+    {
+        axesVertices[i] = axes_vertices_original[i];
+    }
+
     // Perform rotation and translation on the geometry
     rotate(vertices);
     translate(vertices);
@@ -852,11 +867,11 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     
     /*std::cout<<"After RK4"<<std::endl;
     std::cout << X[12] << "\t" <<X[13] << "\t" << X[14] << std::endl;*/
-     
-    //printState();
 
-    // Keyboard input
-    // Deprecated -> collectInput();
+
+    printState();
+
+
     
     
 
@@ -1057,7 +1072,9 @@ void Aircraft::collectInput() {
 
 void Aircraft::printState()
 {
-    std::cout << "State Variables:\n";
+    static int frameCount = 0;
+    frameCount++;
+    std::cout << "State Variables: << Frame: "<<frameCount<<"\n";
     std::cout << "-----------------\n";
     std::cout << "pn    (North position): " << X[0] << "\n";
     std::cout << "pe    (East position):  " << X[1] << "\n";
@@ -1071,6 +1088,9 @@ void Aircraft::printState()
     std::cout << "phi   (Roll angle):      " << X[9]*180/M_PI << "\n";
     std::cout << "theta (Pitch angle):     " << X[10]*180/M_PI << "\n";
     std::cout << "psi   (Yaw angle):       " << X[11] *180/M_PI<< "\n";
+    std::cout << "Fx    (X-Force):         " << X[12]<<"\n";
+    std::cout << "Fy    (Y-Force):         " << X[13]<<"\n";
+    std::cout << "Fz    (Z-Force):         " << X[14]<<"\n";
 }
 // For HUD test
 void Aircraft::render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) const

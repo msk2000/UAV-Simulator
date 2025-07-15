@@ -27,17 +27,17 @@ private:
     // The total length of each axis in the grid (in world units).
     // The grid spans from -size/2 to +size/2 along each axis plane.
     // Increase this to make the grid larger, decrease for a smaller grid.
-    static constexpr float DEFAULT_GRID_SIZE = 2000.0f;
+    static constexpr float DEFAULT_GRID_SIZE = 6000.0f;
 
     // The offset that shifts the grid's location along one or more axes.
     // In the provided grid creation logic, this is used to "lift" the grid away from the world origin
     // so that it doesn't obscure other objects like the aircraft.
-    static constexpr float DEFAULT_OFFSET = 1000.0f;
+    static constexpr float DEFAULT_OFFSET = 3000.0f;
 
     // The number of lines to draw along each axis.
     // Controls the resolution (density) of the grid.
     // A higher number results in finer divisions in the grid, a lower number creates a coarser grid.
-    static constexpr int DEFAULT_NUM_LINES = 22;
+    static constexpr int DEFAULT_NUM_LINES = 70;
 
     // === Instance variables for the grid system ===
 
