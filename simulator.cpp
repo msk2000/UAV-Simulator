@@ -2,7 +2,6 @@
 #include <iostream>
 #include <aircraft.h>
 #include <world.h>
-#include <plotter.h>
 #include <simviewer.h>
 #include <mission_manager.h>
 #include <waypoint_list.h>

@@ -15,11 +15,9 @@
 #include <easy3d/fileio/surface_mesh_io.h>
 #include <fstream>
 #include <cmath>
-#include "matplotlibcpp.h"
+
 
 #define _USE_MATH_DEFINES
-
-namespace plt = matplotlibcpp;
 
 
 class Aircraft 
@@ -258,9 +256,6 @@ public:
     std::vector<easy3d::vec3> original_vertices; // to stop compound updates
     std::vector<easy3d::vec3> axes_vertices_original;
 
-
-    // For Plotting graphs [FUTURE]
-    std::vector<double> g_clock, g_pn,g_pe,g_pd,g_phi,g_theta,g_psi, g_p,g_q,g_r,g_V_m,g_alpha,g_beta;
     
     //surface mesh
     std::string file_name;
@@ -289,7 +284,7 @@ public:
     // function to update the overall state of the aircraft
     easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
 
-    void graphing();
+
     
     
     void renderAircraft(easy3d::Viewer& viewer); // NEW

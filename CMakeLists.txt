@@ -38,8 +38,7 @@ include_directories(
     /home/fahim/Coding/Git/UAV-Simulator
 )
 
-# === Matplot++ ===
-add_subdirectory(matplotplusplus)
+
 
 
 # === Executable ===
@@ -47,7 +46,6 @@ add_executable(UAVSim
     simulator.cpp
     aircraft.cpp
     world.cpp
-    plotter.cpp
     simviewer.cpp
     waypoint_list.cpp
     line_segment.cpp
@@ -61,7 +59,6 @@ add_executable(UAVSim
 # === Linking ===
 target_link_libraries(UAVSim
     PUBLIC
-    matplot
     easy3d::viewer
     Python3::Python
     glfw      # Needed for ImGui backend
