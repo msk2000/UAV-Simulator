@@ -1,9 +1,10 @@
 // SimViewer class implementation
 #include <simviewer.h>
+#include <3rd_party/imgui/imgui.h>
 
 //Constructor
 SimViewer::SimViewer(const std::string& title)
-        : easy3d::Viewer(title), text_renderer_(new easy3d::TextRenderer(dpi_scaling())) 
+        :ViewerImGui(title, 4, 3, 2, false /* fullscreen */, true, 24, 8, 1920, 1080), text_renderer_(new easy3d::TextRenderer(dpi_scaling()))
     {
         if (!text_renderer_->add_font("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf")) 
         {
@@ -78,5 +79,48 @@ SimViewer::~SimViewer()
 
         return true;  // Key event handled
     }
+
+    void SimViewer::post_draw()
+    {
+        if (ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            if (aircraft_)
+            {
+                float throttle = static_cast<float>(aircraft_->delta_t);
+                float elevator = static_cast<float>(aircraft_->delta_e);
+                float aileron  = static_cast<float>(aircraft_->delta_a);
+                float rudder   = static_cast<float>(aircraft_->delta_r);
+
+                float t_min = static_cast<float>(aircraft_->delta_t_min);
+                float t_max = static_cast<float>(aircraft_->delta_t_max);
+                float e_min = static_cast<float>(aircraft_->delta_e_min);
+                float e_max = static_cast<float>(aircraft_->delta_e_max);
+                float a_min = static_cast<float>(aircraft_->delta_a_min);
+                float a_max = static_cast<float>(aircraft_->delta_a_max);
+                float r_min = static_cast<float>(aircraft_->delta_r_min);
+                float r_max = static_cast<float>(aircraft_->delta_r_max);
+
+                if (ImGui::SliderFloat("Throttle", &throttle, t_min, t_max))
+                    aircraft_->delta_t = throttle;
+                if (ImGui::SliderFloat("Elevator", &elevator, e_min, e_max))
+                    aircraft_->delta_e = elevator;
+                if (ImGui::SliderFloat("Aileron", &aileron, a_min, a_max))
+                    aircraft_->delta_a = aileron;
+                if (ImGui::SliderFloat("Rudder", &rudder, r_min, r_max))
+                    aircraft_->delta_r = rudder;
+            }
+
+        }
+    ImGui::End();
+
+    ViewerImGui::post_draw(); // Keep Easy3D overlays (logo, FPS, etc.)
+}
+
+void SimViewer::pre_draw()
+{
+    ViewerImGui::pre_draw();  // Optional: keeps Easy3D behavior
+}
+
+
 
 
