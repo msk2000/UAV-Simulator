@@ -68,4 +68,4 @@ target_link_libraries(UAVSim
 )
 
 # === Compiler flags ===
-target_compile_options(UAVSim PRIVATE -std=c++17 -Wattributes)
+target_compile_options(UAVSim PRIVATE -std=c++17 -Wattributes -Wunused-variable)
