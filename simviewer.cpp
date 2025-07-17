@@ -19,6 +19,7 @@ SimViewer::SimViewer(const std::string& title)
             std::cerr << "Failed to load font!" << std::endl;
         }
 
+
     }
 /**
  * @brief Destructor for SimViewer.
@@ -116,6 +117,24 @@ SimViewer::~SimViewer()
         // Position bottom-left, offset by offset_x and offset_y
         ImGui::SetNextWindowPos(ImVec2(offset_x, io.DisplaySize.y - offset_y), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
         ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once); // window stays collapsed by default
+
+        // Push dark theme colors
+        // Control Panel Background and Text
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));  // near black
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.85f, 0.85f, 0.85f, 1.0f));      // light gray
+
+        // Frame background (slider track)
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));   // dark gray
+
+        // Frame background when hovered
+        ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
+
+        // Active slider handle
+        ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));   // bright cyan
+        ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(1.0f, 0.6f, 0.2f, 1.0f));  // orange
+
+
+
         if (ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
         {
 
@@ -146,6 +165,10 @@ SimViewer::~SimViewer()
             }
 
         }
+        // Pop the style colors
+
+        ImGui::PopStyleColor(6);
+
         ImGui::End();
 
         // === Realtime plot for aircraft state ===
@@ -157,6 +180,13 @@ SimViewer::~SimViewer()
         ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x, menu_bar_height), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
         ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once); // window stays collapsed by default
 
+        // Push dark theme colors
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+        ImPlot::PushStyleColor(ImPlotCol_Line, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+        ImPlot::PushStyleColor(ImPlotCol_Fill, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        ImPlot::PushStyleColor(ImPlotCol_AxisText, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+        ImPlot::PushStyleColor(ImPlotCol_FrameBg,    ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 
         if (ImGui::Begin("Realtime UAV State Plot", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -209,11 +239,25 @@ SimViewer::~SimViewer()
                 }
             }
         }
+         // Pop the style colors
+        ImGui::PopStyleColor(2);
+        ImPlot::PopStyleColor(3);
 
         ImGui::End();
 
 
     ViewerImGui::post_draw(); // Keep Easy3D overlays (logo, FPS, etc.)
+
+    if (texter_)
+    {
+        const float font_size = 25.0f;
+        const float offset_x = 20.0f;
+        const float offset_y = 40.0f;
+
+
+        texter_->draw("UAV Simulator", offset_x, offset_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f));
+
+    }
     }
 /**
  * @brief Called before each frame is drawn.

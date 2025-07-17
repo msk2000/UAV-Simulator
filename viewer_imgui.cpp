@@ -269,37 +269,33 @@ namespace easy3d
  
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); 
-        // Display Easy3D overlays
+
+ 
         // workaround to draw the Easy3D logo and framerate at a different location (due to the menu bar)
         auto show_logo = show_easy3d_logo_;
         auto show_fps = show_frame_rate_;
-        show_easy3d_logo_ = true;
+        show_easy3d_logo_ = false;
         show_frame_rate_ = false;
         Viewer::post_draw();
         show_easy3d_logo_ = show_logo;
         show_frame_rate_ = show_fps;
- 
-        // draw Easy3D logo (bottom left)
-        
-        if (texter_) 
+
+        // draw Easy3D logo (on the right side)
+        if (texter_)
         {
             const float font_size = 15.0f;
-            const float line_spacing = 25.0f * dpi_scaling();
-
-            // Adjust x for some left margin
-            const float offset_x = 20.0f * dpi_scaling();
-
-            // Adjust y from bottom and account for menu bar height
-            const float offset_y_base = (height() - 2 * line_spacing - menu_height_) * dpi_scaling();
-
-            if (show_easy3d_logo_) 
+            const float offset_x = (width() - texter_->string_width("Easy3D", font_size) - 50.0f) * dpi_scaling();
+            if (show_easy3d_logo_)
             {
-                texter_->draw("UAV Simulator", offset_x, offset_y_base, font_size, 0); // logo
+                const float offset_y = (20.0f + menu_height_) * dpi_scaling();
+                texter_->draw("Easy3D", offset_x, offset_y, font_size, 0);
             }
 
-            if (show_frame_rate_) 
+            // draw the framerate
+            if (show_frame_rate_)
             {
-                texter_->draw(framerate_, offset_x, offset_y_base + line_spacing, font_size, 1); // FPS below logo
+                const float offset_y = (50.0f + menu_height_) * dpi_scaling();
+                texter_->draw(framerate_, offset_x, offset_y, font_size, 1);
             }
         }
 
