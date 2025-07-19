@@ -132,7 +132,7 @@ void World::createTerrain(easy3d::Viewer& viewer)
  */
 void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 {
-    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain3.stl";
+    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain3d.stl";
     const std::string texture_file = "/home/fahim/Coding/Git/UAV-Simulator/texture.jpg";
 
     // Load mesh as shared_ptr

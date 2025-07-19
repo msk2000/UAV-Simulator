@@ -248,16 +248,31 @@ SimViewer::~SimViewer()
 
     ViewerImGui::post_draw(); // Keep Easy3D overlays (logo, FPS, etc.)
 
-    if (texter_)
-    {
+
+    show_frame_rate_ = true;
+
+     if (texter_) 
+     {
         const float font_size = 25.0f;
-        const float offset_x = 20.0f;
-        const float offset_y = 40.0f;
 
+        // Position the UAV title at the top-left
+        if (true) 
+        {
+            float offset_x = 20.0f * dpi_scaling();
+            float offset_y = (20.0f + menu_height_) * dpi_scaling();
+            texter_->draw("UAV Simulator", offset_x, offset_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f));
+        }
 
-        texter_->draw("UAV Simulator", offset_x, offset_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f));
-
+        // Draw FPS (bottom-left or somewhere visible)
+        if (show_frame_rate_) 
+        {
+            const std::string fps = framerate_; // make sure it's valid
+            float offset_x = 20.0f * dpi_scaling();
+            float offset_y = (100.0f + menu_height_) * dpi_scaling();  // try higher y if it’s hidden
+            texter_->draw(fps, offset_x, offset_y, font_size, 1, easy3d::vec3(1.0f, 1.0f, 1.0f));
+        }
     }
+   
     }
 /**
  * @brief Called before each frame is drawn.
