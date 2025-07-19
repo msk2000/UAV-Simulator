@@ -274,9 +274,9 @@ namespace easy3d
         // workaround to draw the Easy3D logo and framerate at a different location (due to the menu bar)
         auto show_logo = show_easy3d_logo_;
         auto show_fps = show_frame_rate_;
-        show_easy3d_logo_ = false;
-        show_frame_rate_ = false;
-        Viewer::post_draw();
+        show_easy3d_logo_ = true;
+        show_frame_rate_ = true;
+        //Viewer::post_draw();
         show_easy3d_logo_ = show_logo;
         show_frame_rate_ = show_fps;
 
@@ -294,7 +294,7 @@ namespace easy3d
             // draw the framerate
             if (show_frame_rate_)
             {
-                const float offset_y = (50.0f + menu_height_) * dpi_scaling();
+                const float offset_y = (200.0f + menu_height_) * dpi_scaling();
                 texter_->draw(framerate_, offset_x, offset_y, font_size, 1);
             }
         }

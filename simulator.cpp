@@ -36,7 +36,7 @@ int main()
    // viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     // Load and render the model
-    drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/y_for_z_up_uav2.stl";
+    drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/y_for_z_up_uav2_2000.stl";
     drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
     world.createTerrainWithTexture(viewer);
