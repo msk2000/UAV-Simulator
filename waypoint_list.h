@@ -24,6 +24,8 @@
 class WaypointList
 {
 public:
+    WaypointList();
+
     /**
      * @brief Constructor to initialize the waypoint list.
      * @param waypoints A vector of 3D coordinates representing waypoints in space.
@@ -50,6 +52,12 @@ public:
      * @param viewer Reference to the Easy3D viewer for rendering the points.
      */
     void draw(easy3d::Viewer& viewer) const;
+
+    const std::vector<easy3d::vec3>& getWaypoints() const
+    {
+        return waypoints_;
+    }
+
 
 private:
     std::vector<easy3d::vec3> waypoints_;   ///< List of waypoints in 3D space.

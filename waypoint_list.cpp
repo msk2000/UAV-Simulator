@@ -5,6 +5,8 @@
 #include "waypoint_list.h"
 #include <easy3d/renderer/drawable_points.h>
 
+
+WaypointList::WaypointList() : waypoints_(), current_index_(0) {}
 /**
  * @brief Constructs a WaypointList with the provided set of waypoints.
  * @param waypoints A vector of 3D points representing the mission trajectory.

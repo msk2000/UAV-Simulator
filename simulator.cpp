@@ -5,6 +5,7 @@
 #include <simviewer.h>
 #include <mission_manager.h>
 #include <waypoint_list.h>
+#include <gnc.h>
 #include <easy3d/viewer/viewer.h>
 #include <easy3d/renderer/camera.h>
 #include <easy3d/core/types.h>
@@ -23,10 +24,34 @@ int main()
     std::string fname = "../data.txt";
 
     Aircraft drone(fname, vehicle_count);
-    World world;
     drone.steps = steps;
     drone.dt = dt;
-    //drone.initKeyboard();
+
+    World world;
+    //======================= GNC: TRIM & LINEAR INCLUDED ====
+    GNC gnc;
+    double trim_airspeed = drone.u;    // m/s
+    double trim_flightpath = 0.0;   // radians
+    double trim_turn_radius = std::numeric_limits<double>::infinity();  // or a large number like 1e9
+
+
+
+    if (gnc.computeTrim(drone, trim_airspeed, trim_flightpath,trim_turn_radius))
+    {
+        std::cout << "Trim computed successfully." << std::endl;
+
+    if (gnc.linearizeAtTrim(drone))
+    {
+        std::cout << "Linearization successful." << std::endl;
+    }
+    }
+    else
+    {
+        std::cerr << "Trim computation failed." << std::endl;
+    }
+
+    //=======================================================
+
 
     easy3d::initialize(true);
 
@@ -48,6 +73,7 @@ int main()
     MissionManager mission;
     Path path = mission.generateSquareCircuit(0, 0, 2800, drone.pd);
     WaypointList waypoints(path.generateWaypoints(150.0f));
+    gnc.setWaypoints(waypoints);
 
     // Render the mission path and waypoints
     path.draw(viewer);

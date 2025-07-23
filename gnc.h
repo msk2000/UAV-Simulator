@@ -20,6 +20,7 @@
 class GNC 
 {
 public:
+    GNC();
     /**
      * @brief Set the waypoints for the navigation system.
      * @param waypoints The list of waypoints to follow.
@@ -35,6 +36,22 @@ public:
      * @param dt Time step in seconds.
      */
     void update(const Aircraft& aircraft, float dt);
+
+
+    // New additions: For Trim, linearisation etc
+    bool computeTrim(Aircraft& aircraft, double Va, double gamma, double R);
+    static double trimObjective(const std::vector<double>& angles, std::vector<double>& grad, void* data);
+    static Eigen::VectorXd computeXdot(const Aircraft& ac);
+    bool linearizeAtTrim(const Aircraft& aircraft);
+
+    struct TrimData
+    {
+        double Va;
+        double gamma;
+        double R;
+        Aircraft* aircraft;
+    };
+
 
 private:
     WaypointList waypoints_;    ///< Current list of waypoints for navigation

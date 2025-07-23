@@ -304,7 +304,9 @@ public:
         return aircraft;
     }
     
-    
+    //==================== FRIENDSHIP with GNC ==================
+    friend class GNC;
+
     private:
 
     // functions to calculate forces, velocities and moments
