@@ -99,6 +99,21 @@ public:
     double Gamma_7;
     double Gamma_8;
 
+    // ===== Roll/Yaw combined coefficients after applying Gamma transforms =====
+    double C_p_0;
+    double C_p_beta;
+    double C_p_p;
+    double C_p_r;
+    double C_p_delta_a;
+    double C_p_delta_r;
+
+    double C_r_0;
+    double C_r_beta;
+    double C_r_p;
+    double C_r_r;
+    double C_r_delta_a;
+    double C_r_delta_r;
+
     //Forces&Moments function:
     double Cd_of_alpha;
       

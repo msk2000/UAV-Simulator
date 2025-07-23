@@ -49,8 +49,11 @@ public:
         double Va;
         double gamma;
         double R;
+        double phi_fixed;
+        double beta_fixed;
         Aircraft* aircraft;
     };
+
 
 
 private:

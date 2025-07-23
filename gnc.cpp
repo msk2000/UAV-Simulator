@@ -54,35 +54,45 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
 {
     std::cout << "Computing trim for Va = " << Va << ", γ = " << gamma << ", R = " << R << std::endl;
 
-    std::vector<double> x0 = {0.05, 0.0, 0.0}; // alpha, phi, beta
+    // ---- Fix β and compute φ as per book ----
+    double beta_fixed = 0.0; // no sideslip
+    double phi_fixed = 0.0;
+    if (std::isfinite(R) && std::abs(R) > 1e-6) {
+        phi_fixed = std::atan((Va * Va * std::cos(gamma)) / (aircraft.g * R));
+    }
 
-    TrimData data{Va, gamma, R, &aircraft};
+    // Only alpha is optimized
+    std::vector<double> x0 = {0.05}; // initial alpha guess
 
-    nlopt::opt opt(nlopt::LN_COBYLA, 3);
-    opt.set_lower_bounds({-0.5, -M_PI/4, -0.5});
-    opt.set_upper_bounds({ 0.5,  M_PI/4,  0.5});
+    TrimData data{Va, gamma, R, phi_fixed, beta_fixed, &aircraft};
+
+    nlopt::opt opt(nlopt::LN_COBYLA, 1);
+    opt.set_lower_bounds({-0.5});
+    opt.set_upper_bounds({0.5});
     opt.set_min_objective(trimObjective, &data);
     opt.set_xtol_rel(1e-4);
 
     double minf;
     nlopt::result result = opt.optimize(x0, minf);
 
-    if (result < 0) {
+    if (result < 0)
+    {
         std::cerr << "Trim optimization failed!" << std::endl;
         return false;
     }
 
     // Update aircraft trim values
     aircraft.alpha = x0[0];
-    aircraft.phi   = x0[1];
-    aircraft.beta  = x0[2];
+    aircraft.phi   = phi_fixed;
+    aircraft.beta  = beta_fixed;
 
     double theta = aircraft.alpha + gamma;
 
-    aircraft.X = {
+    aircraft.X =
+    {
         0, 0, 0,
-        Va * cos(aircraft.alpha),
-        Va * sin(aircraft.beta),
+        Va * std::cos(aircraft.alpha),
+        Va * std::sin(aircraft.beta),
         0,
         0, 0, 0,
         theta,
@@ -90,7 +100,9 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
         0
     };
 
-    std::cout << "Trim succeeded with α = " << x0[0] << ", ϕ = " << x0[1] << ", β = " << x0[2] << std::endl;
+    std::cout << "Trim succeeded with α = " << aircraft.alpha
+              << ", ϕ = " << aircraft.phi
+              << ", β = " << aircraft.beta << std::endl;
     std::cout << "Trim control inputs:\n";
     std::cout << "  Elevator deflection δₑ = " << aircraft.delta_e << " rad\n";
     std::cout << "  Aileron deflection δₐ = " << aircraft.delta_a << " rad\n";
@@ -102,6 +114,7 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
 }
 
 
+
 double GNC::trimObjective(const std::vector<double>& angles, std::vector<double>& grad, void* data)
 {
     auto* trim = static_cast<TrimData*>(data);
@@ -110,66 +123,93 @@ double GNC::trimObjective(const std::vector<double>& angles, std::vector<double>
     double gamma = trim->gamma;
     double R = trim->R;
 
+    // Optimization variable: only alpha
     double alpha = angles[0];
-    double phi   = angles[1];
-    double beta  = angles[2];
+    // Fixed from TrimData
+    double phi = trim->phi_fixed;
+    double beta = trim->beta_fixed;
 
-    // Step 3: Compute x*
+    // ===== Compute steady-state values =====
     double u = Va * std::cos(alpha) * std::cos(beta);
     double v = Va * std::sin(beta);
     double w = Va * std::sin(alpha) * std::cos(beta);
     double theta = alpha + gamma;
 
+    // Angular rates for the specified trim (Eq. 5.19)
     double p = -Va / R * std::sin(theta);
-    double q = Va / R * std::sin(phi) * std::cos(theta);
-    double r = Va / R * std::cos(phi) * std::cos(theta);
+    double q =  Va / R * std::sin(phi) * std::cos(theta);
+    double r =  Va / R * std::cos(phi) * std::cos(theta);
 
-    // Set aircraft state x*
-    ac.X[3] = u; ac.X[4] = v; ac.X[5] = w;
-    ac.X[6] = p; ac.X[7] = q; ac.X[8] = r;
-    ac.X[9] = phi;  // ϕ
-    ac.X[10] = theta; // θ
-    ac.X[11] = 0.0;   // ψ = yaw (irrelevant for trim)
+    // Set aircraft state
+    ac.X[3] = u;
+    ac.X[4] = v;
+    ac.X[5] = w;
+    ac.X[6] = p;
+    ac.X[7] = q;
+    ac.X[8] = r;
+    ac.X[9]  = phi;
+    ac.X[10] = theta;
+    ac.X[11] = 0.0;
 
-    // Step 4: Set guess for control inputs (e.g., elevator, aileron, rudder, throttle)
-    // For now, lez do zero inputs and later add another optimization layer
+    // ===== Initial control guesses =====
     ac.delta_e = 0.0;
     ac.delta_a = 0.0;
     ac.delta_r = 0.0;
     ac.delta_t = 0.5;
 
-    // Step 5: Evaluate f(x,u)
+    // Evaluate forces/moments
     ac.calculate_forces();
     ac.calculate_moments();
 
-     // Compute trim control inputs based on current state and rates
+    // Compute control inputs for trim
     Aircraft::ControlInputs trim_controls = ac.computeTrimControls(alpha, beta, phi, p, q, r, theta, Va, R);
-    // Update controls to trim values
     ac.delta_e = trim_controls.delta_e;
     ac.delta_a = trim_controls.delta_a;
     ac.delta_r = trim_controls.delta_r;
     ac.delta_t = trim_controls.delta_t;
 
-    //recalc forces moments
+    // Recompute forces/moments
     ac.calculate_forces();
     ac.calculate_moments();
 
-    // Use the 6 DoF Newton-Euler equations to compute x_dot
-    Eigen::VectorXd x_dot = computeXdot(ac);  /// TODO  need to implement this better ?
+    // ===== Compute state derivatives =====
+    Eigen::VectorXd x_dot = computeXdot(ac);
 
-
-
-    for(const auto& i: x_dot)
-    {
-        std::cout<<i<<" ";
+    // ===== Desired derivatives =====
+    double h_dot_desired = Va * std::sin(gamma);
+    double psi_dot_desired = 0.0;
+    if (std::isfinite(R) && std::abs(R) > 1e-6) {
+        psi_dot_desired = Va / (R * std::cos(gamma));
     }
-    std::cout<<std::endl;
 
-    // Step 6: Compute cost ||x_dot||
-    double cost = x_dot.squaredNorm(); // or select subset of terms you want to minimize
+    // ===== Compute residuals =====
+    double du     = x_dot[3];
+    double dv     = x_dot[4];
+    double dw     = x_dot[5];
+    double dp     = x_dot[6];
+    double dq     = x_dot[7];
+    double dr     = x_dot[8];
+    double dphi   = x_dot[9];
+    double dtheta = x_dot[10];
+    double dh = (-x_dot[2]) - h_dot_desired;//double dh     = x_dot[2] - h_dot_desired;
+    double dpsi   = x_dot[11] - psi_dot_desired;
+
+    double cost = du*du + dv*dv + dw*dw
+                + dp*dp + dq*dq + dr*dr
+                + dphi*dphi + dtheta*dtheta
+                + dh*dh + dpsi*dpsi;
+
+    std::cout << "du dv dw dp dq dr dphi dtheta dh dpsi: "
+              << du << " " << dv << " " << dw << " "
+              << dp << " " << dq << " " << dr << " "
+              << dphi << " " << dtheta << " "
+              << dh << " " << dpsi << std::endl;
 
     return cost;
 }
+
+
+
 
 Eigen::VectorXd GNC::computeXdot(Aircraft& ac)
 {

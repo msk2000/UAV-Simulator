@@ -19,7 +19,7 @@ int main()
 {
     // Simulation parameters
     int steps = 10;
-    double dt = 0.01;//0.0001;
+    double dt = 0.02;//0.0001;
     int vehicle_count = 1;
     std::string fname = "../data.txt";
 
@@ -39,6 +39,17 @@ int main()
     if (gnc.computeTrim(drone, trim_airspeed, trim_flightpath,trim_turn_radius))
     {
         std::cout << "Trim computed successfully." << std::endl;
+         // --- overwrite trimmed state with desired starting position ---
+        drone.X[0] = 0.0;     // pn (North)
+        drone.X[1] = 0.0;     // pe (East)
+        drone.X[2] = 2000.0;  // pd (Down)
+        //Overwrite state & controls with trimmed values
+        drone.X[3] = drone.u = trim_airspeed * std::cos(drone.alpha);
+        drone.X[4] = drone.v = trim_airspeed * std::sin(drone.beta);
+        drone.X[5] = drone.w = 0.0;
+        drone.X[9] = drone.phi;
+        drone.X[10] = drone.theta = drone.alpha + trim_flightpath;
+        drone.X[11] = 0.0; // yaw
 
     if (gnc.linearizeAtTrim(drone))
     {

@@ -121,6 +121,22 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
         Gamma_7=(((Jx-Jy)*Jx)+(Jxz*Jxz))/Gamma;
         Gamma_8=Jx/Gamma;
         beta0 = 1*(M_PI/180);
+
+        // ===== Compute combined roll/yaw coefficients (Eqns from book) =====
+        C_p_0        = Gamma_3 * C_ell_0        + Gamma_4 * C_n_0;
+        C_p_beta     = Gamma_3 * C_ell_beta     + Gamma_4 * C_n_beta;
+        C_p_p        = Gamma_3 * C_ell_p        + Gamma_4 * C_n_p;
+        C_p_r        = Gamma_3 * C_ell_r        + Gamma_4 * C_n_r;
+        C_p_delta_a  = Gamma_3 * C_ell_delta_a  + Gamma_4 * C_n_delta_a;
+        C_p_delta_r  = Gamma_3 * C_ell_delta_r  + Gamma_4 * C_n_delta_r;
+
+        C_r_0        = Gamma_4 * C_ell_0        + Gamma_8 * C_n_0;
+        C_r_beta     = Gamma_4 * C_ell_beta     + Gamma_8 * C_n_beta;
+        C_r_p        = Gamma_4 * C_ell_p        + Gamma_8 * C_n_p;
+        C_r_r        = Gamma_4 * C_ell_r        + Gamma_8 * C_n_r;
+        C_r_delta_a  = Gamma_4 * C_ell_delta_a  + Gamma_8 * C_n_delta_a;
+        C_r_delta_r  = Gamma_4 * C_ell_delta_r  + Gamma_8 * C_n_delta_r;
+
         std::cout << "Aircraft loaded from file successfully" << "\n";
         std::cout << "Vehicle has been given the ID number: "<< vehicle_count <<"\n";
         vehicle_count++;
@@ -765,7 +781,7 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     translate_axes(axesVertices);
 
 
-    //printState();
+    printState();
 
 
     return vertices;
@@ -807,10 +823,6 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
     // Update UAV per cycle of the loop [Also updates axes]
     update_aircraft(vertices, axesVertices, dt);
 
-   
-
-    
-    //viewer->fit_screen(mesh);
 
 
     // Update the viewer
@@ -907,7 +919,7 @@ Aircraft::ControlInputs Aircraft::computeTrimControls(
     // Note: may need to replace or adjust terms according to aircraft model
 
     // Moment terms from inertia matrix
-    double moment_term = (Jxz * (p*p - r*r)) + ((Jx - Jz) * p * r);
+    double moment_term = (Jxz * (p*p - r*r) + (Jx - Jz) * p * r) / (qbar * c * S);
 
     // Calculate delta_e
     double numerator = moment_term - C_m_0 - C_m_alpha * alpha - C_m_q * (c * q) / (2.0 * Va);
@@ -918,51 +930,65 @@ Aircraft::ControlInputs Aircraft::computeTrimControls(
     // Clamp to limits
     controls.delta_e = std::clamp(controls.delta_e, delta_e_min, delta_e_max);
 
-    // ----- Throttle (δ_t) from eq (F.2) -----
-    // Force terms: m*(-r*v + q*w + g*sin(theta))
-    double thrust_numerator = 2.0 * mass * (-r * v + q * w + g_ * std::sin(theta));
+   // ----- Throttle (δ_t) from eq (F.2) with  prop model -----
 
-    // Assuming C_X(alpha) is the drag coefficient in X direction
-    // This may need to be calculated or updated for alpha, e.g. using polars:
-    // CxAlpha, CxqAlpha, CxdeltaeAlpha are your derivatives
-    double Cx = CxAlpha + CxqAlpha * (c * q) / (2.0 * Va) + CxdeltaeAlpha * controls.delta_e;
+    // Make sure coefficients are up to date
+    calculate_lift_drag_coefficients();
 
-    // Avoid division by zero
-    if (std::abs(Cx) < 1e-6) Cx = 1e-6;
+    double C_X = CxAlpha
+            + CxqAlpha * (c * q) / (2.0 * Va)
+            + CxdeltaeAlpha * controls.delta_e;
+    if (std::abs(C_X) < 1e-6) C_X = 1e-6;
 
-    controls.delta_t = (thrust_numerator / (qbar * S * Cx)) + (rho * prop_area * prop_thrust_coef * Va * Va);
+
+
+    // Required net force in X-direction (positive forward)
+    double Fx_required = mass * (-r * v + q * w + g * std::sin(theta));  // from book
+
+    // Aerodynamic contribution
+    double Fx_aero = qbar * S * C_X;
+
+    // Solve for δ_t using your prop model
+    double prop_term = Fx_required - Fx_aero;
+    double delta_t_sq = (Va * Va + (2.0 * prop_term) / (rho * prop_area * C_prop)) / (k_motor * k_motor);
+
+    // Ensure non-negative
+    if (delta_t_sq < 0.0) delta_t_sq = 0.0;
+
+    controls.delta_t = std::sqrt(delta_t_sq);
 
     // Clamp to limits
     controls.delta_t = std::clamp(controls.delta_t, delta_t_min, delta_t_max);
 
+
+
     // ----- Aileron (δ_a) and Rudder (δ_r) from eq (F.3) -----
 
-    // Coefficient matrix for control derivatives
     Eigen::Matrix2d control_matrix;
-    control_matrix(0,0) = C_ell_delta_a;
-    control_matrix(0,1) = C_ell_delta_r;
-    control_matrix(1,0) = C_n_delta_a;
-    control_matrix(1,1) = C_n_delta_r;
+    control_matrix << C_p_delta_a, C_p_delta_r,
+                    C_r_delta_a, C_r_delta_r;
 
-    // Right-hand side vector
+    double half_rho_Va2Sb = 0.5 * rho * Va * Va * S * b;
+
     Eigen::Vector2d rhs;
 
-    // Calculate coefficients for p_dot and r_dot terms
+    // Roll moment balance
+    rhs(0) = -( C_p_0
+            + C_p_beta * beta
+            + C_p_p * (b * p) / (2.0 * Va)
+            + C_p_r * (b * r) / (2.0 * Va) ) / half_rho_Va2Sb;
 
-    double half_rho_Vb = 0.5 * rho * Va * S * b;
+    // Yaw moment balance
+    rhs(1) = -( C_r_0
+            + C_r_beta * beta
+            + C_r_p * (b * p) / (2.0 * Va)
+            + C_r_r * (b * r) / (2.0 * Va) ) / half_rho_Va2Sb;
 
-    rhs(0) = -0.5 * p * q + 0.5 * q * r - (1.0 / half_rho_Vb) * (C_ell_0 + C_ell_beta * beta + C_ell_p * (b * p) / (2.0 * Va) + C_ell_r * (b * r) / (2.0 * Va));
-    rhs(1) = -0.5 * p * q + 0.5 * q * r - (1.0 / half_rho_Vb) * (C_n_0 + C_n_beta * beta + C_n_p * (b * p) / (2.0 * Va) + C_n_r * (b * r) / (2.0 * Va));
-
-    // Solve for [delta_a; delta_r]
     Eigen::Vector2d delta_controls = control_matrix.inverse() * rhs;
 
-    controls.delta_a = delta_controls(0);
-    controls.delta_r = delta_controls(1);
+    controls.delta_a = std::clamp(delta_controls(0), delta_a_min, delta_a_max);
+    controls.delta_r = std::clamp(delta_controls(1), delta_r_min, delta_r_max);
 
-    // Clamp to limits
-    controls.delta_a = std::clamp(controls.delta_a, delta_a_min, delta_a_max);
-    controls.delta_r = std::clamp(controls.delta_r, delta_r_min, delta_r_max);
 
     return controls;
 }
