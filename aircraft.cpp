@@ -889,6 +889,85 @@ void Aircraft::render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) cons
             true);                // Origin at upper-left
 }
 
+Aircraft::ControlInputs Aircraft::computeTrimControls(
+    double alpha, double beta, double phi,
+    double p, double q, double r,
+    double theta, double Va, double R)
+{
+    Aircraft::ControlInputs controls;
+
+    // Constants for convenience
+    const double qbar = 0.5 * rho * Va * Va; // Dynamic pressure
+    const double c = wing_chord;
+    const double b = wing_span;
+    const double S = wing_area;
+    const double g_ = g;
+
+    // ----- Elevator (δ_e) from eq (F.1) -----
+    // Note: may need to replace or adjust terms according to aircraft model
+
+    // Moment terms from inertia matrix
+    double moment_term = (Jxz * (p*p - r*r)) + ((Jx - Jz) * p * r);
+
+    // Calculate delta_e
+    double numerator = moment_term - C_m_0 - C_m_alpha * alpha - C_m_q * (c * q) / (2.0 * Va);
+    double denominator = C_m_delta_e;
+
+    controls.delta_e = numerator / denominator;
+
+    // Clamp to limits
+    controls.delta_e = std::clamp(controls.delta_e, delta_e_min, delta_e_max);
+
+    // ----- Throttle (δ_t) from eq (F.2) -----
+    // Force terms: m*(-r*v + q*w + g*sin(theta))
+    double thrust_numerator = 2.0 * mass * (-r * v + q * w + g_ * std::sin(theta));
+
+    // Assuming C_X(alpha) is the drag coefficient in X direction
+    // This may need to be calculated or updated for alpha, e.g. using polars:
+    // CxAlpha, CxqAlpha, CxdeltaeAlpha are your derivatives
+    double Cx = CxAlpha + CxqAlpha * (c * q) / (2.0 * Va) + CxdeltaeAlpha * controls.delta_e;
+
+    // Avoid division by zero
+    if (std::abs(Cx) < 1e-6) Cx = 1e-6;
+
+    controls.delta_t = (thrust_numerator / (qbar * S * Cx)) + (rho * prop_area * prop_thrust_coef * Va * Va);
+
+    // Clamp to limits
+    controls.delta_t = std::clamp(controls.delta_t, delta_t_min, delta_t_max);
+
+    // ----- Aileron (δ_a) and Rudder (δ_r) from eq (F.3) -----
+
+    // Coefficient matrix for control derivatives
+    Eigen::Matrix2d control_matrix;
+    control_matrix(0,0) = C_ell_delta_a;
+    control_matrix(0,1) = C_ell_delta_r;
+    control_matrix(1,0) = C_n_delta_a;
+    control_matrix(1,1) = C_n_delta_r;
+
+    // Right-hand side vector
+    Eigen::Vector2d rhs;
+
+    // Calculate coefficients for p_dot and r_dot terms
+
+    double half_rho_Vb = 0.5 * rho * Va * S * b;
+
+    rhs(0) = -0.5 * p * q + 0.5 * q * r - (1.0 / half_rho_Vb) * (C_ell_0 + C_ell_beta * beta + C_ell_p * (b * p) / (2.0 * Va) + C_ell_r * (b * r) / (2.0 * Va));
+    rhs(1) = -0.5 * p * q + 0.5 * q * r - (1.0 / half_rho_Vb) * (C_n_0 + C_n_beta * beta + C_n_p * (b * p) / (2.0 * Va) + C_n_r * (b * r) / (2.0 * Va));
+
+    // Solve for [delta_a; delta_r]
+    Eigen::Vector2d delta_controls = control_matrix.inverse() * rhs;
+
+    controls.delta_a = delta_controls(0);
+    controls.delta_r = delta_controls(1);
+
+    // Clamp to limits
+    controls.delta_a = std::clamp(controls.delta_a, delta_a_min, delta_a_max);
+    controls.delta_r = std::clamp(controls.delta_r, delta_r_min, delta_r_max);
+
+    return controls;
+}
+
+
 
 
 

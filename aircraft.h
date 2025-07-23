@@ -307,6 +307,19 @@ public:
     //==================== FRIENDSHIP with GNC ==================
     friend class GNC;
 
+    struct ControlInputs
+    {
+        double delta_e; // elevator
+        double delta_a; // aileron
+        double delta_r; // rudder
+        double delta_t; // throttle
+    };
+    ControlInputs computeTrimControls(
+    double alpha, double beta, double phi,
+    double p, double q, double r,
+    double theta, double Va, double R);
+
+
     private:
 
     // functions to calculate forces, velocities and moments
@@ -349,8 +362,7 @@ public:
     // Function to calculate r_dot
     double calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8);
 
-    // NCurses: Keyboard input
-    //void collectInput();
+
 
 
     

@@ -64,7 +64,7 @@ int main()
     drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/y_for_z_up_uav2_2000.stl";
     drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
-    world.createTerrainWithTexture(viewer);
+    //world.createTerrainWithTexture(viewer);
     world.createGridDrawable(viewer);
     drone.renderAircraft(viewer);
     drone.createAxesDrawable(viewer);

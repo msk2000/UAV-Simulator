@@ -41,7 +41,7 @@ public:
     // New additions: For Trim, linearisation etc
     bool computeTrim(Aircraft& aircraft, double Va, double gamma, double R);
     static double trimObjective(const std::vector<double>& angles, std::vector<double>& grad, void* data);
-    static Eigen::VectorXd computeXdot(const Aircraft& ac);
+    static Eigen::VectorXd computeXdot(Aircraft& ac);
     bool linearizeAtTrim(const Aircraft& aircraft);
 
     struct TrimData
