@@ -1,0 +1,5 @@
+<map id="GNC" name="GNC">
+<area shape="rect" id="Node000001" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="33,93,84,119"/>
+<area shape="rect" id="Node000002" href="$classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,5,112,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,45,61,93,56,93,56,45"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="mission_manager.h" name="mission_manager.h">
+<area shape="rect" id="Node000001" title="Defines the MissionManager class responsible for creating high&#45;level UAV missions." alt="" coords="155,5,305,31"/>
+<area shape="rect" id="Node000002" href="$path_8h.html" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="199,79,261,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,31,233,65,227,65,227,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,299,68,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="205,106,169,125,128,151,87,185,55,227,44,256,40,285,34,284,39,254,50,224,84,182,125,147,167,120,202,102"/>
+<area shape="rect" id="Node000004" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="65,225,192,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="211,107,184,127,159,154,144,183,136,212,130,211,139,181,154,150,181,123,208,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="169,372,309,397"/>
+<area shape="poly" id="edge12_Node000002_Node000005" title=" " alt="" coords="255,102,283,122,306,151,315,179,317,209,314,239,306,268,283,322,258,362,253,359,278,319,301,267,308,238,312,209,310,180,301,153,279,126,252,106"/>
+<area shape="rect" id="Node000007" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="169,152,291,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="233,104,233,138,227,138,227,104"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="369,152,545,177"/>
+<area shape="poly" id="edge13_Node000002_Node000008" title=" " alt="" coords="262,100,408,145,406,150,261,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="116,253,64,292,61,288,112,249"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="130,251,131,285,135,305,143,322,166,347,195,364,192,369,163,351,138,326,130,306,125,286,125,251"/>
+<area shape="rect" id="Node000006" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="153,299,243,324"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="142,249,179,287,175,291,138,253"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="207,323,228,359,223,361,203,326"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="215,180,158,219,155,215,212,175"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="237,177,253,239,259,281,258,324,250,359,245,358,253,324,254,282,248,240,232,178"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="230,178,206,286,201,285,225,177"/>
+</map>

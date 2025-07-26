@@ -1,0 +1,16 @@
+<map id="line_segment.h" name="line_segment.h">
+<area shape="rect" id="Node000001" title="Defines the LineSegment class for a straight path segment." alt="" coords="119,5,242,31"/>
+<area shape="rect" id="Node000002" href="$line__segment_8cpp.html" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="5,79,143,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,40,93,81,90,76,151,36"/>
+<area shape="rect" id="Node000003" href="$path_8cpp.html" title="Implementation of the Path class for managing and visualizing path segments in 3D space." alt="" coords="141,152,220,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,45,183,152,178,152,178,45"/>
+<area shape="rect" id="Node000004" href="$path_8h.html" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="219,79,281,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,39,241,77,237,80,200,43"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="231,116,194,154,190,150,227,112"/>
+<area shape="rect" id="Node000005" href="$mission__manager_8h.html" title="Defines the MissionManager class responsible for creating high&#45;level UAV missions." alt="" coords="245,152,394,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="273,112,310,150,306,154,269,116"/>
+<area shape="rect" id="Node000006" href="$mission__manager_8cpp.html" title=" " alt="" coords="156,225,320,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="298,188,253,227,250,223,294,184"/>
+<area shape="rect" id="Node000007" href="$simulator_8cpp.html" title=" " alt="" coords="344,225,455,251"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="344,184,388,223,384,227,340,188"/>
+</map>
