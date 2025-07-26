@@ -104,31 +104,56 @@ Soon you should be able to provide a path to the UAV and watch it generate waypo
 
 This project relies on the following libraries:
 - [Eigen](https://eigen.tuxfamily.org/dox/GettingStarted.html): For linear algebra operations.
-- [matplotlibcpp](https://github.com/lava/matplotlibcpp): A C++ wrapper for Matplotlib to plot graphs.
+- [ImGui](https://github.com/ocornut/imgui): For in‑application graphical user interfaces (sliders, panels, etc.).
+- [ImPlot](https://github.com/epezent/implot): For real‑time plotting integrated with ImGui.
+- [Doxygen](https://www.doxygen.nl/): For generating documentation from source code.
 - [Easy3D](https://github.com/easy3d/easy3d): For 3D visualization and rendering.
+- [NLOpt](https://nlopt.readthedocs.io/en/latest/): For nonlinear optimization used in trim and control routines.
 
-## Building the Project [NOT RECOMMENDED FOR NOW]
 
-To build and run this project, follow these steps:
+## Building and Running the Project
 
-1. **Clone the Repository:**
-    ```bash
-    git clone https://github.com/msk2000/UAV-Simulator.git
-    cd aircraft-simulation
+To build and run **UAV-Simulator**, you need a system with the required dependencies installed and CMake available.
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/msk2000/UAV-Simulator.git
+cd UAV-Simulator
+
     ```
 
-2. **Install Dependencies:**
-   Ensure you have the necessary libraries installed. You may need to follow the installation instructions for [Eigen](https://eigen.tuxfamily.org/dox/GettingStarted.html), [matplotlibcpp](https://github.com/lava/matplotlibcpp), and [Easy3D](https://github.com/easy3d/easy3d).
+### 2. Install dependencies
 
-3. **Compile the Code:**
-    ```bash
-    g++ -o aircraft_simulation main.cpp -I/path/to/eigen -I/path/to/matplotlibcpp -I/path/to/easy3d -lX11 -lGL -lGLU
+Make sure these libraries and tools are installed on your system (install paths may vary):
+
+- [Eigen](https://eigen.tuxfamily.org/dox/GettingStarted.html) (header‑only)
+- [Easy3D](https://github.com/easy3d/easy3d) (set `Easy3D_DIR` accordingly in `CMakeLists.txt`)
+- [ImGui](https://github.com/ocornut/imgui) and [ImPlot](https://github.com/epezent/implot) (already included in the repo or via Easy3D’s `3rd_party`)
+- [NLopt](https://nlopt.readthedocs.io/en/latest/) (for trim and optimization)
+- Python 3 development headers and NumPy (for certain computations)
+- OpenGL and GLFW development packages
+- [CMake](https://cmake.org/) (version 3.0 or newer)
+
+
+### 3. Configure and build with CMake
+
+From the root of the project:
+
+```bash
+mkdir build
+cd build
+cmake ..
+make -j$(nproc)
+
     ```
 
-4. **Run the Simulation:**
-    ```bash
-    ./aircraft_simulation
-    ```
+### 4. Run the simulation
+
+From inside the `build/` directory:
+
+```bash
+./UAVSim
+
 
 ## Known Issues
 
@@ -137,10 +162,13 @@ To build and run this project, follow these steps:
 
 ## Future Work
 
-- **Feature Completion:** Completing and improving the simulation features.
-- **Enhanced Rendering:** Adding more detailed and interactive 3D visualizations.
-- **Improved Data Handling:** Recovering and integrating the latest data to enhance the simulation accuracy.
-- **Incorporate QT libraries:** This is intended to replace the current dependency on matplotlib.
+- **Autopilot System:** Implement a closed‑loop control framework to stabilize the UAV and follow desired flight commands automatically.
+- **Guidance Algorithm:** Develop algorithms to generate and update flight paths or waypoint sequences in real time for autonomous navigation.
+- **Navigation:** Integrate real‑time state estimation to accurately track the UAV’s position, velocity, and attitude during flight.
+- **Linearisation and State‑Space Models:** Create routines to linearize nonlinear flight dynamics around trim conditions and generate state‑space models for control design and analysis.
+- **Transfer Function Integration:** Implement methods to derive and analyze transfer functions for key control channels, enabling frequency‑domain tuning and analysis.
+
+
 
 # Class Members for Aircraft Simulation
 
@@ -226,7 +254,7 @@ The following table details the key parameters used in the simulation. These par
 
 ### Usage
 
-Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in `simulation.h`. Additional details about how to obtain these parameters for a given UAV will be provided in the future.
+Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in `aircraft.h`. Additional details about how to obtain these parameters for a given UAV will be provided in the future.
 
   
 
