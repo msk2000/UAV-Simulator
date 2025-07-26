@@ -1,4 +1,11 @@
-//Header file for the Aircraft class of the Simulator project
+/**
+ * @file aircraft.h
+ * @brief Declaration of the Aircraft class for the UAV Simulator.
+ *
+ * The Aircraft class models a fixed‑wing UAV. It loads parameters from file,
+ * calculates aerodynamic forces and moments, integrates the dynamics, and
+ * updates its 3D geometry for rendering in the Easy3D viewer.
+ */
 
 #ifndef AIRCRAFT_H
 #define AIRCRAFT_H
@@ -19,34 +26,31 @@
 
 #define _USE_MATH_DEFINES
 
-
+/**
+ * @class Aircraft
+ * @brief Represents a fixed‑wing UAV including its dynamics and 3D rendering.
+ *
+ * Public members expose state variables and parameters, while methods handle:
+ * - Loading aircraft parameters from file
+ * - Computing forces, moments, and trim
+ * - Integrating dynamics (RK4)
+ * - Rendering the aircraft and axes in Easy3D
+ * - Updating the aircraft per simulation step
+ */
 class Aircraft 
 {
 public:
 
-    // These will be used to track state variables
-    double clock;
-    double pn;
-    double pe;
-    double pd;
-    double u;
-    double v;
-    double w; 
-    double phi;
-    double theta;
-    double psi;
-    double p;
-    double q;
-    double r;
-    double V_m;
-    double alpha;
-    double beta; 
-    double fx;
-    double fy;
-    double fz;
-    double ell;
-    double m;
-    double n;
+    // ===== Public state variables (documented briefly for clarity) =====
+    double clock;    ///< Simulation clock [s]
+    double pn, pe, pd; ///< Position in NED frame [m]
+    double u, v, w;    ///< Body-axis velocities [m/s]
+    double phi, theta, psi; ///< Euler angles [rad]
+    double p, q, r;    ///< Angular rates [rad/s]
+    double V_m;        ///< Airspeed [m/s]
+    double alpha, beta;///< AoA and sideslip
+    double fx, fy, fz; ///< Body-axis forces [N]
+    double ell, m, n;  ///< Body-axis moments [Nm]
     
     // More
     std::vector<double> velocity_b;
@@ -277,14 +281,24 @@ public:
 
     std::unique_ptr<easy3d::SurfaceMesh> mesh;// easy3d::SurfaceMesh* mesh;
 
-    // Constructor
+    /**
+     * @brief Construct a new Aircraft, load parameters, and initialize states.
+     * @param fname Path to aircraft parameter file.
+     * @param vehicle_count Reference to vehicle counter.
+     */
     Aircraft(const std::string& fname, int& vehicle_count);
-    //Destructor
+     /**
+     * @brief Destructor for Aircraft.
+     */
     ~Aircraft();
     
     
     
-    // function to load a plane from text file
+    /**
+     * @brief Load an aircraft parameter file.
+     * @param filePath File path of parameter file.
+     * @param vehicle_count Reference to vehicle counter.
+     */
     void load_a_plane(const std::string& filePath, int& vehicle_count);
     
     
@@ -296,24 +310,51 @@ public:
     
 
 
-    // function to update the overall state of the aircraft
+    /**
+     * @brief Update aircraft states, geometry, and axes per simulation step.
+     * @param vertices Pointer to aircraft vertex buffer.
+     * @param axesVertices Pointer to axes vertex buffer.
+     * @param dt Time step in seconds.
+     * @return Updated aircraft vertex pointer.
+     */
     easy3d::vec3* update_aircraft(easy3d::vec3* vertices,easy3d::vec3* axesVertices, double& dt);
 
 
     
-    
+    /**
+     * @brief Render the aircraft model into the viewer.
+     * @param viewer Reference to Easy3D viewer.
+     */
     void renderAircraft(easy3d::Viewer& viewer); // NEW
-
+     /**
+     * @brief Create and render local coordinate axes.
+     * @param viewer Reference to Easy3D viewer.
+     */
     void createAxesDrawable(easy3d::Viewer& viewer);
+    /**
+     * @brief Animate the aircraft for one frame.
+     * @param viewer Pointer to Easy3D viewer.
+     * @param dt Time step in seconds.
+     * @return True if animation update succeeded.
+     */
     bool animate(easy3d::Viewer* viewer, double dt);
     
-    //void initKeyboard();
 
-    //void render_HUD(easy3d::TextRenderer& text_renderer);
+     /**
+     * @brief Render HUD overlay of state variables.
+     * @param tr Text renderer for HUD.
+     * @param viewer Pointer to Easy3D viewer.
+     */
     void render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) const;
+    /**
+     * @brief Print current state variables to console for debugging.
+     */
     void printState();
 
-     //getter for shading
+    /**
+     * @brief Get the drawable for shading or viewer operations.
+     * @return Aircraft mesh as TrianglesDrawable.
+     */
     easy3d::TrianglesDrawable* getAircraftDrawable() const
     {
         return aircraft;
@@ -329,6 +370,19 @@ public:
         double delta_r; // rudder
         double delta_t; // throttle
     };
+     /**
+     * @brief Compute control inputs that achieve trim for given flight conditions.
+     * @param alpha Angle of attack.
+     * @param beta Side slip angle.
+     * @param phi Roll angle.
+     * @param p Roll rate.
+     * @param q Pitch rate.
+     * @param r Yaw rate.
+     * @param theta Pitch angle.
+     * @param Va Airspeed.
+     * @param R Turn radius.
+     * @return Structure containing trim control inputs.
+     */
     ControlInputs computeTrimControls(
     double alpha, double beta, double phi,
     double p, double q, double r,
@@ -337,21 +391,27 @@ public:
 
     private:
 
-    // functions to calculate forces, velocities and moments
+    /// Perform force calculations (gravity, aero, prop).
     void calculate_forces();
+    /// Calculate body-frame velocity and angles.
     void calculate_body_frame_velocity_and_angles();
+    /// Calculate lift and drag coefficients.
     void calculate_lift_drag_coefficients();
+    /// Calculate aerodynamic and propulsive moments.
     void calculate_moments();
 
-    // functions for 3D rendering based on state changes
+    /// Apply rotation to aircraft mesh vertices.
     void rotate(easy3d::vec3* vertices);
+    /// Apply rotation to axes vertices.
     void rotate_axes(easy3d::vec3* axesVertices);
+    /// Apply translation to aircraft mesh vertices.
     void translate(easy3d::vec3* vertices);
+    /// Apply translation to axes vertices.
     void translate_axes(easy3d::vec3* axesVertices);
 
-    // Algo
+    /// Integrate dynamics using Runge-Kutta 4th order
     void RK4(std::vector<double>& X,  double dt); 
-    // Dynamics: Called by the RK4 function
+    // ===== Derivative helper functions =====
     // Function to calculate pn_dot
     double calculate_pn_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi);
     //Function to calculate pe_dot

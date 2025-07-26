@@ -1,10 +1,29 @@
-// Implementation file for Aircraft class
+/**
+ * @file aircraft.cpp
+ * @brief Implementation of the Aircraft class used for UAV simulation.
+ *
+ * This class models a fixed-wing UAV by loading its aerodynamic and inertial
+ * parameters from a configuration file, computing forces and moments, performing
+ * state propagation via RK4 integration, and updating/rendering its 3D geometry
+ * in the Easy3D viewer. It also provides helper functions for calculating
+ * aerodynamic coefficients, control inputs for trim, and HUD rendering.
+ *
+ * @note This implementation depends on Easy3D for visualization and uses
+ *       standard C++ STL and Eigen for math operations.
+ */
 #include "aircraft.h"
 #include <easy3d/renderer/text_renderer.h>
 
-// Aircraft Member Functions:
+/// ================================
+// ========== FUNCTIONS ===========
+// ================================
 
-
+/**
+ * @brief Load aircraft parameters from a text file and assign them to members.
+ * @param filePath Path to parameter file.
+ * @param vehicle_count Reference to vehicle counter, used to assign ID.
+ * @note Also computes derived parameters like aspect ratio and combined coefficients.
+ */
 void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count) 
 {
             
@@ -149,7 +168,11 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
 
 
 
-// Class constructor
+/**
+ * @brief Constructor. Loads parameters and initializes state variables.
+ * @param fname Path to the aircraft parameter file.
+ * @param vehicle_count Reference to global vehicle count.
+ */
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
 :
 points(dummy_points),
@@ -209,13 +232,19 @@ steps(10)
         
 
 }
-// Class Destructor
+
+/**
+ * @brief Destructor for Aircraft class. Currently does minimal cleanup.
+ */
 Aircraft::~Aircraft() 
 {
     
     //endwin(); // End ncurses stuff  -< Deprecated
 }
-// Function to calculate the forces and moments acting on the aircraft 
+
+/**
+ * @brief Calculate total aerodynamic, gravitational, and propulsion forces.
+ */
 void Aircraft::calculate_forces()
 {
     // Calculate velocity, alpha and beta (in body-frame)
@@ -259,7 +288,9 @@ void Aircraft::calculate_forces()
 
     
 }
-// Function to calculate the body-frame velocity, angle of attack and side slip
+/**
+ * @brief Compute body-frame airspeed, angle of attack, and sideslip.
+ */
 void Aircraft::calculate_body_frame_velocity_and_angles() 
 {
     velocity_b = {X[3], X[4], X[5]};
@@ -268,7 +299,9 @@ void Aircraft::calculate_body_frame_velocity_and_angles()
     beta = std::asin(velocity_b[1] / V_m);
 }
 
-// Function to calculate the lift and drag related coeefficients
+/**
+ * @brief Compute lift and drag coefficients as functions of alpha and control inputs.
+ */
 void Aircraft::calculate_lift_drag_coefficients()
 {
     // Lift/Drag coefficient calculations [ Cl and Cd ]
@@ -297,7 +330,9 @@ void Aircraft::calculate_lift_drag_coefficients()
 
 }
 
-// Function to calculate the moments acting on the UAV
+/**
+ * @brief Calculate aerodynamic and propulsive moments (roll, pitch, yaw).
+ */
  void Aircraft::calculate_moments()
  {
     // Moment/Torque calculations
@@ -336,9 +371,11 @@ void Aircraft::calculate_lift_drag_coefficients()
 
 
 
-// Function to apply RK4 on state vector
-// Takes in a vector of state variables, dt (step size)
-// Computes approximate for state variables at the end of the time step 
+/**
+ * @brief Runge–Kutta 4th order integration to update state vector.
+ * @param X State vector containing position, velocity, attitude, forces & moments.
+ * @param dt Time step (seconds).
+ */
 // X = {pn,pe,pd,u,v,w,p,q,r,phi,theta,psi,fx,fy,fz,ell,m,n}; 
 
 void Aircraft::RK4(std::vector<double>& X,  double dt)
@@ -502,7 +539,9 @@ void Aircraft::RK4(std::vector<double>& X,  double dt)
     // After updating, these values represent the state at t + dt (fingers crossed)
 }
 
-// Function to calculate pn_dot
+/**
+ * @brief Compute derivative of north position (pn_dot).
+ */
 double Aircraft::calculate_pn_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi)
 {
     pn_dot = 
@@ -512,7 +551,9 @@ double Aircraft::calculate_pn_dot(double& u, double& v, double& w, double& phi, 
     
     return pn_dot;
 }
-//Function to calculate pe_dot
+/**
+ * @brief Compute derivative of east position (pe_dot).
+ */
 double Aircraft::calculate_pe_dot(double& u, double& v, double& w, double& phi, double& theta, double& psi)
 {
 
@@ -524,7 +565,9 @@ double Aircraft::calculate_pe_dot(double& u, double& v, double& w, double& phi, 
     return pe_dot;
 
 }
-// Function to calculate pd_dot
+/**
+ * @brief Compute derivative of down position (pd_dot).
+ */
 double Aircraft::calculate_pd_dot(double& u, double& v, double& w, double& phi, double& theta)
 {
     pd_dot = 
@@ -536,21 +579,27 @@ double Aircraft::calculate_pd_dot(double& u, double& v, double& w, double& phi, 
 }
 
 
-// Function to calculate phi_dot
+/**
+ * @brief Compute derivative of roll angle (phi_dot).
+ */
 double Aircraft::calculate_phi_dot(double& p, double& q, double& r, double& phi, double& theta)
 {
     phi_dot = p + r*std::cos(phi)*std::tan(theta) + q*std::sin(phi)*std::tan(theta);
     
     return phi_dot;
 }
-// Function to calculate theta_dot
+/**
+ * @brief Compute derivative of pitch angle (theta_dot).
+ */
 double Aircraft::calculate_theta_dot(double& q, double& r,double& phi)
 {
    theta_dot = q*std::cos(phi) - r*std::sin(phi);
    
    return theta_dot;
 }
-// Function to calculate psi_dot
+/**
+ * @brief Compute derivative of yaw angle (psi_dot).
+ */
 double Aircraft::calculate_psi_dot(double& q, double& r, double& phi, double& theta)
 {
     psi_dot = (r*std::cos(phi))/std::cos(theta) + (q*std::sin(phi))/std::cos(theta);
@@ -558,21 +607,27 @@ double Aircraft::calculate_psi_dot(double& q, double& r, double& phi, double& th
     return psi_dot;
 }
 
-// Function to calculate u_dot
+/**
+ * @brief Compute derivative of body-axis X velocity.
+ */
 double Aircraft::calculate_u_dot(double& v, double& w, double& q, double& r, double& fx, double& mass)
 {   
      u_dot = (r*v - q*w)+(fx/mass);
 
      return u_dot;
 } 
-// Function to calculate v_dot
+/**
+ * @brief Compute derivative of body-axis Y velocity.
+ */
 double Aircraft::calculate_v_dot(double& u, double& w, double&p,double& fy, double& mass)
 {   
      v_dot = (p*w - r*u)+(fy/mass);
      
      return v_dot;
 } 
-// Function to calculate w_dot
+/**
+ * @brief Compute derivative of body-axis Z velocity.
+ */
 double Aircraft::calculate_w_dot(double& u, double& v, double& p,  double& q,double& fz, double& mass)
 {  
      w_dot = (q*u - p*v)+(fz/mass);
@@ -580,7 +635,9 @@ double Aircraft::calculate_w_dot(double& u, double& v, double& p,  double& q,dou
      return w_dot;
 } 
 
-// Function to calculate p_dot
+/**
+ * @brief Compute derivative of roll rate p.
+ */
 double Aircraft::calculate_p_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_2,double& Gamma_3,double& Gamma_4)
 {
     p_dot = Gamma_1*p*q - Gamma_2*q*r + Gamma_3*ell + Gamma_4*n;
@@ -588,14 +645,18 @@ double Aircraft::calculate_p_dot(double& p, double& q, double& r,  double& ell,d
     return p_dot;
 }
 
-// Function to calculate q_dot
+/**
+ * @brief Compute derivative of pitch rate q.
+ */
 double Aircraft::calculate_q_dot(double& p, double& r,  double& m ,double& Jy, double& Gamma_5,double& Gamma_6)
 {
     q_dot = Gamma_5*p*r - Gamma_6*((p*p)-(r*r)) + (m/Jy); 
 
     return q_dot;    
 }
-// Function to calculate r_dot
+/**
+ * @brief Compute derivative of yaw rate r.
+ */
 double Aircraft::calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8)
 { 
     r_dot = Gamma_7*p*q - Gamma_1*q*r + Gamma_4*ell + Gamma_8*n;
@@ -604,7 +665,9 @@ double Aircraft::calculate_r_dot(double& p, double& q, double& r,  double& ell,d
 }
 
 
-// Function to perform rotation on the aircraft geometry
+/**
+ * @brief Apply rotation to aircraft mesh vertices using Euler angles.
+ */
 void Aircraft::rotate(easy3d::vec3* vertices)
 {
     // Create the rotation matrix using Euler angles
@@ -618,7 +681,9 @@ void Aircraft::rotate(easy3d::vec3* vertices)
 
 }
 
-// Function to perform rotation on the axis vertices
+/**
+ * @brief Apply rotation to local axes vertices.
+ */
 void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 {
     // Create the rotation matrix using Euler angles (same rotation as aircraft)
@@ -631,7 +696,9 @@ void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 }
 
 
-// Function to perform translation of the aircraft geometry
+/**
+ * @brief Apply translation to aircraft mesh vertices.
+ */
 void Aircraft::translate(easy3d::vec3* vertices)
 {
     // pd (X[2]) here is set to negative as pd = - altitude
@@ -648,7 +715,9 @@ void Aircraft::translate(easy3d::vec3* vertices)
     
 }
 
-// Function to perform translation of the axes
+/**
+ * @brief Apply translation to axes vertices.
+ */
 void Aircraft::translate_axes(easy3d::vec3* axesVertices)
 {
     // Use the aircraft's position (pn, pe, pd) as the translation vector
@@ -660,7 +729,10 @@ void Aircraft::translate_axes(easy3d::vec3* axesVertices)
     }
 }
 
-
+/**
+ * @brief Load and render aircraft geometry using Easy3D.
+ * @param viewer Reference to Easy3D viewer.
+ */
 void Aircraft::renderAircraft(easy3d::Viewer& viewer)
 {
     
@@ -710,7 +782,10 @@ void Aircraft::renderAircraft(easy3d::Viewer& viewer)
 }
 
 
-// Function to render a local coordinate frame for the UAV
+/**
+ * @brief Create and render a local coordinate frame.
+ * @param viewer Reference to Easy3D viewer.
+ */
 void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
 {   
     // Create a LinesDrawable to visualize the 3D axes.
@@ -752,7 +827,13 @@ void Aircraft::createAxesDrawable(easy3d::Viewer& viewer)
 
 
 
-// Function to update all UAV related parameters per cycle
+/**
+ * @brief Update aircraft state each simulation step, applying dynamics and geometry transforms.
+ * @param vertices Vertex buffer for aircraft.
+ * @param axesVertices Vertex buffer for axes.
+ * @param dt Time step in seconds.
+ * @return Pointer to updated aircraft vertex buffer.
+ */
 easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* axesVertices,double& dt)
 {
     // Calculate forces and moments
@@ -787,7 +868,12 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     return vertices;
     
 }
-// Function to create the animation of the dynamic UAV
+/**
+ * @brief Animation callback called by viewer per frame.
+ * @param viewer Pointer to Easy3D viewer.
+ * @param dt Time step in seconds.
+ * @return True if updated successfully.
+ */
 bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 {
     (void)viewer;  
@@ -833,7 +919,9 @@ bool Aircraft::animate(easy3d::Viewer* viewer,double dt)
 }
 
 
-
+/**
+ * @brief Debug print of current state variables to console.
+ */
 void Aircraft::printState()
 {
     static int frameCount = 0;
@@ -856,7 +944,12 @@ void Aircraft::printState()
     std::cout << "Fy    (Y-Force):         " << X[13]<<"\n";
     std::cout << "Fz    (Z-Force):         " << X[14]<<"\n";
 }
-// For HUD test
+
+/**
+ * @brief Render heads-up display (HUD) with aircraft states.
+ * @param tr Reference to Easy3D TextRenderer.
+ * @param viewer Pointer to Easy3D viewer.
+ */
 void Aircraft::render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) const
 {
     int width = viewer->width();
@@ -901,6 +994,19 @@ void Aircraft::render_HUD(easy3d::TextRenderer& tr, easy3d::Viewer* viewer) cons
             true);                // Origin at upper-left
 }
 
+/**
+ * @brief Compute control inputs (δ_e, δ_a, δ_r, δ_t) that achieve trim.
+ * @param alpha Angle of attack.
+ * @param beta Side slip angle.
+ * @param phi Roll angle.
+ * @param p Roll rate.
+ * @param q Pitch rate.
+ * @param r Yaw rate.
+ * @param theta Pitch angle.
+ * @param Va Airspeed.
+ * @param R Turn radius.
+ * @return Struct containing trim control inputs.
+ */
 Aircraft::ControlInputs Aircraft::computeTrimControls(
     double alpha, double beta, double phi,
     double p, double q, double r,
