@@ -1,5 +1,12 @@
 # UAV-Simulator Project
 
+Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:
+
+
+https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0
+
+
+
 A texture mapped terrain and control demo footage:
 
 
@@ -20,15 +27,39 @@ https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d
 
 ## Overview
 
-This project is a fun and educational initiative aimed at simulating small scale aircraft dynamics and control. The project leverages various libraries for 3D rendering and mathematical operations to model and visualize aircraft behavior based on state variables and control inputs.
+This repository contains a custom-built UAV simulation framework that models the dynamics and control of a small fixed‑wing aircraft.  
+It integrates:
+
+- **Nonlinear flight dynamics** derived from standard aircraft equations of motion.
+- **Trim calculation routines** to establish equilibrium states for specific flight conditions.
+- **Linearization methods** that generate transfer‑function and state‑space representations for control design and analysis.
+- **3D rendering and visualization** of the aircraft geometry, body axes, and simulation outputs.
+
+The project serves as a foundation for experimenting with guidance, navigation, and control (GNC) algorithms, while providing an educational platform for testing new ideas in flight dynamics.
+
+---
 
 ## Current Status
 
-**Active Development:** The project is currently being actively developed. While a recent data loss occurred, I've managed to recover a primitive version of the simulator, which will serve as a foundation for ongoing improvements. Stay tuned for regular updates as we enhance features and functionalities!
+**Active Development:**  
+The simulator has been rebuilt after an earlier data loss, and a working baseline is already running.  
+At present you can:
+
+- Load an aircraft configuration and compute trim for given airspeed and flight‑path parameters.
+- Generate preliminary state‑space and transfer‑function models around the trim condition.
+- Run the dynamics in a custom C++ simulation loop with live 3D visualization.
+
+Soon you should be able to provide a path to the UAV and watch it generate waypoints and use an autopilot to navigate itself to the destination autonomously :D
 
 ## Recent Changelog:
 
 <div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+
+*25th July 2025*
+- **Trim:** Implemented automated trim point calculation and corresponding control settings and sim initialisation.
+- **Memory Leaks:** Fixed some memory leak bugs.
+- **Waypoint Navigation:** Work on waypoint navigation started. A sample path (in red) and waypoints(yellow) can be seen in the most recent update video.
+- **ImGUI/ImPlot:** Live plotting of state variables integrated into simulation (see recent video). A control panel for elevator,rudder, aileron and throttle input has been added to the gui.
 
 *6th July 2025*
 
