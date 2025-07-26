@@ -30,7 +30,7 @@ int main()
     World world;
     //======================= GNC: TRIM & LINEAR INCLUDED ====
     GNC gnc;
-    double trim_airspeed = drone.u;    // m/s
+    double trim_airspeed = 20.0;    // m/s
     double trim_flightpath = 0.0;   // radians
     double trim_turn_radius = std::numeric_limits<double>::infinity();  // or a large number like 1e9
 
@@ -73,9 +73,9 @@ int main()
 
     // Load and render the model
     drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/y_for_z_up_uav2_2000.stl";
-    drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
+    drone.mesh.reset(easy3d::SurfaceMeshIO::load(drone.file_name));//drone.mesh = easy3d::SurfaceMeshIO::load(drone.file_name);
 
-    //world.createTerrainWithTexture(viewer);
+    world.createTerrainWithTexture(viewer);
     world.createGridDrawable(viewer);
     drone.renderAircraft(viewer);
     drone.createAxesDrawable(viewer);

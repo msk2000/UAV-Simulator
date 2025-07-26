@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "path_segment.h"
+#include "line_segment.h"
 #include <easy3d/core/vec.h>
 #include <easy3d/viewer/viewer.h>
 
@@ -48,7 +49,8 @@ public:
 
 private:
     /// The sequence of segments (e.g., lines, arcs) that make up the full path.
-    std::vector<PathSegment*> segments;
+    std::vector<std::unique_ptr<LineSegment>> segments;
+
 };
 
 #endif // PATH_H

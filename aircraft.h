@@ -275,7 +275,7 @@ public:
     //surface mesh
     std::string file_name;
 
-    easy3d::SurfaceMesh* mesh;
+    std::unique_ptr<easy3d::SurfaceMesh> mesh;// easy3d::SurfaceMesh* mesh;
 
     // Constructor
     Aircraft(const std::string& fname, int& vehicle_count);

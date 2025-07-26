@@ -18,7 +18,7 @@
  */
 void Path::addStraightSegment(const easy3d::vec3& start, const easy3d::vec3& end)
 {
-    segments.push_back(new LineSegment(start, end));
+    segments.push_back(std::make_unique<LineSegment>(start, end));
 }
 /**
  * @brief Generates waypoints along all segments in the path.

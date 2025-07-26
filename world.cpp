@@ -189,8 +189,12 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
     }
 
     // Load texture via TextureManager with REPEAT wrap mode
-    easy3d::Texture* texture = easy3d::Texture::create(texture_file, easy3d::Texture::WrapMode::REPEAT, easy3d::Texture::FilterMode::LINEAR);
-    if (!texture)
+    terrainTexture.reset(easy3d::Texture::create(
+    texture_file,
+    easy3d::Texture::WrapMode::REPEAT,
+    easy3d::Texture::FilterMode::LINEAR));
+
+    if (!terrainTexture)
     {
         std::cerr << "Failed to load texture image: " << texture_file << std::endl;
         return;
@@ -204,8 +208,8 @@ void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 
     // Get drawable and assign texture
     auto drawable = terrainMesh->renderer()->get_triangles_drawable("faces");
-    drawable->set_texture(texture);
-    drawable->set_texture_coloring(easy3d::State::VERTEX, "v:texcoord", texture);
+    drawable->set_texture(terrainTexture.get());
+    drawable->set_texture_coloring(easy3d::State::VERTEX, "v:texcoord", terrainTexture.get());
 
     // Optional: smooth shading
     drawable->set_smooth_shading(true);

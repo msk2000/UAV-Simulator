@@ -140,6 +140,8 @@ private:
      * Stored as a flat list of 3D points, where each pair defines a line.
      */
     std::vector<easy3d::vec3> grid_vertices;
+
+    std::unique_ptr<easy3d::Texture> terrainTexture;
 };
 
 #endif // WORLD_H

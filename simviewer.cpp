@@ -48,7 +48,10 @@ SimViewer::~SimViewer()
 
                // Draw the aircraft HUD
         if (aircraft_ && text_renderer_)
+        {
             aircraft_->render_HUD(*text_renderer_, const_cast<SimViewer*>(this));
+        }
+
     }
 /**
  * @brief Handles keyboard input for controlling aircraft.

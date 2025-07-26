@@ -781,7 +781,7 @@ easy3d::vec3* Aircraft::update_aircraft(easy3d::vec3* vertices, easy3d::vec3* ax
     translate_axes(axesVertices);
 
 
-    printState();
+    //printState();
 
 
     return vertices;
