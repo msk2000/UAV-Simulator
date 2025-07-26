@@ -1,21 +1,12 @@
 var searchData=
 [
-  ['segments_0',['segments',['../classPath.html#aa7ecd6c2cfb2c4637482c5f5c87002a4',1,'Path']]],
-  ['setaircraft_1',['setAircraft',['../classSimViewer.html#aa2b20ba159952becf96507aad33a56f3',1,'SimViewer']]],
-  ['setwaypoints_2',['setWaypoints',['../classGNC.html#a37fc5b129373969ff324669f490b63b8',1,'GNC']]],
-  ['show_5fcontrols_5f_3',['show_controls_',['../classSimViewer.html#a84bfae3947434f0ac8c9b758b1337d04',1,'SimViewer']]],
-  ['sigma_5fden_4',['sigma_den',['../classAircraft.html#ae0e1a7d15021768c3de4a1149e7c970e',1,'Aircraft']]],
-  ['sigma_5fnum_5',['sigma_num',['../classAircraft.html#a5d96fad11347001835fb53b58756770d',1,'Aircraft']]],
-  ['sigma_5fof_5falpha_6',['sigma_of_alpha',['../classAircraft.html#ad74a586584025a920db33272a4ef2778',1,'Aircraft']]],
-  ['simulation_7',['Class Members for Aircraft Simulation',['../md_README.html#autotoc_md10',1,'']]],
-  ['simulator_20project_8',['UAV-Simulator Project',['../md_README.html',1,'']]],
-  ['simulator_2ecpp_9',['simulator.cpp',['../simulator_8cpp.html',1,'']]],
-  ['simviewer_10',['simviewer',['../classSimViewer.html#a11c7864ca965b09ec2bec3254a5882a2',1,'SimViewer::SimViewer()'],['../classSimViewer.html',1,'SimViewer']]],
-  ['simviewer_2ecpp_11',['simviewer.cpp',['../simviewer_8cpp.html',1,'']]],
-  ['simviewer_2eh_12',['simviewer.h',['../simviewer_8h.html',1,'']]],
-  ['size_13',['size',['../classWorld.html#a0c4dae5a5d4d97066e85601a893ea5fa',1,'World']]],
-  ['start_5f_14',['start_',['../classLineSegment.html#a64a66c5780f066f45c63846bf43481cc',1,'LineSegment']]],
-  ['state_5fdata_5f_15',['state_data_',['../classSimViewer.html#a4c8cdae93a48ebf8d206a8629725bd57',1,'SimViewer']]],
-  ['status_16',['Current Status',['../md_README.html#autotoc_md3',1,'']]],
-  ['steps_17',['steps',['../classAircraft.html#a5bd815cc21cd397b933b60c37faa0c9e',1,'Aircraft']]]
+  ['offset_0',['offset',['../classWorld.html#ab65f4a49b19cb87a5c0752370d842aa0',1,'World']]],
+  ['old_5fpd_1',['old_pd',['../classAircraft.html#a53767d8db630cb2648ab2acabc59210b',1,'Aircraft']]],
+  ['old_5fpe_2',['old_pe',['../classAircraft.html#acfe91d6c378e9378a157a95c4220f673',1,'Aircraft']]],
+  ['old_5fpitch_3',['old_pitch',['../classAircraft.html#ab88daca07c1df943e9287f5cf81ce5c9',1,'Aircraft']]],
+  ['old_5fpn_4',['old_pn',['../classAircraft.html#ad5f2fdd303c60f5212f80ec31b17a9c9',1,'Aircraft']]],
+  ['old_5froll_5',['old_roll',['../classAircraft.html#a8676d9c17f515a4fe49c0222862a1622',1,'Aircraft']]],
+  ['old_5fyaw_6',['old_yaw',['../classAircraft.html#a539e6700c63177f89325924b0844f2b8',1,'Aircraft']]],
+  ['original_5fvertices_7',['original_vertices',['../classAircraft.html#a407b461114c2a4a1c7b67cd0d0f6372c',1,'Aircraft']]],
+  ['overview_8',['Overview',['../md_README.html#autotoc_md1',1,'']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['n_0',['n',['../classAircraft.html#a2da9ac64cb28cc17a478da15dd61a5e1',1,'Aircraft']]],
-  ['not_20recommended_20for_20now_1',['Building the Project [NOT RECOMMENDED FOR NOW]',['../md_README.html#autotoc_md7',1,'']]],
-  ['now_2',['Building the Project [NOT RECOMMENDED FOR NOW]',['../md_README.html#autotoc_md7',1,'']]],
-  ['numlines_3',['numLines',['../classWorld.html#a89f75ad9276b25a363de9b32b7c25386',1,'World']]]
+  ['jx_0',['Jx',['../classAircraft.html#a7517a32b0e122bd61803856d5383bc7e',1,'Aircraft']]],
+  ['jxz_1',['Jxz',['../classAircraft.html#ac09292ffba4a0731f7d68aacbf73fef2',1,'Aircraft']]],
+  ['jy_2',['Jy',['../classAircraft.html#a9db824051a8dfec1a3db76e9256e7114',1,'Aircraft']]],
+  ['jz_3',['Jz',['../classAircraft.html#a86e342ba3942494bbafb998c6486bb7d',1,'Aircraft']]]
 ];
