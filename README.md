@@ -37,6 +37,9 @@ It integrates:
 
 The project serves as a foundation for experimenting with guidance, navigation, and control (GNC) algorithms, while providing an educational platform for testing new ideas in flight dynamics.
 
+📖 **Project Documentation (Doxygen):**  
+[https://msk2000.github.io/UAV-Simulator](https://msk2000.github.io/UAV-Simulator)
+
 ---
 
 ## Current Status
@@ -54,6 +57,9 @@ Soon you should be able to provide a path to the UAV and watch it generate waypo
 ## Recent Changelog:
 
 <div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+
+*26th July 2025*
+- **Documentation:** Doxygen workflow set up. Documentation is now automatically generated and published online at [https://msk2000.github.io/UAV-Simulator](https://msk2000.github.io/UAV-Simulator).
 
 *25th July 2025*
 - **Trim:** Implemented automated trim point calculation and corresponding control settings and sim initialisation.
