@@ -119,8 +119,7 @@ To build and run **UAV-Simulator**, you need a system with the required dependen
 ```bash
 git clone https://github.com/msk2000/UAV-Simulator.git
 cd UAV-Simulator
-
-    ```
+```
 
 ### 2. Install dependencies
 
@@ -145,7 +144,7 @@ cd build
 cmake ..
 make -j$(nproc)
 
-    ```
+```
 
 ### 4. Run the simulation
 
@@ -153,7 +152,7 @@ From inside the `build/` directory:
 
 ```bash
 ./UAVSim
-
+```
 
 ## Known Issues
 
