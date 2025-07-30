@@ -3,3 +3,4 @@ build/
 local_assets/
 control-toolbox/
 kindr/
+.vscode/
