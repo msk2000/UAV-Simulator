@@ -1,4 +1,21 @@
-# UAV-Simulator Project
+# UAV Simulator Project
+
+## Overview
+
+This repository contains a custom-built UAV simulation framework that models the dynamics and control of a small fixed‑wing aircraft.  
+It integrates:
+
+- **Nonlinear flight dynamics** derived from standard aircraft equations of motion.
+- **Trim calculation routines** to establish equilibrium states for specific flight conditions.
+- **Linearization methods** that generate transfer‑function and state‑space representations for control design and analysis.
+- **3D rendering and visualization** of the aircraft geometry, body axes, and simulation outputs.
+
+The project serves as a foundation for experimenting with guidance, navigation, and control (GNC) algorithms, while providing an educational platform for testing new ideas in flight dynamics.
+
+📖 **Project Documentation (Doxygen):**  
+[https://msk2000.github.io/UAV-Simulator](https://msk2000.github.io/UAV-Simulator)
+
+---
 
 Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:
 
@@ -25,22 +42,7 @@ https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d
 
 
 
-## Overview
 
-This repository contains a custom-built UAV simulation framework that models the dynamics and control of a small fixed‑wing aircraft.  
-It integrates:
-
-- **Nonlinear flight dynamics** derived from standard aircraft equations of motion.
-- **Trim calculation routines** to establish equilibrium states for specific flight conditions.
-- **Linearization methods** that generate transfer‑function and state‑space representations for control design and analysis.
-- **3D rendering and visualization** of the aircraft geometry, body axes, and simulation outputs.
-
-The project serves as a foundation for experimenting with guidance, navigation, and control (GNC) algorithms, while providing an educational platform for testing new ideas in flight dynamics.
-
-📖 **Project Documentation (Doxygen):**  
-[https://msk2000.github.io/UAV-Simulator](https://msk2000.github.io/UAV-Simulator)
-
----
 
 ## Current Status
 
