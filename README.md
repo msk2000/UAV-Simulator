@@ -1,5 +1,7 @@
 # UAV Simulator Project
 
+![demo_banner_animated](https://github.com/user-attachments/assets/91dd4093-cc36-4c3c-93de-8abc2a0aa7dd)
+
 ## Overview
 
 This repository contains a custom-built UAV simulation framework that models the dynamics and control of a small fixed‑wing aircraft.  
