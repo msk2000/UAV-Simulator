@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "UAV Simulator", "index.html", [
-    [ "UAV-Simulator Project", "md_README.html", [
+    [ "UAV Simulator Project", "md_README.html", [
       [ "Overview", "md_README.html#autotoc_md1", null ],
       [ "Current Status", "md_README.html#autotoc_md3", null ],
       [ "Recent Changelog:", "md_README.html#autotoc_md4", null ],
