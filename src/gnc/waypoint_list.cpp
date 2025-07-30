@@ -2,7 +2,7 @@
  * @file waypoint_list.cpp
  * @brief Implements the WaypointList class for managing and visualizing 3D waypoints in a UAV simulation.
  */
-#include "waypoint_list.h"
+#include "gnc/waypoint_list.h"
 #include <easy3d/renderer/drawable_points.h>
 
 

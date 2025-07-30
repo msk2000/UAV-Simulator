@@ -7,7 +7,7 @@
  * such as the UAV Simulator logo and framerate display.
  ********************************************************************/
  
-#include "viewer_imgui.h"
+#include "rendering/viewer_imgui.h"
 #include <implot.h>
  
 #include <easy3d/util/file_system.h>

@@ -2,7 +2,7 @@
  * @file gnc.cpp
  * @brief Implementation of the Guidance, Navigation, and Control (GNC) system.
  */
-#include "gnc.h"
+#include "gnc/gnc.h"
 #include <iostream>
 #include <nlopt.hpp>
 

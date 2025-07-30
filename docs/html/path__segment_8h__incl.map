@@ -1,0 +1,10 @@
+<map id="path_segment.h" name="path_segment.h">
+<area shape="rect" id="Node000001" title="Abstract base class for different types of path segments." alt="" coords="44,5,159,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,33,57,70,53,67,88,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="75,152,205,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,30,136,138,131,139,102,32"/>
+<area shape="rect" id="Node000004" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="139,79,221,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="116,29,159,68,155,71,112,33"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="176,106,156,141,151,139,171,103"/>
+</map>

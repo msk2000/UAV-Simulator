@@ -11,7 +11,7 @@
  * @note This implementation depends on Easy3D for visualization and uses
  *       standard C++ STL and Eigen for math operations.
  */
-#include "aircraft.h"
+#include "aircraft/aircraft.h"
 #include <easy3d/renderer/text_renderer.h>
 
 /// ================================

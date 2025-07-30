@@ -1,0 +1,26 @@
+<map id="path.cpp" name="path.cpp">
+<area shape="rect" id="Node000001" title="Implementation of the Path class for managing and visualizing path segments in 3D space." alt="" coords="177,5,249,31"/>
+<area shape="rect" id="Node000002" href="$path_8h.html" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="183,86,242,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,31,215,72,210,72,210,31"/>
+<area shape="rect" id="Node000007" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="5,167,116,192"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="204,33,83,158,79,155,200,29"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="266,79,437,119"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="234,29,308,70,305,74,232,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="287,313,346,339"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="239,109,255,116,288,126,317,132,342,141,366,165,374,183,377,201,371,239,355,275,337,304,332,301,350,272,365,238,371,201,369,184,361,168,339,146,315,137,287,132,253,121,237,114"/>
+<area shape="rect" id="Node000004" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="123,240,238,265"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="207,113,194,137,183,167,180,197,180,226,175,226,174,197,178,166,189,135,203,110"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="88,387,217,412"/>
+<area shape="poly" id="edge12_Node000002_Node000005" title=" " alt="" coords="238,109,255,116,294,126,329,130,360,139,374,149,388,165,392,178,392,198,383,266,379,306,373,323,360,341,331,362,299,378,265,389,232,396,231,390,264,384,297,373,329,358,356,337,369,321,373,305,378,265,387,198,387,178,384,168,371,153,357,143,328,135,294,132,253,121,236,114"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="191,114,96,163,94,158,189,109"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="192,167,351,192"/>
+<area shape="poly" id="edge13_Node000002_Node000008" title=" " alt="" coords="223,110,257,154,252,157,219,113"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="204,263,284,305,281,309,201,268"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="182,266,170,339,162,374,157,373,165,338,177,265"/>
+<area shape="rect" id="Node000006" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="73,313,155,339"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="172,267,136,305,132,301,168,264"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="123,338,142,373,138,376,118,340"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="81,190,150,230,148,235,79,194"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="60,193,53,220,49,258,50,299,63,337,83,361,109,378,106,383,80,365,58,340,45,300,43,257,48,219,55,192"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="68,192,108,300,103,301,63,193"/>
+</map>

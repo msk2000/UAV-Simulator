@@ -2,7 +2,7 @@
  * @file world.cpp
  * @brief Implements the World class responsible for grid and terrain creation.
  ********************************************************************/
-#include "world.h"
+#include "rendering/world.h"
 /**
  * @brief Constructs a World instance with default parameters.
  *
@@ -132,8 +132,8 @@ void World::createTerrain(easy3d::Viewer& viewer)
  */
 void World::createTerrainWithTexture(easy3d::Viewer& viewer)
 {
-    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/terrain3d.stl";
-    const std::string texture_file = "/home/fahim/Coding/Git/UAV-Simulator/texture.jpg";
+    const std::string terrain_file = "/home/fahim/Coding/Git/UAV-Simulator/assets/terrain3d.stl";
+    const std::string texture_file = "/home/fahim/Coding/Git/UAV-Simulator/assets/texture.jpg";
 
     // Load mesh as shared_ptr
     std::shared_ptr<easy3d::SurfaceMesh> terrainMesh = std::make_shared<easy3d::SurfaceMesh>();

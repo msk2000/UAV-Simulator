@@ -3,8 +3,8 @@
  * @brief Implementation of the Path class for managing and visualizing path segments in 3D space.
  */
 
-#include "path.h"
-#include "line_segment.h"
+#include "gnc/path.h"
+#include "gnc/line_segment.h"
 #include <easy3d/renderer/drawable_lines.h>
 
 /**

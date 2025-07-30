@@ -1,0 +1,13 @@
+<map id="waypoint_list.cpp" name="waypoint_list.cpp">
+<area shape="rect" id="Node000001" title="Implements the WaypointList class for managing and visualizing 3D waypoints in a UAV simulation." alt="" coords="173,5,296,31"/>
+<area shape="rect" id="Node000002" href="$waypoint__list_8h.html" title="Defines the WaypointList class that manages a sequence of 3D waypoints for navigation or mission plan..." alt="" coords="99,86,208,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,33,177,78,173,75,221,29"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="232,79,403,119"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="249,29,289,67,286,71,245,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,167,64,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,114,65,161,62,157,134,109"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="89,167,218,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="156,112,156,153,151,153,151,112"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="242,167,401,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="179,109,286,159,284,163,177,114"/>
+</map>

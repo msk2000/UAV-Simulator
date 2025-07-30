@@ -2,7 +2,7 @@
  * @file simviewer.cpp
  * @brief Implementation of the SimViewer class, a GUI-enabled Easy3D viewer for UAV simulation.
  */
-#include <simviewer.h>
+#include <rendering/simviewer.h>
 #include <3rd_party/imgui/imgui.h>
 #include <implot.h>
 

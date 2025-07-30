@@ -2,7 +2,7 @@
  * @file line_segment.cpp
  * @brief Implementation of the LineSegment class for a straight path segment.
  */
-#include "line_segment.h"
+#include "gnc/line_segment.h"
 
 /**
  * @brief Constructs a LineSegment with specified start and end points.

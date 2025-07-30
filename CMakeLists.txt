@@ -56,6 +56,7 @@ include_directories(
     /usr/include/python3.6
     /home/fahim/.local/lib/python3.12/site-packages/numpy/_core/include
     /home/fahim/Coding/Git/UAV-Simulator
+    /home/fahim/Coding/Git/UAV-Simulator/include
     /usr/include
 )
 
@@ -65,16 +66,16 @@ include_directories(
 
 # === Executable ===
 add_executable(UAVSim
-    simulator.cpp
-    aircraft.cpp
-    world.cpp
-    simviewer.cpp
-    waypoint_list.cpp
-    line_segment.cpp
-    path.cpp
-    mission_manager.cpp
-    gnc.cpp
-    viewer_imgui.cpp
+    src/main.cpp
+    src/aircraft/aircraft.cpp
+    src/rendering/world.cpp
+    src/rendering/simviewer.cpp
+    src/gnc/waypoint_list.cpp
+    src/gnc/line_segment.cpp
+    src/gnc/path.cpp
+    src/gnc/mission_manager.cpp
+    src/gnc/gnc.cpp
+    src/rendering/viewer_imgui.cpp
     ${IMGUI_SOURCES}
 )
 

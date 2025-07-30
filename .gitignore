@@ -1,2 +1,5 @@
 .vscode/settings.json
 build/
+local_assets/
+control-toolbox/
+kindr/

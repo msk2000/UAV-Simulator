@@ -1,0 +1,16 @@
+<map id="line_segment.cpp" name="line_segment.cpp">
+<area shape="rect" id="Node000001" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="134,5,258,31"/>
+<area shape="rect" id="Node000002" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="141,79,251,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,31,199,65,193,65,193,31"/>
+<area shape="rect" id="Node000003" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="44,152,159,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="182,106,129,146,126,141,179,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="115,299,245,324"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="206,103,220,130,234,167,242,209,241,231,236,252,224,273,208,291,204,287,219,270,231,250,236,230,237,209,229,168,215,132,201,105"/>
+<area shape="rect" id="Node000006" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="139,225,221,251"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="197,105,185,212,180,211,192,104"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,225,64,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="92,179,57,217,53,213,88,176"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="106,177,113,211,129,249,159,287,155,291,124,252,108,212,101,178"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="116,175,159,214,155,218,112,179"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="183,251,183,285,177,285,177,251"/>
+</map>

@@ -1,6 +1,6 @@
 // mission_manager.cpp
 // Implementation of the MissionManager class
-#include "mission_manager.h"
+#include "gnc/mission_manager.h"
 
 MissionManager::MissionManager() {}
 
