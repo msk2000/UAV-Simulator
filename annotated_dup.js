@@ -10,6 +10,8 @@ var annotated_dup =
     [ "Path", "classPath.html", "classPath" ],
     [ "PathSegment", "classPathSegment.html", "classPathSegment" ],
     [ "SimViewer", "classSimViewer.html", "classSimViewer" ],
+    [ "TrimSolver", "classTrimSolver.html", "classTrimSolver" ],
+    [ "UAVSystemAdapter", "classUAVSystemAdapter.html", "classUAVSystemAdapter" ],
     [ "WaypointList", "classWaypointList.html", "classWaypointList" ],
     [ "World", "classWorld.html", "classWorld" ]
 ];

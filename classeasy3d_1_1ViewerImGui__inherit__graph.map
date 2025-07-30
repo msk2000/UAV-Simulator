@@ -1,7 +1,7 @@
 <map id="easy3d::ViewerImGui" name="easy3d::ViewerImGui">
-<area shape="rect" id="Node000001" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="5,79,167,104"/>
-<area shape="rect" id="Node000003" href="$classSimViewer.html" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="40,152,132,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="89,118,89,152,83,152,83,118"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="53,5,119,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,44,89,79,83,79,83,44"/>
+<area shape="rect" id="Node000001" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="5,79,152,104"/>
+<area shape="rect" id="Node000003" href="$classSimViewer.html" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="36,152,121,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="81,118,81,152,76,152,76,118"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="47,5,110,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,44,81,79,76,79,76,44"/>
 </map>

@@ -97,58 +97,70 @@ $(document).ready(function(){initNavTree('hierarchy.html',''); initResizable(); 
 </div><table border="0" cellspacing="10" cellpadding="0">
 <tr><td><img src="inherit_graph_0.png" border="0" usemap="#aAircraft" alt=""/>
 <map name="aAircraft" id="aAircraft">
-<area shape="rect" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="5,5,75,31"/>
+<area shape="rect" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="5,5,69,31"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_1.png" border="0" usemap="#aAircraft_1_1ControlInputs" alt=""/>
 <map name="aAircraft_1_1ControlInputs" id="aAircraft_1_1ControlInputs">
-<area shape="rect" href="structAircraft_1_1ControlInputs.html" title=" " alt="" coords="5,5,169,31"/>
+<area shape="rect" href="structAircraft_1_1ControlInputs.html" title=" " alt="" coords="5,5,156,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" usemap="#aGNC" alt=""/>
+<tr><td><img src="inherit_graph_2.png" border="0" usemap="#act_1_1core_1_1ControlledSystem" alt=""/>
+<map name="act_1_1core_1_1ControlledSystem" id="act_1_1core_1_1ControlledSystem">
+<area shape="rect" title=" " alt="" coords="5,5,184,31"/>
+<area shape="rect" href="classUAVSystemAdapter.html" title="Adapter class to wrap a custom Aircraft dynamics model into the Control Toolbox (CT) ControlledSystem..." alt="" coords="232,5,371,31"/>
+<area shape="poly" title=" " alt="" coords="198,15,232,15,232,21,198,21"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_3.png" border="0" usemap="#aGNC" alt=""/>
 <map name="aGNC" id="aGNC">
-<area shape="rect" href="classGNC.html" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="5,5,56,31"/>
+<area shape="rect" href="classGNC.html" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="5,5,57,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" usemap="#aGNC_1_1TrimData" alt=""/>
+<tr><td><img src="inherit_graph_4.png" border="0" usemap="#aGNC_1_1TrimData" alt=""/>
 <map name="aGNC_1_1TrimData" id="aGNC_1_1TrimData">
-<area shape="rect" href="structGNC_1_1TrimData.html" title=" " alt="" coords="5,5,124,31"/>
+<area shape="rect" href="structGNC_1_1TrimData.html" title=" " alt="" coords="5,5,120,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" usemap="#aMissionManager" alt=""/>
+<tr><td><img src="inherit_graph_5.png" border="0" usemap="#aMissionManager" alt=""/>
 <map name="aMissionManager" id="aMissionManager">
-<area shape="rect" href="classMissionManager.html" title="Manages generation of high&#45;level UAV flight missions." alt="" coords="5,5,135,31"/>
+<area shape="rect" href="classMissionManager.html" title="Manages generation of high&#45;level UAV flight missions." alt="" coords="5,5,123,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" usemap="#aPath" alt=""/>
+<tr><td><img src="inherit_graph_6.png" border="0" usemap="#aPath" alt=""/>
 <map name="aPath" id="aPath">
-<area shape="rect" href="classPath.html" title="Represents a sequence of connected path segments (e.g., straight lines, arcs)." alt="" coords="5,5,56,31"/>
+<area shape="rect" href="classPath.html" title="Represents a sequence of connected path segments (e.g., straight lines, arcs)." alt="" coords="5,5,55,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" usemap="#aPathSegment" alt=""/>
+<tr><td><img src="inherit_graph_7.png" border="0" usemap="#aPathSegment" alt=""/>
 <map name="aPathSegment" id="aPathSegment">
-<area shape="rect" href="classPathSegment.html" title="Abstract base class representing a segment of a path." alt="" coords="5,5,113,31"/>
-<area shape="rect" href="classLineSegment.html" title="Represents a simple straight line segment between two 3D points." alt="" coords="161,5,268,31"/>
-<area shape="poly" title=" " alt="" coords="127,15,161,15,161,21,127,21"/>
+<area shape="rect" href="classPathSegment.html" title="Abstract base class representing a segment of a path." alt="" coords="5,5,107,31"/>
+<area shape="rect" href="classLineSegment.html" title="Represents a simple straight line segment between two 3D points." alt="" coords="155,5,253,31"/>
+<area shape="poly" title=" " alt="" coords="121,15,154,15,154,21,121,21"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" usemap="#aViewer" alt=""/>
+<tr><td><img src="inherit_graph_8.png" border="0" usemap="#aTrimSolver" alt=""/>
+<map name="aTrimSolver" id="aTrimSolver">
+<area shape="rect" href="classTrimSolver.html" title=" " alt="" coords="5,5,91,31"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_9.png" border="0" usemap="#aViewer" alt=""/>
 <map name="aViewer" id="aViewer">
-<area shape="rect" title=" " alt="" coords="5,5,72,31"/>
-<area shape="rect" href="classeasy3d_1_1ViewerImGui.html" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="120,5,281,31"/>
-<area shape="poly" title=" " alt="" coords="86,15,120,15,120,21,86,21"/>
-<area shape="rect" href="classSimViewer.html" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="329,5,421,31"/>
-<area shape="poly" title=" " alt="" coords="295,15,329,15,329,21,295,21"/>
+<area shape="rect" title=" " alt="" coords="5,5,68,31"/>
+<area shape="rect" href="classeasy3d_1_1ViewerImGui.html" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="116,5,263,31"/>
+<area shape="poly" title=" " alt="" coords="82,15,116,15,116,21,82,21"/>
+<area shape="rect" href="classSimViewer.html" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="311,5,396,31"/>
+<area shape="poly" title=" " alt="" coords="276,15,310,15,310,21,276,21"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" usemap="#aWaypointList" alt=""/>
+<tr><td><img src="inherit_graph_10.png" border="0" usemap="#aWaypointList" alt=""/>
 <map name="aWaypointList" id="aWaypointList">
-<area shape="rect" href="classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,5,112,31"/>
+<area shape="rect" href="classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,5,103,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" usemap="#aWorld" alt=""/>
+<tr><td><img src="inherit_graph_11.png" border="0" usemap="#aWorld" alt=""/>
 <map name="aWorld" id="aWorld">
-<area shape="rect" href="classWorld.html" title="Manages terrain, ground, and 3D grid elements within the simulation scene." alt="" coords="5,5,64,31"/>
+<area shape="rect" href="classWorld.html" title="Manages terrain, ground, and 3D grid elements within the simulation scene." alt="" coords="5,5,60,31"/>
 </map>
 </td></tr>
 </table>

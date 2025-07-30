@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classGNC.html" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="5,5,56,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,5,184,31"/>
+<area shape="rect" id="Node000001" href="$classUAVSystemAdapter.html" title="Adapter class to wrap a custom Aircraft dynamics model into the Control Toolbox (CT) ControlledSystem..." alt="" coords="232,5,371,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="198,15,232,15,232,21,198,21"/>
 </map>
