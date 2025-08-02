@@ -1,19 +1,19 @@
-<map id="path_segment.h" name="path_segment.h">
-<area shape="rect" id="Node000001" title="Abstract base class for different types of path segments." alt="" coords="150,5,265,31"/>
-<area shape="rect" id="Node000002" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="105,79,216,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,44,170,80,166,77,190,41"/>
-<area shape="rect" id="Node000005" href="$path_8h.html" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="218,152,277,177"/>
-<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="219,43,230,78,248,151,242,152,225,79,214,44"/>
-<area shape="rect" id="Node000003" href="$line__segment_8cpp.html" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="5,152,129,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,114,84,154,81,150,133,110"/>
-<area shape="rect" id="Node000004" href="$path_8cpp.html" title="Implementation of the Path class for managing and visualizing path segments in 3D space." alt="" coords="131,225,203,251"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="165,118,169,225,164,225,159,118"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="187,110,235,150,231,154,183,115"/>
-<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="226,188,182,227,179,223,223,184"/>
-<area shape="rect" id="Node000006" href="$mission__manager_8h.html" title="Defines the MissionManager class responsible for creating high&#45;level UAV missions." alt="" coords="228,225,363,251"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="265,187,290,224,285,227,261,190"/>
-<area shape="rect" id="Node000007" href="$mission__manager_8cpp.html" title=" " alt="" coords="148,299,296,324"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="275,262,236,300,232,297,272,258"/>
-<area shape="rect" id="Node000008" href="$simulator_8cpp.html" title=" " alt="" coords="321,299,419,324"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="319,258,360,297,356,300,315,262"/>
+<map id="include/gnc/path_segment.h" name="include/gnc/path_segment.h">
+<area shape="rect" id="Node000001" title="Abstract base class for different types of path segments." alt="" coords="190,5,375,31"/>
+<area shape="rect" id="Node000002" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="257,79,437,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,39,338,77,334,80,300,43"/>
+<area shape="rect" id="Node000003" href="$path_8h.html" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="168,152,296,177"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="267,43,246,80,237,119,235,152,229,152,232,118,242,78,263,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="318,113,252,154,249,150,315,109"/>
+<area shape="rect" id="Node000007" href="$path_8cpp.html" title="Implementation of the Path class for managing and visualizing path segments in 3D space." alt="" coords="281,233,399,258"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="348,118,343,233,338,232,343,118"/>
+<area shape="rect" id="Node000008" href="$line__segment_8cpp.html" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="377,152,548,177"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="378,109,445,149,442,154,375,113"/>
+<area shape="rect" id="Node000004" href="$mission__manager_8h.html" title="Defines the MissionManager class responsible for creating high&#45;level UAV missions." alt="" coords="119,225,257,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="221,191,201,226,196,224,217,188"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="261,183,326,230,322,235,257,188"/>
+<area shape="rect" id="Node000005" href="$mission__manager_8cpp.html" title=" " alt="" coords="5,313,200,339"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="159,277,117,315,114,311,156,273"/>
+<area shape="rect" id="Node000006" href="$main_8cpp.html" title=" " alt="" coords="225,313,322,339"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="220,273,262,311,259,315,217,277"/>
 </map>

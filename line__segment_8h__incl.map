@@ -1,5 +1,5 @@
-<map id="line_segment.h" name="line_segment.h">
-<area shape="rect" id="Node000001" title="Defines the LineSegment class for a straight path segment." alt="" coords="141,5,251,31"/>
+<map id="include/gnc/line_segment.h" name="include/gnc/line_segment.h">
+<area shape="rect" id="Node000001" title="Defines the LineSegment class for a straight path segment." alt="" coords="106,5,286,31"/>
 <area shape="rect" id="Node000002" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="44,79,159,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,33,129,72,126,68,179,29"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="115,225,245,251"/>

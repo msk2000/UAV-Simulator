@@ -1,5 +1,5 @@
-<map id="path_segment.h" name="path_segment.h">
-<area shape="rect" id="Node000001" title="Abstract base class for different types of path segments." alt="" coords="44,5,159,31"/>
+<map id="include/gnc/path_segment.h" name="include/gnc/path_segment.h">
+<area shape="rect" id="Node000001" title="Abstract base class for different types of path segments." alt="" coords="9,5,194,31"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,79,64,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,33,57,70,53,67,88,29"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="75,152,205,177"/>

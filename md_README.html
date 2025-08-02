@@ -103,7 +103,7 @@ Overview</h1>
 <li><b>Linearization methods</b> that generate transfer‑function and state‑space representations for control design and analysis.</li>
 <li><b>3D rendering and visualization</b> of the aircraft geometry, body axes, and simulation outputs.</li>
 </ul>
-<p>The project serves as a foundation for experimenting with guidance, navigation, and control (GNC) algorithms, while providing an educational platform for testing new ideas in flight dynamics.</p>
+<p>The project serves as a foundation for experimenting with guidance, navigation, and control (<a class="el" href="classGNC.html" title="Guidance, Navigation, and Control system for the aircraft.">GNC</a>) algorithms, while providing an educational platform for testing new ideas in flight dynamics.</p>
 <p>📖 <b>Project Documentation (Doxygen):</b> <br  />
  <a href="https://msk2000.github.io/UAV-Simulator">https://msk2000.github.io/UAV-Simulator</a></p>
 <hr  />
@@ -154,12 +154,12 @@ Recent Changelog:</h1>
 </ul>
 </div><div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"><em>16th October 2024</em><ul>
 <li><b>Visualisation Method:</b> Changed the simple vertex/face based rendering to surface mesh based one allowing for import of any 3d model into the simulator.</li>
-<li><b>Changes to Aircraft Class:</b> Removed multiple depricated functionds and added new ones to help with the new render system.</li>
+<li><b>Changes to <a class="el" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering.">Aircraft</a> Class:</b> Removed multiple depricated functionds and added new ones to help with the new render system.</li>
 </ul>
 </div><div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"></div><h1><a class="anchor" id="autotoc_md5"></a>
 Features</h1>
 <ul>
-<li><b>Aircraft Dynamics:</b> Models the physical characteristics and flight dynamics of an aircraft.</li>
+<li><b><a class="el" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering.">Aircraft</a> Dynamics:</b> Models the physical characteristics and flight dynamics of an aircraft.</li>
 <li><b>State Tracking:</b> Tracks various state variables including position, velocity, and orientation.</li>
 <li><b>Control Inputs:</b> Handles different control inputs such as throttle, aileron, elevator, and rudder.</li>
 <li><b>3D Rendering:</b> Uses Easy3D for rendering and visualizing aircraft dynamics in a 3D environment.</li>
@@ -227,7 +227,7 @@ Class Members for Aircraft Simulation</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">#   </th><th class="markdownTableHeadNone">Parameter   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><code>mass</code>   </td><td class="markdownTableBodyNone">Aircraft mass in kilograms.    </td></tr>
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><code>mass</code>   </td><td class="markdownTableBodyNone"><a class="el" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering.">Aircraft</a> mass in kilograms.    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone"><code>Jx</code>   </td><td class="markdownTableBodyNone">Moment of inertia about the x-axis (roll) in kg·m².    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -377,7 +377,7 @@ Class Members for Aircraft Simulation</h1>
 </table>
 <h3><a class="anchor" id="autotoc_md15"></a>
 Usage</h3>
-<p>Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in <code>aircraft.h</code>. Additional details about how to obtain these parameters for a given UAV will be provided in the future.</p>
+<p>Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in <code><a class="el" href="aircraft_8h.html" title="Declaration of the Aircraft class for the UAV Simulator.">aircraft.h</a></code>. Additional details about how to obtain these parameters for a given UAV will be provided in the future.</p>
 <h2><a class="anchor" id="autotoc_md16"></a>
 Contributing</h2>
 <p>Contributions to the project are welcome. If you'd like to help improve the project, please fork the repository and submit a pull request with your changes. </p>

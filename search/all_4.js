@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['aircraft_20simulation_0',['Class Members for Aircraft Simulation',['../md_README.html#autotoc_md14',1,'']]],
-  ['and_20build_20with_20cmake_1',['3. Configure and build with CMake',['../md_README.html#autotoc_md10',1,'']]],
-  ['and_20running_20the_20project_2',['Building and Running the Project',['../md_README.html#autotoc_md7',1,'']]]
+  ['_5fuse_5fmath_5fdefines_0',['_USE_MATH_DEFINES',['../aircraft_8h.html#a525335710b53cb064ca56b936120431e',1,'aircraft.h']]]
 ];

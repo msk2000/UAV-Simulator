@@ -1,6 +1,6 @@
-<map id="line_segment.cpp" name="line_segment.cpp">
-<area shape="rect" id="Node000001" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="134,5,258,31"/>
-<area shape="rect" id="Node000002" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="141,79,251,104"/>
+<map id="src/gnc/line_segment.cpp" name="src/gnc/line_segment.cpp">
+<area shape="rect" id="Node000001" title="Implementation of the LineSegment class for a straight path segment." alt="" coords="111,5,281,31"/>
+<area shape="rect" id="Node000002" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="129,79,263,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,31,199,65,193,65,193,31"/>
 <area shape="rect" id="Node000003" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="44,152,159,177"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="182,106,129,146,126,141,179,102"/>
