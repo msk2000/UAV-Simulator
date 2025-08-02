@@ -1,5 +1,5 @@
-<map id="path.h" name="path.h">
-<area shape="rect" id="Node000001" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="187,5,245,31"/>
+<map id="include/gnc/path.h" name="include/gnc/path.h">
+<area shape="rect" id="Node000001" title="Defines the Path class for managing and visualizing sequences of path segments in 3D space." alt="" coords="152,5,280,31"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,225,64,251"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,33,161,52,122,79,85,113,54,153,43,183,38,212,33,211,38,181,50,151,81,109,119,75,158,48,191,29"/>
 <area shape="rect" id="Node000003" href="$path__segment_8h.html" title="Abstract base class for different types of path segments." alt="" coords="64,152,179,177"/>
@@ -9,7 +9,7 @@
 <area shape="rect" id="Node000006" href="$line__segment_8h.html" title="Defines the LineSegment class for a straight path segment." alt="" coords="161,79,271,104"/>
 <area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="219,31,219,65,213,65,213,31"/>
 <area shape="rect" id="Node000007" title=" " alt="" coords="355,79,514,104"/>
-<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="246,26,388,72,386,77,245,31"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="252,28,387,72,385,77,250,33"/>
 <area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="109,179,61,219,58,214,106,175"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="123,177,124,212,129,231,137,249,159,273,186,290,183,295,156,277,132,252,124,233,119,212,118,178"/>
 <area shape="rect" id="Node000005" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="147,225,229,251"/>

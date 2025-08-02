@@ -1,7 +1,7 @@
-<map id="world.h" name="world.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="79,5,143,31"/>
-<area shape="rect" id="Node000002" href="$simulator_8cpp.html" title=" " alt="" coords="5,79,104,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,43,66,80,62,77,91,40"/>
-<area shape="rect" id="Node000003" href="$world_8cpp.html" title=" " alt="" coords="129,79,207,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="131,40,161,77,157,80,126,43"/>
+<map id="include/rendering/world.h" name="include/rendering/world.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="47,5,213,31"/>
+<area shape="rect" id="Node000002" href="$main_8cpp.html" title=" " alt="" coords="5,79,103,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,42,68,80,65,76,106,38"/>
+<area shape="rect" id="Node000003" href="$world_8cpp.html" title=" " alt="" coords="127,79,285,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,38,195,76,192,80,150,42"/>
 </map>

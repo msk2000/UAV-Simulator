@@ -1,7 +1,7 @@
-<map id="simviewer.h" name="simviewer.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="72,5,163,31"/>
-<area shape="rect" id="Node000002" href="$simulator_8cpp.html" title=" " alt="" coords="5,79,104,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,43,67,80,63,77,96,39"/>
-<area shape="rect" id="Node000003" href="$simviewer_8cpp.html" title="Implementation of the SimViewer class, a GUI&#45;enabled Easy3D viewer for UAV simulation." alt="" coords="129,79,234,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,39,173,77,169,80,135,43"/>
+<map id="include/rendering/simviewer.h" name="include/rendering/simviewer.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="40,5,233,31"/>
+<area shape="rect" id="Node000002" href="$main_8cpp.html" title=" " alt="" coords="5,79,103,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,42,69,80,66,76,111,38"/>
+<area shape="rect" id="Node000003" href="$simviewer_8cpp.html" title="Implementation of the SimViewer class, a GUI&#45;enabled Easy3D viewer for UAV simulation." alt="" coords="127,79,311,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,38,208,76,204,80,159,42"/>
 </map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>UAV Simulator: viewer_imgui.cpp File Reference</title>
+<title>UAV Simulator: src/rendering/viewer_imgui.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('viewer__imgui_8cpp.html',''); initResi
   <div class="headertitle"><div class="title">viewer_imgui.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="viewer__imgui_8h_source.html">viewer_imgui.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="viewer__imgui_8h_source.html">rendering/viewer_imgui.h</a>&quot;</code><br />
 <code>#include &lt;implot.h&gt;</code><br />
 <code>#include &lt;easy3d/util/file_system.h&gt;</code><br />
 <code>#include &lt;easy3d/core/point_cloud.h&gt;</code><br />
@@ -107,35 +107,35 @@ $(document).ready(function(){initNavTree('viewer__imgui_8cpp.html',''); initResi
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for viewer_imgui.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="viewer__imgui_8cpp__incl.png" border="0" usemap="#aviewer__imgui_8cpp" alt=""/></div>
-<map name="aviewer__imgui_8cpp" id="aviewer__imgui_8cpp">
-<area shape="rect" title=" " alt="" coords="910,5,1033,31"/>
-<area shape="rect" href="viewer__imgui_8h.html" title=" " alt="" coords="30,93,139,119"/>
-<area shape="poly" title=" " alt="" coords="910,24,524,43,309,60,220,70,153,81,123,91,121,86,152,76,220,65,308,54,523,38,910,19"/>
-<area shape="rect" title=" " alt="" coords="164,93,232,119"/>
-<area shape="poly" title=" " alt="" coords="910,24,760,29,567,40,380,57,303,68,245,81,227,89,225,84,244,76,302,63,379,52,567,35,759,24,910,18"/>
-<area shape="rect" title=" " alt="" coords="256,93,423,119"/>
-<area shape="poly" title=" " alt="" coords="910,26,699,44,568,60,436,81,390,92,388,87,435,76,567,55,699,39,910,20"/>
-<area shape="rect" title=" " alt="" coords="447,93,621,119"/>
-<area shape="poly" title=" " alt="" coords="910,31,783,52,635,81,589,92,587,87,633,76,782,47,909,26"/>
-<area shape="rect" title=" " alt="" coords="645,86,785,126"/>
-<area shape="poly" title=" " alt="" coords="938,33,785,84,784,79,936,28"/>
-<area shape="rect" title=" " alt="" coords="810,86,951,126"/>
-<area shape="poly" title=" " alt="" coords="961,33,912,79,909,75,957,29"/>
-<area shape="rect" title=" " alt="" coords="975,93,1149,119"/>
-<area shape="poly" title=" " alt="" coords="985,29,1041,81,1037,85,982,33"/>
-<area shape="rect" title=" " alt="" coords="1173,86,1322,126"/>
-<area shape="poly" title=" " alt="" coords="1009,28,1174,79,1173,84,1008,33"/>
-<area shape="rect" title=" " alt="" coords="1347,79,1508,133"/>
-<area shape="poly" title=" " alt="" coords="1033,25,1167,45,1334,76,1333,81,1166,50,1032,30"/>
-<area shape="rect" title=" " alt="" coords="1533,93,1690,119"/>
-<area shape="poly" title=" " alt="" coords="1033,20,1250,37,1385,54,1521,76,1564,87,1563,92,1520,81,1385,59,1249,43,1033,25"/>
-<area shape="rect" title=" " alt="" coords="1714,86,1885,126"/>
-<area shape="poly" title=" " alt="" coords="1033,18,1156,22,1323,32,1512,50,1702,76,1723,80,1722,85,1702,81,1511,55,1323,38,1156,28,1033,23"/>
-<area shape="rect" title=" " alt="" coords="1909,86,2079,126"/>
-<area shape="poly" title=" " alt="" coords="1033,16,1186,18,1400,27,1647,44,1774,58,1897,76,1918,80,1917,85,1896,81,1773,64,1647,50,1400,32,1186,24,1033,22"/>
-<area shape="rect" title=" " alt="" coords="5,181,164,207"/>
-<area shape="poly" title=" " alt="" coords="87,119,87,167,82,167,82,119"/>
+<div class="center"><img src="viewer__imgui_8cpp__incl.png" border="0" usemap="#asrc_2rendering_2viewer__imgui_8cpp" alt=""/></div>
+<map name="asrc_2rendering_2viewer__imgui_8cpp" id="asrc_2rendering_2viewer__imgui_8cpp">
+<area shape="rect" title=" " alt="" coords="934,5,1073,45"/>
+<area shape="rect" href="viewer__imgui_8h.html" title=" " alt="" coords="5,108,172,133"/>
+<area shape="poly" title=" " alt="" coords="934,31,796,36,609,47,398,66,185,96,139,107,137,102,184,91,397,61,609,41,795,30,934,25"/>
+<area shape="rect" title=" " alt="" coords="196,108,264,133"/>
+<area shape="poly" title=" " alt="" coords="934,32,782,40,592,52,409,71,334,83,277,96,259,104,257,99,276,91,333,77,408,66,592,47,782,34,934,27"/>
+<area shape="rect" title=" " alt="" coords="288,108,455,133"/>
+<area shape="poly" title=" " alt="" coords="934,35,725,56,596,74,468,96,422,107,421,102,467,91,595,69,724,51,934,30"/>
+<area shape="rect" title=" " alt="" coords="479,108,653,133"/>
+<area shape="poly" title=" " alt="" coords="934,42,667,96,621,107,620,102,665,91,933,37"/>
+<area shape="rect" title=" " alt="" coords="677,101,817,141"/>
+<area shape="poly" title=" " alt="" coords="952,48,813,98,811,93,951,43"/>
+<area shape="rect" title=" " alt="" coords="842,101,983,141"/>
+<area shape="poly" title=" " alt="" coords="987,47,942,93,939,89,983,44"/>
+<area shape="rect" title=" " alt="" coords="1007,108,1181,133"/>
+<area shape="poly" title=" " alt="" coords="1024,44,1075,96,1071,100,1020,47"/>
+<area shape="rect" title=" " alt="" coords="1205,101,1354,141"/>
+<area shape="poly" title=" " alt="" coords="1060,43,1212,94,1210,99,1058,48"/>
+<area shape="rect" title=" " alt="" coords="1379,93,1540,148"/>
+<area shape="poly" title=" " alt="" coords="1073,35,1205,58,1366,91,1365,96,1204,63,1072,40"/>
+<area shape="rect" title=" " alt="" coords="1565,108,1722,133"/>
+<area shape="poly" title=" " alt="" coords="1073,29,1288,50,1421,68,1553,91,1596,101,1595,107,1552,96,1420,73,1288,55,1073,34"/>
+<area shape="rect" title=" " alt="" coords="1746,101,1917,141"/>
+<area shape="poly" title=" " alt="" coords="1073,26,1362,45,1548,63,1734,91,1755,95,1754,100,1734,96,1547,69,1362,50,1073,32"/>
+<area shape="rect" title=" " alt="" coords="1941,101,2111,141"/>
+<area shape="poly" title=" " alt="" coords="1073,25,1228,28,1440,38,1683,58,1808,73,1929,91,1950,95,1949,100,1928,96,1807,78,1683,64,1440,44,1227,34,1073,30"/>
+<area shape="rect" title=" " alt="" coords="9,196,168,221"/>
+<area shape="poly" title=" " alt="" coords="91,134,91,182,86,182,86,134"/>
 </map>
 </div>
 </div></div><!-- contents -->
@@ -143,7 +143,7 @@ Include dependency graph for viewer_imgui.cpp:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="viewer__imgui_8cpp.html">viewer_imgui.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_1243271318b2b38807a3b1d2ca08dd72.html">rendering</a></li><li class="navelem"><a class="el" href="viewer__imgui_8cpp.html">viewer_imgui.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>UAV Simulator: UAV-Simulator Project</title>
+<title>UAV Simulator: UAV Simulator Project</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,15 +89,10 @@ $(document).ready(function(){initNavTree('md_README.html',''); initResizable(); 
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">UAV-Simulator Project</div></div>
+  <div class="headertitle"><div class="title">UAV Simulator Project</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:</p>
-<p><a href="https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0">https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0</a></p>
-<p>A texture mapped terrain and control demo footage:</p>
-<p><a href="https://github.com/user-attachments/assets/9578d49b-d618-4981-91b6-300246770b43">https://github.com/user-attachments/assets/9578d49b-d618-4981-91b6-300246770b43</a></p>
-<p>A stall demo footage (old):</p>
-<p><a href="https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d">https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d</a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> <img src="https://github.com/user-attachments/assets/91dd4093-cc36-4c3c-93de-8abc2a0aa7dd" alt="demo_banner_animated" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Overview</h1>
 <p>This repository contains a custom-built UAV simulation framework that models the dynamics and control of a small fixed‑wing aircraft. <br  />
@@ -109,7 +104,15 @@ Overview</h1>
 <li><b>3D rendering and visualization</b> of the aircraft geometry, body axes, and simulation outputs.</li>
 </ul>
 <p>The project serves as a foundation for experimenting with guidance, navigation, and control (<a class="el" href="classGNC.html" title="Guidance, Navigation, and Control system for the aircraft.">GNC</a>) algorithms, while providing an educational platform for testing new ideas in flight dynamics.</p>
+<p>📖 <b>Project Documentation (Doxygen):</b> <br  />
+ <a href="https://msk2000.github.io/UAV-Simulator">https://msk2000.github.io/UAV-Simulator</a></p>
 <hr  />
+<p>Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:</p>
+<p><a href="https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0">https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0</a></p>
+<p>A texture mapped terrain and control demo footage:</p>
+<p><a href="https://github.com/user-attachments/assets/9578d49b-d618-4981-91b6-300246770b43">https://github.com/user-attachments/assets/9578d49b-d618-4981-91b6-300246770b43</a></p>
+<p>A stall demo footage (old):</p>
+<p><a href="https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d">https://github.com/user-attachments/assets/97ee1782-feb5-4569-809a-e0d4cac45b3d</a></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Current Status</h1>
 <p><b>Active Development:</b> <br  />
@@ -123,7 +126,10 @@ Current Status</h1>
 <p>Soon you should be able to provide a path to the UAV and watch it generate waypoints and use an autopilot to navigate itself to the destination autonomously :D</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Recent Changelog:</h1>
-<div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"></div><div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"><em>25th July 2025</em><ul>
+<div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"></div><div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"><em>26th July 2025</em><ul>
+<li><b>Documentation:</b> Doxygen workflow set up. Documentation is now automatically generated and published online at <a href="https://msk2000.github.io/UAV-Simulator">https://msk2000.github.io/UAV-Simulator</a>.</li>
+</ul>
+</div><div style="max-height: 100px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0;"><em>25th July 2025</em><ul>
 <li><b>Trim:</b> Implemented automated trim point calculation and corresponding control settings and sim initialisation.</li>
 <li><b>Memory Leaks:</b> Fixed some memory leak bugs.</li>
 <li><b>Waypoint Navigation:</b> Work on waypoint navigation started. A sample path (in red) and waypoints(yellow) can be seen in the most recent update video.</li>
@@ -163,37 +169,58 @@ Features</h1>
 Dependencies</h1>
 <p>This project relies on the following libraries:</p><ul>
 <li><a href="https://eigen.tuxfamily.org/dox/GettingStarted.html">Eigen</a>: For linear algebra operations.</li>
-<li><a href="https://github.com/lava/matplotlibcpp">matplotlibcpp</a>: A C++ wrapper for Matplotlib to plot graphs.</li>
+<li><a href="https://github.com/ocornut/imgui">ImGui</a>: For in‑application graphical user interfaces (sliders, panels, etc.).</li>
+<li><a href="https://github.com/epezent/implot">ImPlot</a>: For real‑time plotting integrated with ImGui.</li>
+<li><a href="https://www.doxygen.nl/">Doxygen</a>: For generating documentation from source code.</li>
 <li><a href="https://github.com/easy3d/easy3d">Easy3D</a>: For 3D visualization and rendering.</li>
+<li><a href="https://nlopt.readthedocs.io/en/latest/">NLOpt</a>: For nonlinear optimization used in trim and control routines.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md7"></a>
-Building the Project [NOT RECOMMENDED FOR NOW]</h1>
-<p>To build and run this project, follow these steps:</p>
-<ol type="1">
-<li><b>Clone the Repository:</b> <div class="fragment"><div class="line">git clone https://github.com/msk2000/UAV-Simulator.git</div>
-<div class="line">cd aircraft-simulation</div>
-</div><!-- fragment --></li>
-<li><b>Install Dependencies:</b> Ensure you have the necessary libraries installed. You may need to follow the installation instructions for <a href="https://eigen.tuxfamily.org/dox/GettingStarted.html">Eigen</a>, <a href="https://github.com/lava/matplotlibcpp">matplotlibcpp</a>, and <a href="https://github.com/easy3d/easy3d">Easy3D</a>.</li>
-<li><b>Compile the Code:</b> <div class="fragment"><div class="line">g++ -o aircraft_simulation main.cpp -I/path/to/eigen -I/path/to/matplotlibcpp -I/path/to/easy3d -lX11 -lGL -lGLU</div>
-</div><!-- fragment --></li>
-<li><b>Run the Simulation:</b> <div class="fragment"><div class="line">./aircraft_simulation</div>
-</div><!-- fragment --></li>
-</ol>
-<h1><a class="anchor" id="autotoc_md8"></a>
+Building and Running the Project</h1>
+<p>To build and run <b>UAV-Simulator</b>, you need a system with the required dependencies installed and CMake available.</p>
+<h2><a class="anchor" id="autotoc_md8"></a>
+1. Clone the repository</h2>
+<div class="fragment"><div class="line">git clone https://github.com/msk2000/UAV-Simulator.git</div>
+<div class="line">cd UAV-Simulator</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
+2. Install dependencies</h2>
+<p>Make sure these libraries and tools are installed on your system (install paths may vary):</p>
+<ul>
+<li><a href="https://eigen.tuxfamily.org/dox/GettingStarted.html">Eigen</a> (header‑only)</li>
+<li><a href="https://github.com/easy3d/easy3d">Easy3D</a> (set <code>Easy3D_DIR</code> accordingly in <code>CMakeLists.txt</code>)</li>
+<li><a href="https://github.com/ocornut/imgui">ImGui</a> and <a href="https://github.com/epezent/implot">ImPlot</a> (already included in the repo or via Easy3D’s <code>3rd_party</code>)</li>
+<li><a href="https://nlopt.readthedocs.io/en/latest/">NLopt</a> (for trim and optimization)</li>
+<li>Python 3 development headers and NumPy (for certain computations)</li>
+<li>OpenGL and GLFW development packages</li>
+<li><a href="https://cmake.org/">CMake</a> (version 3.0 or newer)</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md10"></a>
+3. Configure and build with CMake</h2>
+<p>From the root of the project:</p>
+<div class="fragment"><div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">make -j$(nproc)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
+4. Run the simulation</h2>
+<p>From inside the <code>build/</code> directory:</p>
+<div class="fragment"><div class="line">./UAVSim</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md12"></a>
 Known Issues</h1>
 <ul>
 <li><b>Data Loss:</b> Recent updates to the project have been lost. The current code is a recovery of an older, less developed version.</li>
 <li><b>Incomplete Features:</b> The project is still under development, and some features are not fully implemented or tested.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Future Work</h1>
 <ul>
-<li><b>Feature Completion:</b> Completing and improving the simulation features.</li>
-<li><b>Enhanced Rendering:</b> Adding more detailed and interactive 3D visualizations.</li>
-<li><b>Improved Data Handling:</b> Recovering and integrating the latest data to enhance the simulation accuracy.</li>
-<li><b>Incorporate QT libraries:</b> This is intended to replace the current dependency on matplotlib.</li>
+<li><b>Autopilot System:</b> Implement a closed‑loop control framework to stabilize the UAV and follow desired flight commands automatically.</li>
+<li><b>Guidance Algorithm:</b> Develop algorithms to generate and update flight paths or waypoint sequences in real time for autonomous navigation.</li>
+<li><b>Navigation:</b> Integrate real‑time state estimation to accurately track the UAV’s position, velocity, and attitude during flight.</li>
+<li><b>Linearisation and State‑Space Models:</b> Create routines to linearize nonlinear flight dynamics around trim conditions and generate state‑space models for control design and analysis.</li>
+<li><b>Transfer Function Integration:</b> Implement methods to derive and analyze transfer functions for key control channels, enabling frequency‑domain tuning and analysis.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 Class Members for Aircraft Simulation</h1>
 <p>The following table details the key parameters used in the simulation. These parameters represent the physical properties, control inputs, and initial conditions of the aircraft. This table will help you understand both the class members and the data.txt file that the simulator uses to load a given UAV configuration.</p>
 <table class="markdownTable">
@@ -348,10 +375,10 @@ Class Members for Aircraft Simulation</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">74   </td><td class="markdownTableBodyNone"><code>delta_r_min</code>   </td><td class="markdownTableBodyNone">Minimum rudder deflection.   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md15"></a>
 Usage</h3>
-<p>Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in <code>simulation.h</code>. Additional details about how to obtain these parameters for a given UAV will be provided in the future.</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<p>Each of these parameters is used to model the dynamics of the aircraft in simulation, ensuring that the response to control inputs and environmental factors is accurate. For more details, refer to the implementation in <code><a class="el" href="aircraft_8h.html" title="Declaration of the Aircraft class for the UAV Simulator.">aircraft.h</a></code>. Additional details about how to obtain these parameters for a given UAV will be provided in the future.</p>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Contributing</h2>
 <p>Contributions to the project are welcome. If you'd like to help improve the project, please fork the repository and submit a pull request with your changes. </p>
 </div></div><!-- contents -->

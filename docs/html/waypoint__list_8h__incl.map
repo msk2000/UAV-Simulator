@@ -1,9 +1,9 @@
-<map id="waypoint_list.h" name="waypoint_list.h">
-<area shape="rect" id="Node000001" title="Defines the WaypointList class that manages a sequence of 3D waypoints for navigation or mission plan..." alt="" coords="99,5,208,31"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,64,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,33,67,74,65,69,133,28"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="89,79,218,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,31,156,65,151,65,151,31"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="242,79,401,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="181,28,282,71,280,76,179,33"/>
+<map id="include/gnc/waypoint_list.h" name="include/gnc/waypoint_list.h">
+<area shape="rect" id="Node000001" title="Defines the WaypointList class that manages a sequence of 3D waypoints for navigation or mission plan..." alt="" coords="81,5,225,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,64,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,48,65,88,62,84,123,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="89,93,218,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,46,156,79,151,79,151,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="242,93,401,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="195,43,285,85,283,90,192,48"/>
 </map>

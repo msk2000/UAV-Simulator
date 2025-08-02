@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['trimdata_0',['TrimData',['../structGNC_1_1TrimData.html',1,'GNC']]],
-  ['trimsolver_1',['TrimSolver',['../classTrimSolver.html',1,'']]]
+  ['trimdata_0',['TrimData',['../structGNC_1_1TrimData.html',1,'GNC']]]
 ];

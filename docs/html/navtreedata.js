@@ -25,19 +25,7 @@
 var NAVTREE =
 [
   [ "UAV Simulator", "index.html", [
-    [ "UAV-Simulator Project", "md_README.html", [
-      [ "Overview", "md_README.html#autotoc_md1", null ],
-      [ "Current Status", "md_README.html#autotoc_md3", null ],
-      [ "Recent Changelog:", "md_README.html#autotoc_md4", null ],
-      [ "Features", "md_README.html#autotoc_md5", null ],
-      [ "Dependencies", "md_README.html#autotoc_md6", null ],
-      [ "Building the Project [NOT RECOMMENDED FOR NOW]", "md_README.html#autotoc_md7", null ],
-      [ "Known Issues", "md_README.html#autotoc_md8", null ],
-      [ "Future Work", "md_README.html#autotoc_md9", null ],
-      [ "Class Members for Aircraft Simulation", "md_README.html#autotoc_md10", [
-        [ "Contributing", "md_README.html#autotoc_md12", null ]
-      ] ]
-    ] ],
+    [ "UAV Simulator Project", "index.html", "index" ],
     [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -70,8 +58,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"UAVSystemAdapter_8h.html",
-"classPathSegment.html#a984f52902fb731de2cfa7f8994a84abf"
+"aircraft_8cpp.html",
+"classSimViewer.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
