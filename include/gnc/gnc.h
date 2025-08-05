@@ -64,10 +64,22 @@ public:
         Aircraft* aircraft;
     };
 
+    const TrimData& getTrimData() const { return trimData; }
+    const Eigen::MatrixXd& getA() const { return A; }
+    const Eigen::MatrixXd& getB() const { return B; }
+    const Eigen::MatrixXd& getA_lat() const { return A_lat; }
+    const Eigen::MatrixXd& getB_lat() const { return B_lat; }
+    const Eigen::MatrixXd& getA_lon() const { return A_lon; }
+    const Eigen::MatrixXd& getB_lon() const { return B_lon; }
+
 
 
 private:
+    friend class Simviewer;
     WaypointList waypoints_;    ///< Current list of waypoints for navigation
+
+    TrimData trimData;
+    Eigen::MatrixXd A, B, A_lat, B_lat, A_lon, B_lon;
 };
 
 #endif // GNC_H

@@ -14,6 +14,7 @@
 #include <easy3d/renderer/text_renderer.h>
 #include <easy3d/renderer/shadow.h>
 #include <aircraft/aircraft.h>
+#include <gnc/gnc.h>
 /**
  * @class SimViewer
  * @brief Specialized Easy3D viewer class for UAV simulation with GUI integration.
@@ -38,6 +39,11 @@ public:
      * @param aircraft Pointer to the Aircraft object to visualize.
      */
     void setAircraft(Aircraft* aircraft);
+    /**
+     * @brief Sets the GNC object for displaying trim and linearisation results.
+     * @param gnc Pointer to the GNC object.
+     */
+    void setGNC(GNC* gnc);  ///< NEW: so we can fetch data for the Analysis tab
 
 protected:
     /**
@@ -66,7 +72,7 @@ protected:
 private:
     easy3d::TextRenderer* text_renderer_;   ///< Renders on-screen text such as FPS or labels.
     Aircraft* aircraft_ = nullptr;  ///< Pointer to the Aircraft object for simulation.
-
+    GNC* gnc_ = nullptr;                    ///< Pointer to the GNC object for analysis data (NEW)
 
     // === GUI state flags ===
     bool show_controls_ = true; ///< If true, display control panel in ImGui.
@@ -75,7 +81,20 @@ private:
     std::vector<float> time_data_;
     std::vector<std::vector<float>> state_data_ = std::vector<std::vector<float>>(18);
     float plot_time_ = 0.0f;
-    
+
+     // === NEW: Analysis Tab ===
+    /**
+     * @brief Draws the Analysis tab with trim and linearisation results.
+     */
+    void drawAnalysisTabs() const;
+
+    /**
+     * @brief Utility function to display Eigen matrices in ImGui.
+     * @param name Matrix label.
+     * @param M The matrix to display.
+     */
+    void DisplayMatrix(const std::string& name, const Eigen::MatrixXd& M) const;
+
 };
 
 

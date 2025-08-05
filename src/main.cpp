@@ -69,7 +69,8 @@ int main()
     // Use SimViewer instead of Viewer
     SimViewer viewer("UAV Simulator");
     viewer.setAircraft(&drone);  // pass the UAV to the viewer
-   // viewer.set_background_color(easy3d::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    viewer.setGNC(&gnc);
+
 
     // Load and render the model
     drone.file_name = "/home/fahim/Coding/Git/UAV-Simulator/assets/y_for_z_up_uav2_2000.stl";

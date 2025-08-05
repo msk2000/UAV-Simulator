@@ -65,7 +65,9 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
     // Only alpha is optimized
     std::vector<double> x0 = {0.05}; // initial alpha guess
 
-    TrimData data{Va, gamma, R, phi_fixed, beta_fixed, &aircraft};
+    trimData = {Va, gamma, R, phi_fixed, beta_fixed, &aircraft};
+    TrimData& data = trimData; // use the member for NLopt too
+
 
     nlopt::opt opt(nlopt::LN_COBYLA, 1);
     opt.set_lower_bounds({-0.5});
@@ -303,15 +305,15 @@ bool GNC::linearizeAtTrim(Aircraft& drone)
              drone.delta_r,
              drone.delta_t;
 
-    Eigen::MatrixXd A_full, B_full, A_lat, B_lat, A_lon, B_lon;
+
 
     computeLinearModel(drone, Xtrim, Utrim,
-                       A_full, B_full,
+                       A, B,
                        A_lat, B_lat,
                        A_lon, B_lon);
 
-    std::cout << "\n=== FULL A ===\n" << A_full
-              << "\n=== FULL B ===\n" << B_full
+    std::cout << "\n=== FULL A ===\n" << A
+              << "\n=== FULL B ===\n" << B
               << "\n=== LATERAL A ===\n" << A_lat
               << "\n=== LATERAL B ===\n" << B_lat
               << "\n=== LONGITUDINAL A ===\n" << A_lon
@@ -373,15 +375,18 @@ void GNC::computeLinearModel(Aircraft& aircraft,
     // Build A_lat, B_lat
     A_lat.resize(lat_state_idx.size(), lat_state_idx.size());
     B_lat.resize(lat_state_idx.size(), lat_input_idx.size());
-    for (size_t i = 0; i < lat_state_idx.size(); ++i) {
-        for (size_t j = 0; j < lat_state_idx.size(); ++j) {
+    for (size_t i = 0; i < lat_state_idx.size(); ++i)
+    {
+        for (size_t j = 0; j < lat_state_idx.size(); ++j)
+        {
             if (j == 0) { // beta column: convert v_dot to beta_dot
                 A_lat(i, j) = A_full(lat_state_idx[i], 4) / Va0;
             } else {
                 A_lat(i, j) = A_full(lat_state_idx[i], lat_state_idx[j]);
             }
         }
-        for (size_t j = 0; j < lat_input_idx.size(); ++j) {
+        for (size_t j = 0; j < lat_input_idx.size(); ++j)
+        {
             B_lat(i, j) = B_full(lat_state_idx[i], lat_input_idx[j]);
         }
     }
@@ -389,11 +394,14 @@ void GNC::computeLinearModel(Aircraft& aircraft,
     // Build A_lon, B_lon
     A_lon.resize(lon_state_idx.size(), lon_state_idx.size());
     B_lon.resize(lon_state_idx.size(), lon_input_idx.size());
-    for (size_t i = 0; i < lon_state_idx.size(); ++i) {
-        for (size_t j = 0; j < lon_state_idx.size(); ++j) {
+    for (size_t i = 0; i < lon_state_idx.size(); ++i)
+    {
+        for (size_t j = 0; j < lon_state_idx.size(); ++j)
+        {
             A_lon(i, j) = A_full(lon_state_idx[i], lon_state_idx[j]);
         }
-        for (size_t j = 0; j < lon_input_idx.size(); ++j) {
+        for (size_t j = 0; j < lon_input_idx.size(); ++j)
+        {
             B_lon(i, j) = B_full(lon_state_idx[i], lon_input_idx[j]);
         }
     }

@@ -121,25 +121,19 @@ SimViewer::~SimViewer()
         ImGui::SetNextWindowPos(ImVec2(offset_x, io.DisplaySize.y - offset_y), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
         ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once); // window stays collapsed by default
 
-        // Push dark theme colors
-        // Control Panel Background and Text
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));  // near black
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.85f, 0.85f, 0.85f, 1.0f));      // light gray
-
-        // Frame background (slider track)
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));   // dark gray
-
-        // Frame background when hovered
+        // Push background colors before Begin()
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
-
-        // Active slider handle
-        ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));   // bright cyan
-        ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(1.0f, 0.6f, 0.2f, 1.0f));  // orange
+        ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.3f, 0.7f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(1.0f, 0.6f, 0.2f, 1.0f));
 
 
 
         if (ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
         {
+            // Change only the inside text color
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
             if (aircraft_)
             {
@@ -166,11 +160,11 @@ SimViewer::~SimViewer()
                 if (ImGui::SliderFloat("Rudder", &rudder, r_min, r_max))
                     aircraft_->delta_r = rudder;
             }
-
+             ImGui::PopStyleColor(); // pop text color
         }
         // Pop the style colors
 
-        ImGui::PopStyleColor(6);
+        ImGui::PopStyleColor(5);
 
         ImGui::End();
 
@@ -178,25 +172,23 @@ SimViewer::~SimViewer()
         // Get main viewport size
 
         float menu_bar_height = 35.0f;
+        float percent_width = 0.45f; // 60% of total window width
+        float desired_width = io.DisplaySize.x * percent_width;
 
-        // Anchor right edge of window to right edge of screen, offset from top by menu height
-        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x, menu_bar_height), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
-        ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once); // window stays collapsed by default
-
-        // Push dark theme colors
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
-        ImPlot::PushStyleColor(ImPlotCol_Line, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-        ImPlot::PushStyleColor(ImPlotCol_Fill, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
-        ImPlot::PushStyleColor(ImPlotCol_AxisText, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
-        ImPlot::PushStyleColor(ImPlotCol_FrameBg,    ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::SetNextWindowPos(
+            ImVec2(io.DisplaySize.x, menu_bar_height),
+            ImGuiCond_Always,
+            ImVec2(1.0f, 0.0f) // right-align
+        );
+        ImGui::SetNextWindowSize(ImVec2(desired_width, 0.0f), ImGuiCond_Always);
+        ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 
 
-        if (ImGui::Begin("Realtime UAV State Plot", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        if (ImGui::Begin("Realtime UAV State Plot", nullptr))
         {
             if (aircraft_)
             {
-                float dt = 0.01f;  /// TODO get directly from sim
+                float dt = 0.02f;  /// TODO get directly from sim
                 plot_time_ += dt;
 
                 // Push new state values
@@ -243,11 +235,13 @@ SimViewer::~SimViewer()
             }
         }
          // Pop the style colors
-        ImGui::PopStyleColor(2);
-        ImPlot::PopStyleColor(3);
+        /*ImGui::PopStyleColor(2);
+        ImPlot::PopStyleColor(3);*/
 
         ImGui::End();
 
+    // === Draw GNC Analysis Tabs (Trim, A/B Matrices, etc.) ===
+    drawAnalysisTabs();
 
     ViewerImGui::post_draw(); // Keep Easy3D overlays (logo, FPS, etc.)
 
@@ -266,12 +260,12 @@ SimViewer::~SimViewer()
             texter_->draw("UAV Simulator", offset_x, offset_y, font_size, 0, easy3d::vec3(1.0f, 1.0f, 1.0f));
         }
 
-        // Draw FPS (bottom-left or somewhere visible)
+        // Draw FPS (top-left or somewhere visible)
         if (show_frame_rate_) 
         {
             const std::string fps = framerate_; // make sure it's valid
             float offset_x = 20.0f * dpi_scaling();
-            float offset_y = (100.0f + menu_height_) * dpi_scaling();  // try higher y if it’s hidden
+            float offset_y = (60.0f + menu_height_) * dpi_scaling();  // try higher y if it’s hidden
             texter_->draw(fps, offset_x, offset_y, font_size, 1, easy3d::vec3(1.0f, 1.0f, 1.0f));
         }
     }
@@ -286,6 +280,162 @@ void SimViewer::pre_draw()
     ViewerImGui::pre_draw();  // Optional: keeps Easy3D behavior
 }
 
+/**
+ * @brief Draws the Analysis tab with selectable sub-tabs for trim values and system matrices.
+ *
+ * This method uses ImGui to present an "Analysis" window with sub-tabs for:
+ * - Trim values (e.g., α, β, φ, control inputs)
+ * - Full A/B matrices
+ * - Lateral A/B matrices
+ * - Longitudinal A/B matrices
+ *
+ * Data is sourced from the associated GNC instance set via setGNC().
+ */
+void SimViewer::drawAnalysisTabs() const
+{
+    if (!gnc_) {
+        ImGui::Text("No GNC data available.");
+        return;
+    }
 
+    // Position below FPS text and start collapsed
+    float fps_x = 20.0f * dpi_scaling();
+    float fps_y = (100.0f + menu_height_) * dpi_scaling();
+    ImGui::SetNextWindowPos(ImVec2(fps_x, fps_y + 30.0f), ImGuiCond_Once);
+    ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 
+    if (ImGui::Begin("Analysis"))
+    {
+        if (ImGui::BeginTabBar("AnalysisTabs"))
+        {
+
+            // === Trim Values Tab ===
+            constexpr double RAD2DEG = 180.0 / M_PI;
+
+            if (ImGui::BeginTabItem("Trim Values"))
+            {
+                ImGui::TextWrapped
+                (
+                "These are the aerodynamic and control input values when the aircraft "
+                "is in a steady-state trim condition for the specified airspeed, "
+                "flight path angle, and turn radius.\n\n"
+                "Trim conditions are useful for understanding the baseline "
+                "performance of the aircraft and for linearising the equations of motion "
+                "around a realistic operating point."
+                );
+                ImGui::Separator();
+
+                const auto& trim = gnc_->getTrimData();
+                ImGui::Text("Va: %.3f m/s", trim.Va);
+                ImGui::Text("Gamma: %.6f rad (%.3f deg)", trim.gamma, trim.gamma * RAD2DEG);
+                ImGui::Text("Turn Radius: %.3f m", trim.R);
+                ImGui::Text("Phi fixed: %.6f rad (%.3f deg)", trim.phi_fixed, trim.phi_fixed * RAD2DEG);
+                ImGui::Text("Beta fixed: %.6f rad (%.3f deg)", trim.beta_fixed, trim.beta_fixed * RAD2DEG);
+
+                if (trim.aircraft)
+                {
+                    const Aircraft* ac = trim.aircraft;
+                    ImGui::Separator();
+                    ImGui::Text("Alpha: %.6f rad (%.3f deg)", ac->alpha, ac->alpha * RAD2DEG);
+                    ImGui::Text("Elevator [delta_e]: %.6f rad (%.3f deg)", ac->delta_e, ac->delta_e * RAD2DEG);
+                    ImGui::Text("Aileron  [delta_a]: %.6f rad (%.3f deg)", ac->delta_a, ac->delta_a * RAD2DEG);
+                    ImGui::Text("Rudder   [delta_r]: %.6f rad (%.3f deg)", ac->delta_r, ac->delta_r * RAD2DEG);
+                    ImGui::Text("Throttle [delta_t]]: %.6f", ac->delta_t);
+                }
+                else
+                {
+                    ImGui::Text("No Aircraft pointer in TrimData.");
+                }
+
+                ImGui::EndTabItem();
+            }
+
+            // === Full Matrices Tab ===
+            if (ImGui::BeginTabItem("A & B Matrices"))
+            {
+                ImGui::TextWrapped
+                (
+                "The full state-space A and B matrices represent the linearised "
+                "aircraft dynamics around the trim point.\n\n"
+                "A relates the current state to the rate of change of the state, "
+                "while B maps control inputs to state rate changes."
+                );
+                ImGui::Separator();
+
+                DisplayMatrix("A", gnc_->getA());
+                ImGui::Separator();
+                DisplayMatrix("B", gnc_->getB());
+                ImGui::EndTabItem();
+            }
+
+            // === Lateral Matrices Tab ===
+            if (ImGui::BeginTabItem("Lateral Matrices"))
+            {
+                ImGui::TextWrapped
+                (
+                "The lateral A and B matrices describe roll, yaw, and sideslip dynamics.\n\n"
+                "They are used for designing lateral-directional control systems such as "
+                "aileron and rudder controllers."
+                );
+                ImGui::Separator();
+
+                DisplayMatrix("A_lat", gnc_->getA_lat());
+                ImGui::Separator();
+                DisplayMatrix("B_lat", gnc_->getB_lat());
+                ImGui::EndTabItem();
+            }
+
+            // === Longitudinal Matrices Tab ===
+            if (ImGui::BeginTabItem("Longitudinal Matrices"))
+            {
+                ImGui::TextWrapped(
+                "The longitudinal A and B matrices describe pitch, heave, and forward-velocity dynamics.\n\n"
+                "They are used for designing longitudinal controllers, such as elevator control for pitch "
+                "and throttle control for airspeed."
+            );
+            ImGui::Separator();
+
+                DisplayMatrix("A_lon", gnc_->getA_lon());
+                ImGui::Separator();
+                DisplayMatrix("B_lon", gnc_->getB_lon());
+                ImGui::EndTabItem();
+            }
+
+            ImGui::EndTabBar();
+        }
+    }
+    ImGui::End();
+}
+
+/**
+ * @brief Displays an Eigen matrix in ImGui in a simple grid format.
+ *
+ * @param name Matrix label to display above the grid.
+ * @param M The Eigen matrix to display.
+ *
+ * Each entry is shown with fixed precision formatting. Columns are separated
+ * with ImGui::SameLine() for compact layout.
+ */
+void SimViewer::DisplayMatrix(const std::string& name, const Eigen::MatrixXd& M) const
+{
+    ImGui::Text("%s:", name.c_str());
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]); // Monospace-friendly
+    for (int i = 0; i < M.rows(); ++i)
+    {
+        for (int j = 0; j < M.cols(); ++j)
+        {
+            ImGui::Text("%8.4f", M(i, j));
+            if (j < M.cols() - 1) ImGui::SameLine();
+        }
+    }
+    ImGui::PopFont();
+}
+
+/**
+ * @brief Sets the GNC object for displaying trim and linearisation results.
+ * @param gnc Pointer to the GNC object.
+ */
+void SimViewer::setGNC(GNC* gnc) {
+    gnc_ = gnc;
+}
 
