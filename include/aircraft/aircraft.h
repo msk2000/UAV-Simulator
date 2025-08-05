@@ -388,6 +388,11 @@ public:
     double p, double q, double r,
     double theta, double Va, double R);
 
+    // Used for TF & SS calculations
+    Eigen::VectorXd getLateralState() const;
+    Eigen::VectorXd getLongitudinalState() const;
+    Eigen::VectorXd computeStateDot(const Eigen::VectorXd& X_in, const Eigen::VectorXd& U_in);
+
 
     private:
 
@@ -436,7 +441,6 @@ public:
     double calculate_q_dot(double& p, double& r,  double& m ,double& Jy, double& Gamma_5,double& Gamma_6);
     // Function to calculate r_dot
     double calculate_r_dot(double& p, double& q, double& r,  double& ell,double& n, double& Gamma_1,double& Gamma_4,double& Gamma_7,double& Gamma_8);
-
 
 
 

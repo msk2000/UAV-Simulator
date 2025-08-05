@@ -1054,7 +1054,7 @@ Aircraft::ControlInputs Aircraft::computeTrimControls(
     // Aerodynamic contribution
     double Fx_aero = qbar * S * C_X;
 
-    // Solve for δ_t using your prop model
+    // Solve for δ_t using your prop model(I am using the book's but will change it later TODO)
     double prop_term = Fx_required - Fx_aero;
     double delta_t_sq = (Va * Va + (2.0 * prop_term) / (rho * prop_area * C_prop)) / (k_motor * k_motor);
 
@@ -1098,6 +1098,109 @@ Aircraft::ControlInputs Aircraft::computeTrimControls(
 
     return controls;
 }
+
+Eigen::VectorXd Aircraft::getLateralState() const 
+{
+    double u = X[3];
+    double v = X[4];
+    double w = X[5];
+    double Va = std::sqrt(u*u + v*v + w*w);
+    double beta = std::asin(v / Va);
+
+    Eigen::VectorXd lat(5);
+    lat << beta,
+           X[9],  // p
+           X[11], // r
+           X[6],  // φ
+           X[8];  // ψ
+    return lat;
+}
+
+Eigen::VectorXd Aircraft::getLongitudinalState() const 
+{
+    double h = -X[2]; // altitude from down position
+    Eigen::VectorXd lon(5);
+    lon << X[3],  // u;
+           X[5],  // w
+           X[10], // q
+           X[7],  // θ
+           h;
+    return lon;
+}
+
+Eigen::VectorXd Aircraft::computeStateDot(const Eigen::VectorXd& X_in,
+                                          const Eigen::VectorXd& U_in)
+{
+    // Save current state and controls
+    std::vector<double> oldX = this->X;
+    double old_de = this->delta_e;
+    double old_da = this->delta_a;
+    double old_dr = this->delta_r;
+    double old_dt = this->delta_t;
+
+    // Apply perturbed state
+    for (size_t i = 0; i < X_in.size(); ++i)
+        this->X[i] = X_in[i];
+
+    // Apply perturbed controls
+    this->delta_e = U_in[0];
+    this->delta_a = U_in[1];
+    this->delta_r = U_in[2];
+    this->delta_t = U_in[3];
+
+    // Update forces and moments for this perturbed state
+    calculate_forces();
+    calculate_moments();
+
+    // Unpack state variables (18-element layout)
+    double pn    = X[0];
+    double pe    = X[1];
+    double pd    = X[2];
+    double u     = X[3];
+    double v     = X[4];
+    double w     = X[5];
+    double p     = X[6];
+    double q     = X[7];
+    double r     = X[8];
+    double phi   = X[9];
+    double theta = X[10];
+    double psi   = X[11];
+    double fx    = X[12];
+    double fy    = X[13];
+    double fz    = X[14];
+    double ell   = X[15];
+    double m     = X[16];
+    double n     = X[17];
+
+    // Allocate derivative vector for 12 dynamics states
+    Eigen::VectorXd Xdot(12);
+
+    Xdot[0]  = calculate_pn_dot(u, v, w, phi, theta, psi);
+    Xdot[1]  = calculate_pe_dot(u, v, w, phi, theta, psi);
+    Xdot[2]  = calculate_pd_dot(u, v, w, phi, theta);
+    Xdot[3]  = calculate_u_dot(v, w, q, r, fx, mass);
+    Xdot[4]  = calculate_v_dot(u, w, p, fy, mass);
+    Xdot[5]  = calculate_w_dot(u, v, p, q, fz, mass);
+    Xdot[6]  = calculate_p_dot(p, q, r, ell, n, Gamma_1, Gamma_2, Gamma_3, Gamma_4);
+    Xdot[7]  = calculate_q_dot(p, r, m, Jy, Gamma_5, Gamma_6);
+    Xdot[8]  = calculate_r_dot(p, q, r, ell, n, Gamma_1, Gamma_4, Gamma_7, Gamma_8);
+    Xdot[9]  = calculate_phi_dot(p, q, r, phi, theta);
+    Xdot[10] = calculate_theta_dot(q, r, phi);
+    Xdot[11] = calculate_psi_dot(q, r, phi, theta);
+
+    // Restore original state and controls
+    this->X = oldX;
+    this->delta_e = old_de;
+    this->delta_a = old_da;
+    this->delta_r = old_dr;
+    this->delta_t = old_dt;
+
+    return Xdot;
+}
+
+
+
+
 
 
 

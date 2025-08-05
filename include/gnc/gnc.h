@@ -42,7 +42,17 @@ public:
     bool computeTrim(Aircraft& aircraft, double Va, double gamma, double R);
     static double trimObjective(const std::vector<double>& angles, std::vector<double>& grad, void* data);
     static Eigen::VectorXd computeXdot(Aircraft& ac);
-    bool linearizeAtTrim(const Aircraft& aircraft);
+    bool linearizeAtTrim(Aircraft& drone);
+    void computeLinearModel(Aircraft& aircraft,
+                              const Eigen::VectorXd& Xtrim,
+                              const Eigen::VectorXd& Utrim,
+                              Eigen::MatrixXd& A_full,
+                              Eigen::MatrixXd& B_full,
+                              Eigen::MatrixXd& A_lat,
+                              Eigen::MatrixXd& B_lat,
+                              Eigen::MatrixXd& A_lon,
+                              Eigen::MatrixXd& B_lon);
+
 
     struct TrimData
     {

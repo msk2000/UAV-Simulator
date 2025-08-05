@@ -57,7 +57,8 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
     // ---- Fix β and compute φ as per book ----
     double beta_fixed = 0.0; // no sideslip
     double phi_fixed = 0.0;
-    if (std::isfinite(R) && std::abs(R) > 1e-6) {
+    if (std::isfinite(R) && std::abs(R) > 1e-6)
+    {
         phi_fixed = std::atan((Va * Va * std::cos(gamma)) / (aircraft.g * R));
     }
 
@@ -88,18 +89,41 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
 
     double theta = aircraft.alpha + gamma;
 
-    aircraft.X =
-    {
-        0, 0, 0,
-        Va * std::cos(aircraft.alpha),
-        Va * std::sin(aircraft.beta),
-        0,
-        0, 0, 0,
-        theta,
-        aircraft.phi,
-        0
+    // Build trim state vector (18 elements)
+    aircraft.X = {
+        0.0,                          // pn
+        0.0,                          // pe
+        2000.0,                       // pd
+        Va * std::cos(aircraft.alpha) * std::cos(aircraft.beta), // u
+        Va * std::sin(aircraft.beta), // v
+        0.0,                          // w = 0 for trim in body frame (Eq. 5.21)
+        0.0,                          // p
+        0.0,                          // q
+        0.0,                          // r
+        aircraft.phi,                 // phi
+        theta,                        // theta
+        0.0,                          // psi
+        0.0, 0.0, 0.0,                 // fx, fy, fz
+        0.0, 0.0, 0.0                  // ell, m, n
     };
 
+    // Compute and store trim control inputs
+    auto ci = aircraft.computeTrimControls(
+        aircraft.alpha,
+        aircraft.beta,
+        aircraft.phi,
+        0.0, 0.0, 0.0,    // p, q, r
+        theta,
+        Va,
+        R
+    );
+
+    aircraft.delta_e = ci.delta_e;
+    aircraft.delta_a = ci.delta_a;
+    aircraft.delta_r = ci.delta_r;
+    aircraft.delta_t = ci.delta_t;
+
+    // Debug print
     std::cout << "Trim succeeded with α = " << aircraft.alpha
               << ", ϕ = " << aircraft.phi
               << ", β = " << aircraft.beta << std::endl;
@@ -270,13 +294,120 @@ Eigen::VectorXd GNC::computeXdot(Aircraft& ac)
 
 
 
-bool GNC::linearizeAtTrim(const Aircraft& aircraft)
+bool GNC::linearizeAtTrim(Aircraft& drone)
 {
-    std::cout << "Linearizing at trim point..." << std::endl;
+    Eigen::VectorXd Xtrim = Eigen::Map<const Eigen::VectorXd>(drone.X.data(), drone.X.size());// current state vector
+    Eigen::VectorXd Utrim(4);
+    Utrim << drone.delta_e,
+             drone.delta_a,
+             drone.delta_r,
+             drone.delta_t;
 
-    // Use aircraft's equations to compute Jacobians:
-    // A = ∂f/∂x at (x*, u*), B = ∂f/∂u at (x*, u*)
-    // Use finite differences or symbolic derivation
+    Eigen::MatrixXd A_full, B_full, A_lat, B_lat, A_lon, B_lon;
+
+    computeLinearModel(drone, Xtrim, Utrim,
+                       A_full, B_full,
+                       A_lat, B_lat,
+                       A_lon, B_lon);
+
+    std::cout << "\n=== FULL A ===\n" << A_full
+              << "\n=== FULL B ===\n" << B_full
+              << "\n=== LATERAL A ===\n" << A_lat
+              << "\n=== LATERAL B ===\n" << B_lat
+              << "\n=== LONGITUDINAL A ===\n" << A_lon
+              << "\n=== LONGITUDINAL B ===\n" << B_lon
+              << std::endl;
 
     return true;
 }
+
+void GNC::computeLinearModel(Aircraft& aircraft,
+                             const Eigen::VectorXd& Xtrim,
+                             const Eigen::VectorXd& Utrim,
+                             Eigen::MatrixXd& A_full,
+                             Eigen::MatrixXd& B_full,
+                             Eigen::MatrixXd& A_lat,
+                             Eigen::MatrixXd& B_lat,
+                             Eigen::MatrixXd& A_lon,
+                             Eigen::MatrixXd& B_lon)
+{
+    const double eps = 1e-5;
+    const int n_states = 12;
+    const int n_inputs = 4;
+
+    Eigen::VectorXd f0 = aircraft.computeStateDot(Xtrim, Utrim);
+
+    A_full.setZero(n_states, n_states);
+    B_full.setZero(n_states, n_inputs);
+
+    // --- Full A ---
+    for (int j = 0; j < n_states; ++j) {
+        Eigen::VectorXd Xpert = Xtrim;
+        Xpert[j] += eps;
+        Eigen::VectorXd fpert = aircraft.computeStateDot(Xpert, Utrim);
+        A_full.col(j) = (fpert - f0) / eps;
+    }
+
+    // --- Full B ---
+    for (int j = 0; j < n_inputs; ++j) {
+        Eigen::VectorXd Upert = Utrim;
+        Upert[j] += eps;
+        Eigen::VectorXd fpert = aircraft.computeStateDot(Xtrim, Upert);
+        B_full.col(j) = (fpert - f0) / eps;
+    }
+
+    // ===== Reduced-order extraction =====
+    double u0 = Xtrim[3];
+    double v0 = Xtrim[4];
+    double w0 = Xtrim[5];
+    double Va0 = std::sqrt(u0*u0 + v0*v0 + w0*w0);
+
+    // Lateral indices in full state: beta, p, r, phi, psi
+    std::vector<int> lat_state_idx = {4, 6, 8, 9, 11}; // v -> beta computed separately
+    std::vector<int> lat_input_idx = {1, 2};           // delta_a, delta_r
+
+    // Longitudinal indices: u, w, q, theta, h
+    std::vector<int> lon_state_idx = {3, 5, 7, 10, 2}; // h from pd
+    std::vector<int> lon_input_idx = {0, 3};           // delta_e, delta_t
+
+    // Build A_lat, B_lat
+    A_lat.resize(lat_state_idx.size(), lat_state_idx.size());
+    B_lat.resize(lat_state_idx.size(), lat_input_idx.size());
+    for (size_t i = 0; i < lat_state_idx.size(); ++i) {
+        for (size_t j = 0; j < lat_state_idx.size(); ++j) {
+            if (j == 0) { // beta column: convert v_dot to beta_dot
+                A_lat(i, j) = A_full(lat_state_idx[i], 4) / Va0;
+            } else {
+                A_lat(i, j) = A_full(lat_state_idx[i], lat_state_idx[j]);
+            }
+        }
+        for (size_t j = 0; j < lat_input_idx.size(); ++j) {
+            B_lat(i, j) = B_full(lat_state_idx[i], lat_input_idx[j]);
+        }
+    }
+
+    // Build A_lon, B_lon
+    A_lon.resize(lon_state_idx.size(), lon_state_idx.size());
+    B_lon.resize(lon_state_idx.size(), lon_input_idx.size());
+    for (size_t i = 0; i < lon_state_idx.size(); ++i) {
+        for (size_t j = 0; j < lon_state_idx.size(); ++j) {
+            A_lon(i, j) = A_full(lon_state_idx[i], lon_state_idx[j]);
+        }
+        for (size_t j = 0; j < lon_input_idx.size(); ++j) {
+            B_lon(i, j) = B_full(lon_state_idx[i], lon_input_idx[j]);
+        }
+    }
+
+    // Debug prints
+    std::cout << "\n=== FULL A ===\n" << A_full
+              << "\n=== FULL B ===\n" << B_full
+              << "\n=== LATERAL A ===\n" << A_lat
+              << "\n=== LATERAL B ===\n" << B_lat
+              << "\n=== LONGITUDINAL A ===\n" << A_lon
+              << "\n=== LONGITUDINAL B ===\n" << B_lon
+              << std::endl;
+}
+
+
+
+
