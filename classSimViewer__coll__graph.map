@@ -1,9 +1,16 @@
 <map id="SimViewer" name="SimViewer">
-<area shape="rect" id="Node000001" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="132,168,217,193"/>
-<area shape="rect" id="Node000002" href="$classeasy3d_1_1ViewerImGui.html" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="5,80,152,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,112,163,165,160,169,100,116"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="47,5,110,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="81,45,81,80,76,80,76,45"/>
-<area shape="rect" id="Node000004" href="$classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="176,80,240,105"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,119,182,168,177,166,196,117"/>
+<area shape="rect" id="Node000001" title="Specialized Easy3D viewer class for UAV simulation with GUI integration." alt="" coords="159,269,251,295"/>
+<area shape="rect" id="Node000002" href="$classeasy3d_1_1ViewerImGui.html" title="An Easy3D viewer with ImGui GUI support for custom rendering and input." alt="" coords="5,181,167,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,213,190,267,187,271,112,217"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="53,93,119,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,133,89,181,83,181,83,133"/>
+<area shape="rect" id="Node000004" href="$classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="191,5,261,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,45,208,269,203,269,221,44"/>
+<area shape="rect" id="Node000007" href="$structGNC_1_1TrimData.html" title=" " alt="" coords="243,93,361,119"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="247,39,293,91,289,95,243,43"/>
+<area shape="rect" id="Node000005" href="$classGNC.html" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="277,181,327,207"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="280,218,220,271,216,267,277,214"/>
+<area shape="rect" id="Node000006" href="$classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="386,93,493,119"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="416,129,371,160,328,183,325,179,369,155,413,125"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="305,133,305,181,299,181,299,133"/>
 </map>

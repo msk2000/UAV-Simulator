@@ -1,5 +1,9 @@
 <map id="GNC" name="GNC">
-<area shape="rect" id="Node000001" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="28,93,80,119"/>
-<area shape="rect" id="Node000002" href="$classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,5,103,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,45,57,93,51,93,51,45"/>
+<area shape="rect" id="Node000001" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="88,181,139,207"/>
+<area shape="rect" id="Node000002" href="$classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,93,112,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,131,76,156,98,179,95,183,71,159,60,133"/>
+<area shape="rect" id="Node000003" href="$structGNC_1_1TrimData.html" title=" " alt="" coords="137,93,255,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,131,154,159,128,183,125,179,150,155,176,127"/>
+<area shape="rect" id="Node000004" href="$classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="161,5,231,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="199,45,199,93,193,93,193,45"/>
 </map>

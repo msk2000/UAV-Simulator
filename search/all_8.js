@@ -17,9 +17,11 @@ var searchData=
   ['delta_5ft_5fmin_14',['delta_t_min',['../classAircraft.html#a4dac131e63e8ae172f09d2568a7ca07e',1,'Aircraft']]],
   ['dependencies_15',['dependencies',['../index.html#autotoc_md9',1,'2. Install dependencies'],['../index.html#autotoc_md6',1,'Dependencies']]],
   ['deprecated_20list_16',['Deprecated List',['../deprecated.html',1,'']]],
-  ['draw_17',['draw',['../classPath.html#a00690ae0e462f01553ac87b78e498f96',1,'Path::draw()'],['../classWaypointList.html#adabc1e5e08a31fa2fe86fd79707f7003',1,'WaypointList::draw()'],['../classSimViewer.html#aefdf9171cf8c4315d14d255e13f9285e',1,'SimViewer::draw()']]],
-  ['draw_5fmenu_5ffile_18',['draw_menu_file',['../classeasy3d_1_1ViewerImGui.html#aa1946e02b2f52d42e09a086f09643f03',1,'easy3d::ViewerImGui']]],
-  ['draw_5fmenu_5fview_19',['draw_menu_view',['../classeasy3d_1_1ViewerImGui.html#ad504aa58e664be5bf915c8c3cd33d02f',1,'easy3d::ViewerImGui']]],
-  ['dt_20',['dt',['../classAircraft.html#a5cf8caed8585f5f24e10b0a2d1579f84',1,'Aircraft']]],
-  ['dummy_5fpoints_21',['dummy_points',['../classAircraft.html#ab9eb5a8535defc1be7d0a0180b7ec881',1,'Aircraft']]]
+  ['displaymatrix_17',['DisplayMatrix',['../classSimViewer.html#aa4df6be70a0378e19b5be8fea2a3f522',1,'SimViewer']]],
+  ['draw_18',['draw',['../classPath.html#a00690ae0e462f01553ac87b78e498f96',1,'Path::draw()'],['../classWaypointList.html#adabc1e5e08a31fa2fe86fd79707f7003',1,'WaypointList::draw()'],['../classSimViewer.html#aefdf9171cf8c4315d14d255e13f9285e',1,'SimViewer::draw()']]],
+  ['draw_5fmenu_5ffile_19',['draw_menu_file',['../classeasy3d_1_1ViewerImGui.html#aa1946e02b2f52d42e09a086f09643f03',1,'easy3d::ViewerImGui']]],
+  ['draw_5fmenu_5fview_20',['draw_menu_view',['../classeasy3d_1_1ViewerImGui.html#ad504aa58e664be5bf915c8c3cd33d02f',1,'easy3d::ViewerImGui']]],
+  ['drawanalysistabs_21',['drawAnalysisTabs',['../classSimViewer.html#aff0acc2310193f41a891ba7b8f1ba694',1,'SimViewer']]],
+  ['dt_22',['dt',['../classAircraft.html#a5cf8caed8585f5f24e10b0a2d1579f84',1,'Aircraft']]],
+  ['dummy_5fpoints_23',['dummy_points',['../classAircraft.html#ab9eb5a8535defc1be7d0a0180b7ec881',1,'Aircraft']]]
 ];

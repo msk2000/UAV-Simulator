@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('classGNC.html',''); initResizable(); }
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classGNC-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">GNC Class Reference</div></div>
 </div><!--header-->
@@ -108,9 +109,13 @@ Collaboration diagram for GNC:</div>
 <div class="dyncontent">
 <div class="center"><img src="classGNC__coll__graph.png" border="0" usemap="#aGNC_coll__map" alt="Collaboration graph"/></div>
 <map name="aGNC_coll__map" id="aGNC_coll__map">
-<area shape="rect" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="28,93,80,119"/>
-<area shape="rect" href="classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,5,103,31"/>
-<area shape="poly" title=" " alt="" coords="57,45,57,93,51,93,51,45"/>
+<area shape="rect" title="Guidance, Navigation, and Control system for the aircraft." alt="" coords="88,181,139,207"/>
+<area shape="rect" href="classWaypointList.html" title="Stores and manages a list of 3D waypoints for trajectory following or mission execution." alt="" coords="5,93,112,119"/>
+<area shape="poly" title=" " alt="" coords="65,131,76,156,98,179,95,183,71,159,60,133"/>
+<area shape="rect" href="structGNC_1_1TrimData.html" title=" " alt="" coords="137,93,255,119"/>
+<area shape="poly" title=" " alt="" coords="180,131,154,159,128,183,125,179,150,155,176,127"/>
+<area shape="rect" href="classAircraft.html" title="Represents a fixed‑wing UAV including its dynamics and 3D rendering." alt="" coords="161,5,231,31"/>
+<area shape="poly" title=" " alt="" coords="199,45,199,93,193,93,193,45"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -131,8 +136,24 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adca84fe48f3172182e07ff272f5190c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af288dc6907443123f8b699bba0cd062a" id="r_af288dc6907443123f8b699bba0cd062a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#af288dc6907443123f8b699bba0cd062a">computeTrim</a> (<a class="el" href="classAircraft.html">Aircraft</a> &amp;aircraft, double Va, double gamma, double R)</td></tr>
 <tr class="separator:af288dc6907443123f8b699bba0cd062a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8470b43077f80e211eef2b1b93b2be1a" id="r_a8470b43077f80e211eef2b1b93b2be1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a8470b43077f80e211eef2b1b93b2be1a">linearizeAtTrim</a> (const <a class="el" href="classAircraft.html">Aircraft</a> &amp;aircraft)</td></tr>
-<tr class="separator:a8470b43077f80e211eef2b1b93b2be1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a389741d4d47ac337f0e7d5996520745c" id="r_a389741d4d47ac337f0e7d5996520745c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a389741d4d47ac337f0e7d5996520745c">linearizeAtTrim</a> (<a class="el" href="classAircraft.html">Aircraft</a> &amp;drone)</td></tr>
+<tr class="separator:a389741d4d47ac337f0e7d5996520745c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08d2b02c6c02a0c3af13ec067a951019" id="r_a08d2b02c6c02a0c3af13ec067a951019"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a08d2b02c6c02a0c3af13ec067a951019">computeLinearModel</a> (<a class="el" href="classAircraft.html">Aircraft</a> &amp;aircraft, const Eigen::VectorXd &amp;Xtrim, const Eigen::VectorXd &amp;Utrim, Eigen::MatrixXd &amp;A_full, Eigen::MatrixXd &amp;B_full, Eigen::MatrixXd &amp;<a class="el" href="classGNC.html#a327a1a04121ac7b8aeb9bd31b070c814">A_lat</a>, Eigen::MatrixXd &amp;<a class="el" href="classGNC.html#ae743feb22c8e1fb680b5b180e6becafc">B_lat</a>, Eigen::MatrixXd &amp;<a class="el" href="classGNC.html#ae6043d3e6861d51a2a9d0d0d98c12ca7">A_lon</a>, Eigen::MatrixXd &amp;<a class="el" href="classGNC.html#a1a8947c7e78b6d077906413753e02569">B_lon</a>)</td></tr>
+<tr class="separator:a08d2b02c6c02a0c3af13ec067a951019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e24f732ed81d20dc63bb0e0f40aaa77" id="r_a5e24f732ed81d20dc63bb0e0f40aaa77"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structGNC_1_1TrimData.html">TrimData</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a5e24f732ed81d20dc63bb0e0f40aaa77">getTrimData</a> () const</td></tr>
+<tr class="separator:a5e24f732ed81d20dc63bb0e0f40aaa77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a932ff8e867327ef38ab86c0abe175c22" id="r_a932ff8e867327ef38ab86c0abe175c22"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a932ff8e867327ef38ab86c0abe175c22">getA</a> () const</td></tr>
+<tr class="separator:a932ff8e867327ef38ab86c0abe175c22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac15c53cdab161430abade9ed1ac881e9" id="r_ac15c53cdab161430abade9ed1ac881e9"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#ac15c53cdab161430abade9ed1ac881e9">getB</a> () const</td></tr>
+<tr class="separator:ac15c53cdab161430abade9ed1ac881e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebbf2a92c97a926165f17f0f7e40da10" id="r_aebbf2a92c97a926165f17f0f7e40da10"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#aebbf2a92c97a926165f17f0f7e40da10">getA_lat</a> () const</td></tr>
+<tr class="separator:aebbf2a92c97a926165f17f0f7e40da10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a831904e9fcde666e69bd3f5efb894b32" id="r_a831904e9fcde666e69bd3f5efb894b32"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a831904e9fcde666e69bd3f5efb894b32">getB_lat</a> () const</td></tr>
+<tr class="separator:a831904e9fcde666e69bd3f5efb894b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76ddc14c9d979cb33934b02fa36873e2" id="r_a76ddc14c9d979cb33934b02fa36873e2"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a76ddc14c9d979cb33934b02fa36873e2">getA_lon</a> () const</td></tr>
+<tr class="separator:a76ddc14c9d979cb33934b02fa36873e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aec514b22b1b7e20ce8aa1b1a143b9c" id="r_a0aec514b22b1b7e20ce8aa1b1a143b9c"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a0aec514b22b1b7e20ce8aa1b1a143b9c">getB_lon</a> () const</td></tr>
+<tr class="separator:a0aec514b22b1b7e20ce8aa1b1a143b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -146,6 +167,25 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ad40e98a5e449622c53b5c1e37c2a8ea1" id="r_ad40e98a5e449622c53b5c1e37c2a8ea1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWaypointList.html">WaypointList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#ad40e98a5e449622c53b5c1e37c2a8ea1">waypoints_</a></td></tr>
 <tr class="memdesc:ad40e98a5e449622c53b5c1e37c2a8ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current list of waypoints for navigation.  <br /></td></tr>
 <tr class="separator:ad40e98a5e449622c53b5c1e37c2a8ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22420698fffdfe5cb5a3f0209a381fe7" id="r_a22420698fffdfe5cb5a3f0209a381fe7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGNC_1_1TrimData.html">TrimData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a22420698fffdfe5cb5a3f0209a381fe7">trimData</a></td></tr>
+<tr class="separator:a22420698fffdfe5cb5a3f0209a381fe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc77f075a3fa1f4a1cfb7434bcd7f845" id="r_adc77f075a3fa1f4a1cfb7434bcd7f845"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#adc77f075a3fa1f4a1cfb7434bcd7f845">A</a></td></tr>
+<tr class="separator:adc77f075a3fa1f4a1cfb7434bcd7f845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2221270bcaaa31353a1e3791a501ac61" id="r_a2221270bcaaa31353a1e3791a501ac61"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a2221270bcaaa31353a1e3791a501ac61">B</a></td></tr>
+<tr class="separator:a2221270bcaaa31353a1e3791a501ac61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327a1a04121ac7b8aeb9bd31b070c814" id="r_a327a1a04121ac7b8aeb9bd31b070c814"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a327a1a04121ac7b8aeb9bd31b070c814">A_lat</a></td></tr>
+<tr class="separator:a327a1a04121ac7b8aeb9bd31b070c814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae743feb22c8e1fb680b5b180e6becafc" id="r_ae743feb22c8e1fb680b5b180e6becafc"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#ae743feb22c8e1fb680b5b180e6becafc">B_lat</a></td></tr>
+<tr class="separator:ae743feb22c8e1fb680b5b180e6becafc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6043d3e6861d51a2a9d0d0d98c12ca7" id="r_ae6043d3e6861d51a2a9d0d0d98c12ca7"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#ae6043d3e6861d51a2a9d0d0d98c12ca7">A_lon</a></td></tr>
+<tr class="separator:ae6043d3e6861d51a2a9d0d0d98c12ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a8947c7e78b6d077906413753e02569" id="r_a1a8947c7e78b6d077906413753e02569"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#a1a8947c7e78b6d077906413753e02569">B_lon</a></td></tr>
+<tr class="separator:a1a8947c7e78b6d077906413753e02569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aeb621230926fb2c96136a84cf4e04979" id="r_aeb621230926fb2c96136a84cf4e04979"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGNC.html#aeb621230926fb2c96136a84cf4e04979">Simviewer</a></td></tr>
+<tr class="separator:aeb621230926fb2c96136a84cf4e04979"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Guidance, Navigation, and Control system for the aircraft. </p>
@@ -169,6 +209,76 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a08d2b02c6c02a0c3af13ec067a951019" name="a08d2b02c6c02a0c3af13ec067a951019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08d2b02c6c02a0c3af13ec067a951019">&#9670;&#160;</a></span>computeLinearModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GNC::computeLinearModel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classAircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"><em>aircraft</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>Xtrim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>Utrim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>A_full</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>B_full</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>A_lat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>B_lat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>A_lon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>B_lon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af288dc6907443123f8b699bba0cd062a" name="af288dc6907443123f8b699bba0cd062a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af288dc6907443123f8b699bba0cd062a">&#9670;&#160;</a></span>computeTrim()</h2>
 
@@ -235,8 +345,183 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8470b43077f80e211eef2b1b93b2be1a" name="a8470b43077f80e211eef2b1b93b2be1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8470b43077f80e211eef2b1b93b2be1a">&#9670;&#160;</a></span>linearizeAtTrim()</h2>
+<a id="a932ff8e867327ef38ab86c0abe175c22" name="a932ff8e867327ef38ab86c0abe175c22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a932ff8e867327ef38ab86c0abe175c22">&#9670;&#160;</a></span>getA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getA </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aebbf2a92c97a926165f17f0f7e40da10" name="aebbf2a92c97a926165f17f0f7e40da10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebbf2a92c97a926165f17f0f7e40da10">&#9670;&#160;</a></span>getA_lat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getA_lat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76ddc14c9d979cb33934b02fa36873e2" name="a76ddc14c9d979cb33934b02fa36873e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76ddc14c9d979cb33934b02fa36873e2">&#9670;&#160;</a></span>getA_lon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getA_lon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac15c53cdab161430abade9ed1ac881e9" name="ac15c53cdab161430abade9ed1ac881e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac15c53cdab161430abade9ed1ac881e9">&#9670;&#160;</a></span>getB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getB </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a831904e9fcde666e69bd3f5efb894b32" name="a831904e9fcde666e69bd3f5efb894b32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a831904e9fcde666e69bd3f5efb894b32">&#9670;&#160;</a></span>getB_lat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getB_lat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0aec514b22b1b7e20ce8aa1b1a143b9c" name="a0aec514b22b1b7e20ce8aa1b1a143b9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aec514b22b1b7e20ce8aa1b1a143b9c">&#9670;&#160;</a></span>getB_lon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd &amp; GNC::getB_lon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5e24f732ed81d20dc63bb0e0f40aaa77" name="a5e24f732ed81d20dc63bb0e0f40aaa77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e24f732ed81d20dc63bb0e0f40aaa77">&#9670;&#160;</a></span>getTrimData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structGNC_1_1TrimData.html">TrimData</a> &amp; GNC::getTrimData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a389741d4d47ac337f0e7d5996520745c" name="a389741d4d47ac337f0e7d5996520745c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a389741d4d47ac337f0e7d5996520745c">&#9670;&#160;</a></span>linearizeAtTrim()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,8 +529,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool GNC::linearizeAtTrim </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAircraft.html">Aircraft</a> &amp;&#160;</td>
-          <td class="paramname"><em>aircraft</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classAircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"><em>drone</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -370,7 +655,184 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="aeb621230926fb2c96136a84cf4e04979" name="aeb621230926fb2c96136a84cf4e04979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb621230926fb2c96136a84cf4e04979">&#9670;&#160;</a></span>Simviewer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class Simviewer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="adc77f075a3fa1f4a1cfb7434bcd7f845" name="adc77f075a3fa1f4a1cfb7434bcd7f845"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc77f075a3fa1f4a1cfb7434bcd7f845">&#9670;&#160;</a></span>A</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::A</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a327a1a04121ac7b8aeb9bd31b070c814" name="a327a1a04121ac7b8aeb9bd31b070c814"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a327a1a04121ac7b8aeb9bd31b070c814">&#9670;&#160;</a></span>A_lat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::A_lat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6043d3e6861d51a2a9d0d0d98c12ca7" name="ae6043d3e6861d51a2a9d0d0d98c12ca7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6043d3e6861d51a2a9d0d0d98c12ca7">&#9670;&#160;</a></span>A_lon</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::A_lon</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2221270bcaaa31353a1e3791a501ac61" name="a2221270bcaaa31353a1e3791a501ac61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2221270bcaaa31353a1e3791a501ac61">&#9670;&#160;</a></span>B</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::B</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae743feb22c8e1fb680b5b180e6becafc" name="ae743feb22c8e1fb680b5b180e6becafc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae743feb22c8e1fb680b5b180e6becafc">&#9670;&#160;</a></span>B_lat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::B_lat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a8947c7e78b6d077906413753e02569" name="a1a8947c7e78b6d077906413753e02569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a8947c7e78b6d077906413753e02569">&#9670;&#160;</a></span>B_lon</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd GNC::B_lon</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22420698fffdfe5cb5a3f0209a381fe7" name="a22420698fffdfe5cb5a3f0209a381fe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22420698fffdfe5cb5a3f0209a381fe7">&#9670;&#160;</a></span>trimData</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structGNC_1_1TrimData.html">TrimData</a> GNC::trimData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad40e98a5e449622c53b5c1e37c2a8ea1" name="ad40e98a5e449622c53b5c1e37c2a8ea1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad40e98a5e449622c53b5c1e37c2a8ea1">&#9670;&#160;</a></span>waypoints_</h2>
 

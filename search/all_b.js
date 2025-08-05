@@ -1,7 +1,7 @@
 var searchData=
 [
   ['g_0',['g',['../classAircraft.html#a38f40c2c70d98b8a6435d7c4802f5773',1,'Aircraft']]],
-  ['gamma_1',['gamma',['../classAircraft.html#aadda489664bd92785c5d7c325ae2cf29',1,'Aircraft::Gamma'],['../structGNC_1_1TrimData.html#a1ccce5393877732037b136a1ac7e4330',1,'GNC::TrimData::gamma']]],
+  ['gamma_1',['gamma',['../structGNC_1_1TrimData.html#a1ccce5393877732037b136a1ac7e4330',1,'GNC::TrimData::gamma'],['../classAircraft.html#aadda489664bd92785c5d7c325ae2cf29',1,'Aircraft::Gamma']]],
   ['gamma_5f1_2',['Gamma_1',['../classAircraft.html#ad1a75b99d4377a05166a555ba77c889e',1,'Aircraft']]],
   ['gamma_5f2_3',['Gamma_2',['../classAircraft.html#ae370c4b7960ebcfdfcb68b2c4d823fef',1,'Aircraft']]],
   ['gamma_5f3_4',['Gamma_3',['../classAircraft.html#a78c41456176530c18b3077339f37fb57',1,'Aircraft']]],
@@ -12,11 +12,21 @@ var searchData=
   ['gamma_5f8_9',['Gamma_8',['../classAircraft.html#a727da519c986dae4403c7347d07db3d0',1,'Aircraft']]],
   ['generatesquarecircuit_10',['generateSquareCircuit',['../classMissionManager.html#a45a6383d86f3d45f20c2c5786da29573',1,'MissionManager']]],
   ['generatewaypoints_11',['generatewaypoints',['../classPathSegment.html#aff9243d251f2b0d5629a5f0d32a42f67',1,'PathSegment::generateWaypoints()'],['../classPath.html#a74cc72c810b36ea8907214fd630ce545',1,'Path::generateWaypoints()'],['../classLineSegment.html#a31f719f310947b5d060874e1673e7b86',1,'LineSegment::generateWaypoints()']]],
-  ['getaircraftdrawable_12',['getAircraftDrawable',['../classAircraft.html#af4af98d8c331430f3a95cd69f9293579',1,'Aircraft']]],
-  ['getwaypoints_13',['getWaypoints',['../classWaypointList.html#a6b7938756217833c1e1b75dda2408fa7',1,'WaypointList']]],
-  ['gnc_14',['gnc',['../classAircraft.html#aa6840b100d7dc95d2916f83c8e133792',1,'Aircraft::GNC'],['../classGNC.html#ac3491d348804114cf4ca95f462755c6e',1,'GNC::GNC()'],['../classGNC.html',1,'GNC']]],
-  ['gnc_2ecpp_15',['gnc.cpp',['../gnc_8cpp.html',1,'']]],
-  ['gnc_2eh_16',['gnc.h',['../gnc_8h.html',1,'']]],
-  ['grid_5fvertices_17',['grid_vertices',['../classWorld.html#a97aedbe9d5d8b1135e4931f6a7a984d6',1,'World']]],
-  ['griddrawable_18',['gridDrawable',['../classWorld.html#aa5d27d8bbc3f7beee576540f78c6a5e5',1,'World']]]
+  ['geta_12',['getA',['../classGNC.html#a932ff8e867327ef38ab86c0abe175c22',1,'GNC']]],
+  ['geta_5flat_13',['getA_lat',['../classGNC.html#aebbf2a92c97a926165f17f0f7e40da10',1,'GNC']]],
+  ['geta_5flon_14',['getA_lon',['../classGNC.html#a76ddc14c9d979cb33934b02fa36873e2',1,'GNC']]],
+  ['getaircraftdrawable_15',['getAircraftDrawable',['../classAircraft.html#af4af98d8c331430f3a95cd69f9293579',1,'Aircraft']]],
+  ['getb_16',['getB',['../classGNC.html#ac15c53cdab161430abade9ed1ac881e9',1,'GNC']]],
+  ['getb_5flat_17',['getB_lat',['../classGNC.html#a831904e9fcde666e69bd3f5efb894b32',1,'GNC']]],
+  ['getb_5flon_18',['getB_lon',['../classGNC.html#a0aec514b22b1b7e20ce8aa1b1a143b9c',1,'GNC']]],
+  ['getlateralstate_19',['getLateralState',['../classAircraft.html#a02e34e9062fa8e65ade1a5f03b989503',1,'Aircraft']]],
+  ['getlongitudinalstate_20',['getLongitudinalState',['../classAircraft.html#aba7462fbb236322243be9804b2f6470e',1,'Aircraft']]],
+  ['gettrimdata_21',['getTrimData',['../classGNC.html#a5e24f732ed81d20dc63bb0e0f40aaa77',1,'GNC']]],
+  ['getwaypoints_22',['getWaypoints',['../classWaypointList.html#a6b7938756217833c1e1b75dda2408fa7',1,'WaypointList']]],
+  ['gnc_23',['gnc',['../classAircraft.html#aa6840b100d7dc95d2916f83c8e133792',1,'Aircraft::GNC'],['../classGNC.html#ac3491d348804114cf4ca95f462755c6e',1,'GNC::GNC()'],['../classGNC.html',1,'GNC']]],
+  ['gnc_2ecpp_24',['gnc.cpp',['../gnc_8cpp.html',1,'']]],
+  ['gnc_2eh_25',['gnc.h',['../gnc_8h.html',1,'']]],
+  ['gnc_5f_26',['gnc_',['../classSimViewer.html#a9b95c3d19368974cf07045cfcace1895',1,'SimViewer']]],
+  ['grid_5fvertices_27',['grid_vertices',['../classWorld.html#a97aedbe9d5d8b1135e4931f6a7a984d6',1,'World']]],
+  ['griddrawable_28',['gridDrawable',['../classWorld.html#aa5d27d8bbc3f7beee576540f78c6a5e5',1,'World']]]
 ];

@@ -1,39 +1,52 @@
 <map id="include/rendering/simviewer.h" name="include/rendering/simviewer.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="212,5,405,31"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,174,164,199"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,33,123,52,88,65,67,80,59,99,59,120,64,141,73,161,68,163,59,143,53,121,53,98,63,77,86,60,122,47,211,28"/>
-<area shape="rect" id="Node000003" href="$viewer__imgui_8h.html" title=" " alt="" coords="77,86,186,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,33,171,83,168,78,282,28"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="211,86,279,111"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="301,33,265,77,261,74,297,29"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="303,79,445,119"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="320,29,352,66,347,70,316,33"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="469,86,642,111"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="345,28,507,79,506,84,344,33"/>
-<area shape="rect" id="Node000007" href="$aircraft_8h.html" title="Declaration of the Aircraft class for the UAV Simulator." alt="" coords="666,86,783,111"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="387,28,513,49,655,76,672,80,670,85,653,81,512,54,386,33"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="127,113,100,163,95,160,123,110"/>
-<area shape="poly" id="edge12_Node000007_Node000002" title=" " alt="" coords="687,114,654,121,521,140,416,148,311,154,177,169,150,174,149,169,176,164,310,148,416,142,520,135,654,116,685,109"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="189,174,258,199"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="686,114,654,121,546,137,461,141,377,148,271,169,262,172,260,167,269,164,376,143,461,136,546,131,654,116,685,109"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="283,174,337,199"/>
-<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="685,114,655,121,569,135,501,141,434,149,351,169,345,171,343,166,349,164,433,144,501,136,568,130,653,116,684,109"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="362,174,421,199"/>
-<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="684,114,655,121,543,142,494,152,433,169,428,171,426,166,432,164,493,147,542,137,653,116,682,109"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="445,174,543,199"/>
-<area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="694,114,539,172,537,167,693,109"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="567,167,738,207"/>
-<area shape="poly" id="edge13_Node000007_Node000012" title=" " alt="" coords="717,113,680,157,676,154,713,110"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="762,167,933,207"/>
-<area shape="poly" id="edge14_Node000007_Node000013" title=" " alt="" coords="743,109,810,156,807,161,740,114"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="957,167,1111,207"/>
-<area shape="poly" id="edge15_Node000007_Node000014" title=" " alt="" coords="767,109,953,160,952,165,766,114"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="1136,167,1276,207"/>
-<area shape="poly" id="edge16_Node000007_Node000015" title=" " alt="" coords="784,106,934,130,1123,164,1122,169,933,135,783,111"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="1300,167,1443,207"/>
-<area shape="poly" id="edge17_Node000007_Node000016" title=" " alt="" coords="784,102,1001,124,1142,142,1286,164,1286,169,1141,147,1001,130,783,108"/>
-<area shape="rect" id="Node000017" title=" " alt="" coords="1467,174,1534,199"/>
-<area shape="poly" id="edge18_Node000007_Node000017" title=" " alt="" coords="783,97,907,99,1075,108,1265,128,1362,144,1456,164,1465,167,1463,172,1455,169,1361,149,1265,134,1075,113,907,104,783,102"/>
-<area shape="rect" id="Node000018" title=" " alt="" coords="1558,174,1617,199"/>
-<area shape="poly" id="edge19_Node000007_Node000018" title=" " alt="" coords="784,99,1172,120,1389,139,1479,151,1547,164,1554,166,1552,171,1545,169,1478,156,1388,144,1171,125,783,105"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="345,5,564,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,247,181,273"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="346,27,269,41,188,66,150,85,115,107,84,135,58,168,53,185,56,202,76,236,71,238,51,204,48,184,54,165,80,131,112,103,148,80,186,61,268,36,345,22"/>
+<area shape="rect" id="Node000003" href="$viewer__imgui_8h.html" title=" " alt="" coords="68,167,191,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="428,33,321,81,163,163,161,158,319,76,426,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="493,86,569,111"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="468,29,512,74,508,78,464,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="593,79,751,119"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="487,28,608,72,606,77,485,33"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="775,86,969,111"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="516,28,798,81,797,86,515,33"/>
+<area shape="rect" id="Node000007" href="$aircraft_8h.html" title="Declaration of the Aircraft class for the UAV Simulator." alt="" coords="661,167,792,192"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="457,31,461,73,469,97,483,117,510,132,550,146,648,165,647,170,549,151,507,137,480,121,464,99,456,74,452,31"/>
+<area shape="rect" id="Node000019" href="$gnc_8h.html" title="Header file for the Guidance, Navigation, and Control (GNC) system." alt="" coords="333,86,417,111"/>
+<area shape="poly" id="edge20_Node000001_Node000019" title=" " alt="" coords="445,33,398,78,395,74,441,29"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="126,193,107,236,102,234,122,191"/>
+<area shape="poly" id="edge12_Node000007_Node000002" title=" " alt="" coords="661,189,453,210,194,243,164,247,163,242,193,237,452,205,661,184"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="544,247,621,273"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="707,195,617,243,615,238,704,190"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="645,247,704,273"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="721,194,692,237,688,234,717,191"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="370,247,433,273"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="661,193,559,213,446,243,440,245,438,240,445,237,558,208,660,188"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="729,247,831,273"/>
+<area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="737,191,766,234,762,237,732,194"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="856,240,1048,280"/>
+<area shape="poly" id="edge13_Node000007_Node000012" title=" " alt="" coords="760,189,886,233,884,238,759,195"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="1072,240,1264,280"/>
+<area shape="poly" id="edge14_Node000007_Node000013" title=" " alt="" coords="791,189,1059,237,1058,242,790,195"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1289,240,1463,280"/>
+<area shape="poly" id="edge15_Node000007_Node000014" title=" " alt="" coords="793,183,1003,204,1275,237,1274,243,1003,209,792,189"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="1487,240,1641,280"/>
+<area shape="poly" id="edge16_Node000007_Node000015" title=" " alt="" coords="792,180,1084,197,1276,214,1474,237,1474,242,1276,219,1084,202,792,186"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1665,240,1823,280"/>
+<area shape="poly" id="edge17_Node000007_Node000016" title=" " alt="" coords="792,179,943,183,1154,193,1399,210,1652,237,1651,243,1399,216,1154,198,943,189,792,184"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="1847,247,1921,273"/>
+<area shape="poly" id="edge18_Node000007_Node000017" title=" " alt="" coords="792,179,1014,183,1316,193,1616,211,1741,223,1835,237,1846,240,1845,245,1834,243,1740,228,1616,216,1315,199,1014,189,792,184"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="457,247,519,273"/>
+<area shape="poly" id="edge19_Node000007_Node000018" title=" " alt="" coords="686,195,533,243,527,245,525,240,531,237,684,189"/>
+<area shape="poly" id="edge25_Node000019_Node000007" title=" " alt="" coords="411,109,437,116,548,142,649,162,648,167,547,147,435,121,409,114"/>
+<area shape="rect" id="Node000020" href="$waypoint__list_8h.html" title="Defines the WaypointList class that manages a sequence of 3D waypoints for navigation or mission plan..." alt="" coords="215,167,337,192"/>
+<area shape="poly" id="edge21_Node000019_Node000020" title=" " alt="" coords="362,114,303,160,300,156,358,109"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="206,247,346,273"/>
+<area shape="poly" id="edge26_Node000019_Node000021" title=" " alt="" coords="376,112,368,150,350,193,329,220,306,241,302,237,326,216,346,191,363,148,371,111"/>
+<area shape="rect" id="Node000022" href="$common_8h.html" title="Common definitions and aliases for Easy3D types." alt="" coords="412,167,503,192"/>
+<area shape="poly" id="edge27_Node000019_Node000022" title=" " alt="" coords="389,110,437,155,433,159,385,113"/>
+<area shape="poly" id="edge24_Node000020_Node000002" title=" " alt="" coords="250,194,134,244,132,239,248,190"/>
+<area shape="poly" id="edge22_Node000020_Node000010" title=" " alt="" coords="296,190,373,238,370,242,293,194"/>
+<area shape="poly" id="edge23_Node000020_Node000021" title=" " alt="" coords="279,192,279,233,273,233,273,192"/>
+<area shape="poly" id="edge28_Node000022_Node000021" title=" " alt="" coords="432,194,316,244,314,239,430,190"/>
 </map>

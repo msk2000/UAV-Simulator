@@ -13,6 +13,6 @@ var searchData=
   ['trans_5frate_10',['trans_rate',['../classAircraft.html#afab0179929cb28bddbdd0bb17bc7b169',1,'Aircraft']]],
   ['translate_11',['translate',['../classAircraft.html#a1cd9847b4040cb6bce0ef59a1af7d426',1,'Aircraft']]],
   ['translate_5faxes_12',['translate_axes',['../classAircraft.html#a4376c3f9f9f9fd7ffa13780b070bf5d9',1,'Aircraft']]],
-  ['trimdata_13',['TrimData',['../structGNC_1_1TrimData.html',1,'GNC']]],
+  ['trimdata_13',['trimdata',['../structGNC_1_1TrimData.html',1,'GNC::TrimData'],['../classGNC.html#a22420698fffdfe5cb5a3f0209a381fe7',1,'GNC::trimData']]],
   ['trimobjective_14',['trimObjective',['../classGNC.html#a6d7ffa273359696889a214f876959350',1,'GNC']]]
 ];
