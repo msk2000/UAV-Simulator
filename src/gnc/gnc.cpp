@@ -398,14 +398,7 @@ void GNC::computeLinearModel(Aircraft& aircraft,
         }
     }
 
-    // Debug prints
-    std::cout << "\n=== FULL A ===\n" << A_full
-              << "\n=== FULL B ===\n" << B_full
-              << "\n=== LATERAL A ===\n" << A_lat
-              << "\n=== LATERAL B ===\n" << B_lat
-              << "\n=== LONGITUDINAL A ===\n" << A_lon
-              << "\n=== LONGITUDINAL B ===\n" << B_lon
-              << std::endl;
+
 }
 
 
