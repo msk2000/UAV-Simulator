@@ -174,11 +174,22 @@ void Aircraft::load_a_plane(const std::string& filePath, int& vehicle_count)
  * @param vehicle_count Reference to global vehicle count.
  */
 Aircraft::Aircraft(const std::string& fname, int& vehicle_count)
-:
-points(dummy_points),
-aircraft(nullptr),
-steps(10)
+ : points(dummy_points),
+      aircraft(nullptr),
+      steps(10),
+      clock(0.0),
+      // Pre-initialize all runtime members to safe defaults
+      pn(0), pe(0), pd(0),
+      u(0), v(0), w(0),
+      phi(0), theta(0), psi(0),
+      p(0), q(0), r(0),
+      V_m(0), alpha(0), beta(0),
+      fx(0), fy(0), fz(0),
+      ell(0), m(0), n(0)
 {
+        // Fully zero the state vector before use
+        X.assign(18, 0.0);   
+
     //1. First it loads the aircraft parameters from the file using the following function
         load_a_plane(fname,vehicle_count);
     //2. Then it modifies the state values by setting them to the defaults imported from the aircraft parameter file.    
@@ -195,7 +206,10 @@ steps(10)
         p = p_0;
         q = q_0;
         r = r_0;
-        V_m = u_0; // SUSPECT
+
+        // Compute correct initial velocity magnitude
+        V_m = std::sqrt(u*u + v*v + w*w);        
+
         alpha = alpha0;
         beta = beta0;
         /*delta_t = delta_t;
@@ -203,7 +217,7 @@ steps(10)
         delta_e = delta_e;
         delta_r = delta_r;*/
 
-        //Added after RK4
+        // Fill the state vector x 
         X[0] = pn_0;
         X[1] = pe_0;
         X[2] = pd_0;
@@ -222,12 +236,6 @@ steps(10)
         X[15] = ell;
         X[16] = m;
         X[17] = n;
-
-        fx = fy = fz = 0;
-        ell = m = n = 0;
-
-
-
 
         
 
