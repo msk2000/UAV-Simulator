@@ -234,9 +234,7 @@ SimViewer::~SimViewer()
                 }
             }
         }
-         // Pop the style colors
-        /*ImGui::PopStyleColor(2);
-        ImPlot::PopStyleColor(3);*/
+
 
         ImGui::End();
 

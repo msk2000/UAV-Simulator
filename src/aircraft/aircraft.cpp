@@ -262,7 +262,7 @@ void Aircraft::calculate_forces()
     
     // Sources of Forces
     // Component: Gravity
-    force_g << -mass * g*std::sin(X[10]),mass * g*std::cos(X[10])*sin(X[9]),mass * g*std::cos(X[9])*cos(X[9]);
+    force_g << -mass * g*std::sin(X[10]),mass * g*std::cos(X[10])*sin(X[9]),mass * g*std::cos(X[10])*cos(X[9]);
     
     
     // Component: Aerodynamic
@@ -698,7 +698,8 @@ void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
     easy3d::Mat3<float> rotationMatrix = easy3d::Mat3<float>::rotation(X[9], X[10] , X[11], 321);
     
     // Assuming we have 6 vertices for the 3 axes (X, Y, Z), rotate them
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 6; ++i)
+    {
         axesVertices[i] = rotationMatrix * axesVertices[i];
     }
 }
@@ -710,7 +711,12 @@ void Aircraft::rotate_axes(easy3d::vec3* axesVertices)
 void Aircraft::translate(easy3d::vec3* vertices)
 {
     // pd (X[2]) here is set to negative as pd = - altitude
-    easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(-X[2]));
+    easy3d::vec3 translationVector
+    (
+        static_cast<float>(X[0]),
+        static_cast<float>(X[1]),
+        static_cast<float>(-X[2])
+    );
 
 
 // Position Update loop
@@ -732,7 +738,8 @@ void Aircraft::translate_axes(easy3d::vec3* axesVertices)
     easy3d::vec3 translationVector(static_cast<float>(X[0]), static_cast<float>(X[1]), static_cast<float>(-X[2]));
 
     // Apply the translation to each vertex (assuming 6 vertices for the axes)
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 6; ++i)
+    {
         axesVertices[i] -= translationVector;
     }
 }

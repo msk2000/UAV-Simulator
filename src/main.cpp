@@ -31,7 +31,7 @@ int main()
     //======================= GNC: TRIM & LINEAR INCLUDED ====
     GNC gnc;
     double trim_airspeed = 17.0;    // m/s
-    double trim_flightpath = 0.0;   // radians
+    double trim_flightpath = 0.0 * (M_PI/180);   // radians
     double trim_turn_radius = std::numeric_limits<double>::infinity();  // or a large number like 1e9
 
 
