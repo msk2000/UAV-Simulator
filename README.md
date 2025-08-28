@@ -1,6 +1,7 @@
 # UAV Simulator Project
 
-![demo_banner_animated](https://github.com/user-attachments/assets/91dd4093-cc36-4c3c-93de-8abc2a0aa7dd)
+![git_ban](https://github.com/user-attachments/assets/2a5d6bac-e15d-49ac-a08b-caa9a9e699a2)
+
 
 ## Overview
 
@@ -18,8 +19,12 @@ The project serves as a foundation for experimenting with guidance, navigation, 
 [https://msk2000.github.io/UAV-Simulator](https://msk2000.github.io/UAV-Simulator)
 
 ---
+Demo footage showing slider controls, trim computation, computation of state space models, unfinished waypoint navigation, real-time state plotting etc:
 
-Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:
+https://github.com/user-attachments/assets/2110450b-8852-4bac-aa60-72ac8ab1f001
+
+
+Older Demo footage illustrating path and waypoint generation, real-time state plotting, slider based aircraft control:
 
 
 https://github.com/user-attachments/assets/8f9a8d6c-32c5-4173-bad0-4a8b659f6ae0
