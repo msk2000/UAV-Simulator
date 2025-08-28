@@ -92,10 +92,11 @@ bool GNC::computeTrim(Aircraft& aircraft, double Va, double gamma, double R)
     double theta = aircraft.alpha + gamma;
 
     // Build trim state vector (18 elements)
-    aircraft.X = {
-        0.0,                          // pn
-        0.0,                          // pe
-        2000.0,                       // pd
+    aircraft.X =
+    {
+        -3000.0,                          // pn
+        -1350.0,                          // pe
+        2020.0,                       // pd
         Va * std::cos(aircraft.alpha) * std::cos(aircraft.beta), // u
         Va * std::sin(aircraft.beta), // v
         0.0,                          // w = 0 for trim in body frame (Eq. 5.21)

@@ -66,7 +66,7 @@ void Path::draw(easy3d::Viewer& viewer) const
     }
 
     drawable->update_vertex_buffer(vertices);
-    drawable->set_uniform_coloring(easy3d::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    drawable->set_uniform_coloring(easy3d::vec4(0.0f, 0.0f, 1.0f, 0.5f));
     drawable->set_line_width(4.0f);
 
     viewer.add_drawable(drawable);
